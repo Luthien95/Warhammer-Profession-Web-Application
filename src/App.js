@@ -1,9 +1,18 @@
 import React from "react";
-import Form from "./components/Form";
+import Card from "./components/Card";
 import "./App.css";
 
 function App() {
-  return <Form />;
+  return (
+    <div>
+      <Card />
+      <Card />
+      <Card />
+      <Card />
+      <Card />
+      <Card />
+    </div>
+  );
 }
 
 export default App;

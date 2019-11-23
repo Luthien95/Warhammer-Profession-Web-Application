@@ -1,0 +1,122 @@
+.card 
+    float: left
+    margin: 40px 20px 20px 20px
+    display: flex
+    .menu-content 
+        margin: 0
+        padding: 0
+        list-style-type: none
+        li 
+            display: inline-block
+        a 
+            color: white
+            span 
+            position: absolute
+            left: 50%
+            top: 0
+            font-size: 10px
+            font-weight: 700
+            font-family: 'Open Sans'
+            transform: translate(-50%, 0)
+    .wrapper 
+        background-color: white
+        width: 350px
+        min-height: 540px
+        position: relative
+        overflow: hidden
+        box-shadow: 0 19px 38px rgba(black, 0.3), 0 15px 12px rgba(black, 0.2)
+        background-image: url('https://4.bp.blogspot.com/-j-tskMcBdKk/WaQ1lCLUDQI/AAAAAAAAK9Q/6kP9M98nI64m6m9cjfpRDLnus181ZPEGQCKgBGAs/s1600/nurgle.png');
+        background-size: cover
+        &:before
+            content: ""
+            display: block
+            position: absolute
+            top: 0
+            bottom: 0
+            left: 0
+            right: 0
+            background: rgb(3,1,32)
+            background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 62%, rgba(0,0,0,0.9) 100%)
+            transition: background .3s linear
+        &:hover 
+            .data 
+                transform: translateY(0)
+        .header
+            position: absolute
+            top: 0
+            left: 0
+            width: 100%
+            display: flex
+            justify-content: flex-end
+            &__icon
+                color: white
+                font-size: 26px
+                padding: 20px
+                &:hover
+                    cursor: pointer
+    .data 
+        position: absolute
+        margin: 0 20px
+        bottom: 20px
+        width: 100%
+        transform: translateY(calc(var(--element-height) + 1em))
+        transition: transform 0.3s
+        width: calc(100% - 40px)
+        .header2
+            .author,
+            a
+                color: white
+                text-decoration: none
+        .content 
+            position: relative
+            z-index: 1
+            .text
+                color: white
+                font-weight: 200
+                margin-bottom: 20px
+            .button
+                color: white
+                text-decoration: none
+                text-transform: uppercase
+                font-weight: 600
+    .author 
+        font-size: 12px
+    .title 
+        margin-top: 10px
+    .text 
+        margin: 0
+    input[type='checkbox'] 
+        display: none
+    input[type='checkbox']:checked + .menu-content 
+        transform: translateY(-60px)
+    .rest
+        width: 0
+        background: black
+        color: white
+        transition: width 1s
+        transition-delay: 1s
+        .text
+            opacity: 0
+            transition: opacity 1s
+        &--active
+            width: calc(100% - 350px)
+            transition: width 1s
+            .text
+                opacity: 1
+                transition: opacity 1s
+                transition-delay: 1s
+    &--active
+        position: absolute
+        z-index: 10
+        margin: 0
+        width: 90%
+        height: 90%
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        .wrapper
+            width: 400px
+            .data  
+                transform: translateY(0)
+        .rest--active
+            width: calc(100% - 400px)
