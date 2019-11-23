@@ -36,50 +36,62 @@ class Card extends React.Component {
 
   render() {
     return (
-      <div className={this.state.active ? "card card--active" : "card"}>
-        <div className="wrapper">
-          <div className="header">
+      <div
+        className={
+          this.state.active
+            ? "card-interface card-interface--active"
+            : "card-interface"
+        }
+      >
+        <div className="card-interface__image-field">
+          <div className="header-icons">
             <i
               className={
                 this.state.active
-                  ? "fas fa-times header__icon"
-                  : "fas fa-angle-double-right header__icon"
+                  ? "fas fa-times header-icons__icon"
+                  : "fas fa-angle-double-right header-icons__icon"
               }
               onClick={this.changeState}
             ></i>
           </div>
           <div
-            className="data"
+            className="basic-data"
             ref={descriptionElement =>
               (this.descriptionElement = descriptionElement)
             }
           >
             <div
-              className="header2"
+              className="basic-data__header"
               ref={headerElement => (this.headerElement = headerElement)}
             >
-              <span className="author">Profesja podstawowa</span>
-              <h1 className="title">
-                <a href="#">Akolita</a>
-              </h1>
+              <span className="basic-data__profession-type">
+                Profesja podstawowa
+              </span>
+              <h1 className="basic-data__profession-name">Akolita</h1>
 
               <p>{this.state.headerHeight}px</p>
             </div>
-            <div className="content">
-              <p className="text">
+            <div className="basic-data__content">
+              <p className="basic-data__description">
                 W hierarchii wartości mieszkańców Starego Świata religia spadła
                 na drugie miejsce, ustępując bogactwu, ale wciąż jeszcze wielu
                 młodych ludzi obojga płci znajduje w sobie powołanie do służby
                 bożej.
               </p>
-              <a href="#" className="button">
+              <a href="#" className="basic-data__button">
                 Read more
               </a>
             </div>
           </div>
         </div>
-        <div className={this.state.active ? "rest rest--active" : "rest"}>
-          <p className="text">
+        <div
+          className={
+            this.state.active
+              ? "card-interface__description card-interface__description--active"
+              : "card-interface__description"
+          }
+        >
+          <p className="full-description">
             W hierarchii wartości mieszkańców Starego Świata religia spadła na
             drugie miejsce, ustępując bogactwu, ale wciąż jeszcze wielu młodych
             ludzi obojga płci znajduje w sobie powołanie do służby bożej.

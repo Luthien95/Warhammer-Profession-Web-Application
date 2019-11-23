@@ -1,4 +1,4 @@
-.card 
+.card-interface 
     float: left
     margin: 40px 20px 20px 20px
     display: flex
@@ -18,7 +18,7 @@
             font-weight: 700
             font-family: 'Open Sans'
             transform: translate(-50%, 0)
-    .wrapper 
+    &__image-field
         background-color: white
         width: 350px
         min-height: 540px
@@ -39,9 +39,9 @@
             background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 62%, rgba(0,0,0,0.9) 100%)
             transition: background .3s linear
         &:hover 
-            .data 
+            .basic-data 
                 transform: translateY(0)
-        .header
+        .header-icons
             position: absolute
             top: 0
             left: 0
@@ -54,7 +54,7 @@
                 padding: 20px
                 &:hover
                     cursor: pointer
-    .data 
+    .basic-data 
         position: absolute
         margin: 0 20px
         bottom: 20px
@@ -62,46 +62,39 @@
         transform: translateY(calc(var(--element-height) + 1em))
         transition: transform 0.3s
         width: calc(100% - 40px)
-        .header2
-            .author,
-            a
-                color: white
-                text-decoration: none
-        .content 
+        &__profession-type,
+        &__profession-name
+            color: white
+            text-decoration: none
+        &__profession-type
+            font-size: 12px
+        &__profession-name
+            margin-top: 10px
+        &__content 
             position: relative
             z-index: 1
-            .text
-                color: white
-                font-weight: 200
-                margin-bottom: 20px
-            .button
-                color: white
-                text-decoration: none
-                text-transform: uppercase
-                font-weight: 600
-    .author 
-        font-size: 12px
-    .title 
-        margin-top: 10px
-    .text 
-        margin: 0
-    input[type='checkbox'] 
-        display: none
-    input[type='checkbox']:checked + .menu-content 
-        transform: translateY(-60px)
-    .rest
+        &__description
+            color: white
+            font-weight: 200
+            margin-bottom: 20px
+        &__button
+            color: white
+            text-decoration: none
+            text-transform: uppercase
+            font-weight: 600
+    &__description
         width: 0
         background: black
         color: white
         transition: width 1s
         transition-delay: 1s
-        .text
+        .full-description
             opacity: 0
             transition: opacity 1s
         &--active
             width: calc(100% - 350px)
             transition: width 1s
-            .text
+            .full-description
                 opacity: 1
                 transition: opacity 1s
                 transition-delay: 1s
@@ -114,9 +107,9 @@
         top: 50%
         left: 50%
         transform: translate(-50%, -50%)
-        .wrapper
+        .card-interface__image-field
             width: 400px
             .data  
                 transform: translateY(0)
-        .rest--active
+        .card-interface__description--active
             width: calc(100% - 400px)

@@ -1,14 +1,14 @@
-.card {
+.card-interface {
   float: left;
   margin: 40px 20px 20px 20px;
   display: flex; }
-  .card .menu-content {
+  .card-interface .menu-content {
     margin: 0;
     padding: 0;
     list-style-type: none; }
-    .card .menu-content li {
+    .card-interface .menu-content li {
       display: inline-block; }
-    .card .menu-content a {
+    .card-interface .menu-content a {
       color: white;
       position: absolute;
       left: 50%;
@@ -17,7 +17,7 @@
       font-weight: 700;
       font-family: 'Open Sans';
       transform: translate(-50%, 0); }
-  .card .wrapper {
+  .card-interface__image-field {
     background-color: white;
     width: 350px;
     min-height: 540px;
@@ -26,7 +26,7 @@
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.2);
     background-image: url("https://4.bp.blogspot.com/-j-tskMcBdKk/WaQ1lCLUDQI/AAAAAAAAK9Q/6kP9M98nI64m6m9cjfpRDLnus181ZPEGQCKgBGAs/s1600/nurgle.png");
     background-size: cover; }
-    .card .wrapper:before {
+    .card-interface__image-field:before {
       content: "";
       display: block;
       position: absolute;
@@ -37,22 +37,22 @@
       background: #030120;
       background: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 62%, rgba(0, 0, 0, 0.9) 100%);
       transition: background .3s linear; }
-    .card .wrapper:hover .data {
+    .card-interface__image-field:hover .basic-data {
       transform: translateY(0); }
-    .card .wrapper .header {
+    .card-interface__image-field .header-icons {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       display: flex;
       justify-content: flex-end; }
-      .card .wrapper .header__icon {
+      .card-interface__image-field .header-icons__icon {
         color: white;
         font-size: 26px;
         padding: 20px; }
-        .card .wrapper .header__icon:hover {
+        .card-interface__image-field .header-icons__icon:hover {
           cursor: pointer; }
-  .card .data {
+  .card-interface .basic-data {
     position: absolute;
     margin: 0 20px;
     bottom: 20px;
@@ -60,49 +60,42 @@
     transform: translateY(calc(var(--element-height) + 1em));
     transition: transform 0.3s;
     width: calc(100% - 40px); }
-    .card .data .header2 .author,
-    .card .data .header2 a {
+    .card-interface .basic-data__profession-type, .card-interface .basic-data__profession-name {
       color: white;
       text-decoration: none; }
-    .card .data .content {
+    .card-interface .basic-data__profession-type {
+      font-size: 12px; }
+    .card-interface .basic-data__profession-name {
+      margin-top: 10px; }
+    .card-interface .basic-data__content {
       position: relative;
       z-index: 1; }
-      .card .data .content .text {
-        color: white;
-        font-weight: 200;
-        margin-bottom: 20px; }
-      .card .data .content .button {
-        color: white;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-weight: 600; }
-  .card .author {
-    font-size: 12px; }
-  .card .title {
-    margin-top: 10px; }
-  .card .text {
-    margin: 0; }
-  .card input[type='checkbox'] {
-    display: none; }
-  .card input[type='checkbox']:checked + .menu-content {
-    transform: translateY(-60px); }
-  .card .rest {
+    .card-interface .basic-data__description {
+      color: white;
+      font-weight: 200;
+      margin-bottom: 20px; }
+    .card-interface .basic-data__button {
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 600; }
+  .card-interface__description {
     width: 0;
     background: black;
     color: white;
     transition: width 1s;
     transition-delay: 1s; }
-    .card .rest .text {
+    .card-interface__description .full-description {
       opacity: 0;
       transition: opacity 1s; }
-    .card .rest--active {
+    .card-interface__description--active {
       width: calc(100% - 350px);
       transition: width 1s; }
-      .card .rest--active .text {
+      .card-interface__description--active .full-description {
         opacity: 1;
         transition: opacity 1s;
         transition-delay: 1s; }
-  .card--active {
+  .card-interface--active {
     position: absolute;
     z-index: 10;
     margin: 0;
@@ -111,11 +104,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); }
-    .card--active .wrapper {
+    .card-interface--active .card-interface__image-field {
       width: 400px; }
-      .card--active .wrapper .data {
+      .card-interface--active .card-interface__image-field .data {
         transform: translateY(0); }
-    .card--active .rest--active {
+    .card-interface--active .card-interface__description--active {
       width: calc(100% - 400px); }
 
 body {
