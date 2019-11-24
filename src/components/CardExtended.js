@@ -1,9 +1,8 @@
 import React from "react";
 import "./../style/css/style.css";
-import CardExtended from "./CardExtended";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-class Card extends React.Component {
+class CardExtended extends React.Component {
   constructor(props) {
     super(props);
 
@@ -28,18 +27,18 @@ class Card extends React.Component {
   }
 
   changeState() {
-    this.setState(prevState => ({ active: true }), function() {
-      this.props.parentCallback(this.state.active, this.props.name);
+    this.setState(prevState => ({ active: false }), function() {
+      this.props.parentCallback(this.state.active);
     });
   }
 
   render() {
     return (
-      <div className="card-interface">
+      <div className="card-interface card-interface--active">
         <div className="card-interface__image-field">
           <div className="header-icons">
             <i
-              className="fas fa-angle-double-right header-icons__icon"
+              className="fas fa-times header-icons__icon"
               onClick={this.changeState}
             ></i>
           </div>
@@ -73,8 +72,15 @@ class Card extends React.Component {
             </div>
           </div>
         </div>
+        <div className="card-interface__description card-interface__description--active">
+          <p className="full-description">
+            W hierarchii wartości mieszkańców Starego Świata religia spadła na
+            drugie miejsce, ustępując bogactwu, ale wciąż jeszcze wielu młodych
+            ludzi obojga płci znajduje w sobie powołanie do służby bożej.
+          </p>
+        </div>
       </div>
     );
   }
 }
-export default Card;
+export default CardExtended;

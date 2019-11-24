@@ -1,0 +1,341 @@
+[
+  {
+    "Name": "Akolita"
+  },
+  {
+    "Name": "Banita"
+  },
+  {
+    "Name": "Berserk erznorski"
+  },
+  {
+    "Name": "Chłop"
+  },
+  {
+    "Name": "Ciura obozowa"
+  },
+  {
+    "Name": "Cyrkowiec"
+  },
+  {
+    "Name": "Cyrulik"
+  },
+  {
+    "Name": "Fanatyk"
+  },
+  {
+    "Name": "Flisak"
+  },
+  {
+    "Name": "Giermek"
+  },
+  {
+    "Name": "Gladiator"
+  },
+  {
+    "Name": "Goniec"
+  },
+  {
+    "Name": "Górnik"
+  },
+  {
+    "Name": "Guślarz"
+  },
+  {
+    "Name": "Hiena cmentarna"
+  },
+  {
+    "Name": "Kanciarz"
+  },
+  {
+    "Name": "Kozak kislevski"
+  },
+  {
+    "Name": "Leśnik"
+  },
+  {
+    "Name": "Łowca"
+  },
+  {
+    "Name": "Łowca nagród"
+  },
+  {
+    "Name": "Mieszczanin"
+  },
+  {
+    "Name": "Mytnik"
+  },
+  {
+    "Name": "Najemnik"
+  },
+  {
+    "Name": "Ochotnik"
+  },
+  {
+    "Name": "Ochroniarz"
+  },
+  {
+    "Name": "Oprych"
+  },
+  {
+    "Name": "Paź"
+  },
+  {
+    "Name": "Podżegacz"
+  },
+  {
+    "Name": "Porywacz zwłok"
+  },
+  {
+    "Name": "Posłaniec"
+  },
+  {
+    "Name": "Przemytnik"
+  },
+  {
+    "Name": "Przepatrywacz"
+  },
+  {
+    "Name": "Przewoźnik"
+  },
+  {
+    "Name": "Rybak"
+  },
+  {
+    "Name": "Rzecznik rodu"
+  },
+  {
+    "Name": "Rzemieślnik"
+  },
+  {
+    "Name": "Rzezimieszek"
+  },
+  {
+    "Name": "Skryba"
+  },
+  {
+    "Name": "Sługa"
+  },
+  {
+    "Name": "Strażnik"
+  },
+  {
+    "Name": "Strażnik dróg"
+  },
+  {
+    "Name": "Strażnik pól"
+  },
+  {
+    "Name": "Strażnik więzienny"
+  },
+  {
+    "Name": "Szczurołap"
+  },
+  {
+    "Name": "Szermierz estalijski"
+  },
+  {
+    "Name": "Szlachcic"
+  },
+  {
+    "Name": "Śmieciarz"
+  },
+  {
+    "Name": "Tarczownik"
+  },
+  {
+    "Name": "Uczeń czarodzieja"
+  },
+  {
+    "Name": "Węglarz"
+  },
+  {
+    "Name": "Włóczykij"
+  },
+  {
+    "Name": "Wojownik klanowy"
+  },
+  {
+    "Name": "Woźnica"
+  },
+  {
+    "Name": "Zabójca trolli"
+  },
+  {
+    "Name": "Zarządca"
+  },
+  {
+    "Name": "Złodziej"
+  },
+  {
+    "Name": "Żak"
+  },
+  {
+    "Name": "Żeglarz"
+  },
+  {
+    "Name": "Żołnierz"
+  },
+  {
+    "Name": "Żołnierz okrętowy"
+  },
+  {
+    "Name": "Arcykapłan"
+  },
+  {
+    "Name": "Arcymag"
+  },
+  {
+    "Name": "Arystokrata"
+  },
+  {
+    "Name": "Bard"
+  },
+  {
+    "Name": "Biczownik"
+  },
+  {
+    "Name": "Bosman"
+  },
+  {
+    "Name": "Demagog"
+  },
+  {
+    "Name": "Dworzanin"
+  },
+  {
+    "Name": "Fechmistrz"
+  },
+  {
+    "Name": "Herold"
+  },
+  {
+    "Name": "Hersztbanitów"
+  },
+  {
+    "Name": "Inżynier"
+  },
+  {
+    "Name": "Kapitan"
+  },
+  {
+    "Name": "Kapłan"
+  },
+  {
+    "Name": "Karczmarz"
+  },
+  {
+    "Name": "Książe złodzieji"
+  },
+  {
+    "Name": "Kupiec"
+  },
+  {
+    "Name": "Leśnyduch"
+  },
+  {
+    "Name": "Łowca czarownic"
+  },
+  {
+    "Name": "Łowca wampirów"
+  },
+  {
+    "Name": "Majordomus"
+  },
+  {
+    "Name": "Medyk"
+  },
+  {
+    "Name": "Mistrzcieni"
+  },
+  {
+    "Name": "Mistrz gildii"
+  },
+  {
+    "Name": "Mistrzmagii"
+  },
+  {
+    "Name": "Mistrz rzemiosła"
+  },
+  {
+    "Name": "Mistrz zakonny"
+  },
+  {
+    "Name": "Nawigator"
+  },
+  {
+    "Name": "Odkrywca"
+  },
+  {
+    "Name": "Oficer"
+  },
+  {
+    "Name": "Oprawca"
+  },
+  {
+    "Name": "Paser"
+  },
+  {
+    "Name": "Rajtar"
+  },
+  {
+    "Name": "Reketer"
+  },
+  {
+    "Name": "Rozbójnik"
+  },
+  {
+    "Name": "Rycerz"
+  },
+  {
+    "Name": "Sierżant"
+  },
+  {
+    "Name": "Skrytobójca"
+  },
+  {
+    "Name": "Strzelec"
+  },
+  {
+    "Name": "Szampierz"
+  },
+  {
+    "Name": "Szarlatan"
+  },
+  {
+    "Name": "Szpieg"
+  },
+  {
+    "Name": "Uczony"
+  },
+  {
+    "Name": "Urzędnik"
+  },
+  {
+    "Name": "Weteran"
+  },
+  {
+    "Name": "Wędrowny czarodziej"
+  },
+  {
+    "Name": "Włamywacz"
+  },
+  {
+    "Name": "Wybraniec boży"
+  },
+  {
+    "Name": "Zabójca demonów"
+  },
+  {
+    "Name": "Zabójca olbrzymów"
+  },
+  {
+    "Name": "Zakonnik"
+  },
+  {
+    "Name": "Zwadźca"
+  },
+  {
+    "Name": "Zwiadowca"
+  }
+]

@@ -96,7 +96,7 @@
         transition: opacity 1s;
         transition-delay: 1s; }
   .card-interface--active {
-    position: absolute;
+    position: fixed;
     z-index: 10;
     margin: 0;
     width: 90%;
@@ -112,7 +112,8 @@
       width: calc(100% - 400px); }
 
 body {
-  font-family: Montserrat; }
+  font-family: Montserrat;
+  background: #1b1c1d; }
 
 .active {
   background: rgba(0, 0, 0, 0.9); }
