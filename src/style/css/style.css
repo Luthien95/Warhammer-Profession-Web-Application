@@ -19,8 +19,8 @@
       transform: translate(-50%, 0); }
   .card-interface__image-field {
     background-color: white;
-    width: 350px;
-    min-height: 540px;
+    width: 250px;
+    min-height: 350px;
     position: relative;
     overflow: hidden;
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.2);
@@ -57,7 +57,7 @@
     margin: 0 20px;
     bottom: 20px;
     width: 100%;
-    transform: translateY(calc(var(--element-height) + 1em));
+    transform: translateY(calc(var(--element-height) + .5em));
     transition: transform 0.3s;
     width: calc(100% - 40px); }
     .card-interface .basic-data__profession-type, .card-interface .basic-data__profession-name {
@@ -66,10 +66,11 @@
     .card-interface .basic-data__profession-type {
       font-size: 12px; }
     .card-interface .basic-data__profession-name {
-      margin-top: 10px; }
+      margin: 10px 0 20px 0; }
     .card-interface .basic-data__content {
       position: relative;
-      z-index: 1; }
+      z-index: 1;
+      font-size: 14px; }
     .card-interface .basic-data__description {
       color: white;
       font-weight: 200;
@@ -106,10 +107,24 @@
     transform: translate(-50%, -50%); }
     .card-interface--active .card-interface__image-field {
       width: 400px; }
-      .card-interface--active .card-interface__image-field .data {
+      .card-interface--active .card-interface__image-field .basic-data {
         transform: translateY(0); }
     .card-interface--active .card-interface__description--active {
       width: calc(100% - 400px); }
+
+.professy-interface {
+  width: 80vw;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; }
+  .professy-interface__header {
+    width: 80%;
+    margin: 30px 10%;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    text-transform: uppercase;
+    color: white; }
 
 body {
   font-family: Montserrat;

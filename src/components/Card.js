@@ -1,6 +1,5 @@
 import React from "react";
 import "./../style/css/style.css";
-import CardExtended from "./CardExtended";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 class Card extends React.Component {
@@ -57,8 +56,6 @@ class Card extends React.Component {
                 Profesja podstawowa
               </span>
               <h1 className="basic-data__profession-name">{this.props.name}</h1>
-
-              <p>{this.state.headerHeight}px</p>
             </div>
             <div className="basic-data__content">
               <p className="basic-data__description">

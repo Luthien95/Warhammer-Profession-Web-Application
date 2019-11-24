@@ -7,23 +7,10 @@ class CardExtended extends React.Component {
     super(props);
 
     this.state = {
-      transition: 0,
       active: false
     };
 
     this.changeState = this.changeState.bind(this);
-  }
-
-  componentDidMount() {
-    this.state = {
-      transition:
-        this.descriptionElement.clientHeight - this.headerElement.clientHeight
-    };
-
-    this.descriptionElement.style.setProperty(
-      "--element-height",
-      this.state.transition + "px"
-    );
   }
 
   changeState() {
@@ -56,8 +43,6 @@ class CardExtended extends React.Component {
                 Profesja podstawowa
               </span>
               <h1 className="basic-data__profession-name">{this.props.name}</h1>
-
-              <p>{this.state.headerHeight}px</p>
             </div>
             <div className="basic-data__content">
               <p className="basic-data__description">

@@ -22,9 +22,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="professy-interface">
+        <h1 className="professy-interface__header">Pick professy</h1>
         {Cards.map((item, key) => (
-          <Card name={item.Name} parentCallback={this.handleData} />
+          <Card name={item.Name} key={key} parentCallback={this.handleData} />
         ))}
         {this.state.isActive ? (
           <CardExtended
