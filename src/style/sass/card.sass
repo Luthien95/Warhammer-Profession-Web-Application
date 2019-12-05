@@ -1,10 +1,11 @@
 .card-interface
     width: 100vw
     height: 100vh
-    background-image: radial-gradient(circle, rgba(3,1,32,0.3) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%), linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,.8) 100%), url('http://www.banktapet.pl/pictures/2012/0611/1/trees-forest-fantasy-art-mag-pics-684623.jpg');
+    background-image: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%), linear-gradient(0deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,.8) 100%), url('http://www.banktapet.pl/pictures/2012/0611/1/trees-forest-fantasy-art-mag-pics-684623.jpg');
     background-size: cover
     outline: 1px solid #fff
-    outline-offset: -30px
+    outline-offset: -40px
+    position: relative
     &:before
         content: ""
         display: block
@@ -65,3 +66,25 @@ button
         position: absolute
     &:hover
         cursor: pointer
+
+ul 
+    position: fixed
+    top: 0
+    color: white
+    height: 200px
+    overflow-y: scroll
+    z-index: 100
+    list-style: none
+    width: 200px
+    li
+        margin: 10px 0
+    .slick-active
+        color: green
+
+.cards-list__item--active
+    color: yellow
+
+.app,
+#root
+    position: relative
+    height: 100%

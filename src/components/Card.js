@@ -36,7 +36,7 @@ class Card extends React.Component {
     return (
       <div className="card-interface">
         <div className="container">
-          <h1>Mag</h1>
+          <h1>{this.props.name}</h1>
           <p>
             {" "}
             W hierarchii wartości mieszkańców Starego Świata religia spadła na
