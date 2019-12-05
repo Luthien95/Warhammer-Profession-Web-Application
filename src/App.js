@@ -10,25 +10,71 @@ class App extends React.Component {
 
     this.state = {
       isActive: false,
-      name: null
+      name: null,
+      lastScroll: 0,
+      currentId: 0,
+      index: 0
     };
 
+    this.handleShow = this.handleShow.bind(this);
     this.handleData = this.handleData.bind(this);
-    this.bla = this.bla.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   handleData = (value, name) => {
     this.setState({ isActive: value, name: name });
   };
 
-  bla(e) {
-    e.preventDefault();
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
 
-    if (e.originalEvent.deltaY < 0) {
-      this.slick("slickNext");
-    } else {
-      this.slick("slickPrev");
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll(e) {
+    var element = document.getElementsByClassName("cards-list")[0];
+
+    if (this.state.lastScroll == undefined) {
+      this.state = {
+        lastScroll: element.scrollTop
+      };
+    } else if (element.scrollTop > this.state.lastScroll) {
+      // downscroll rules will be here
+      this.state = {
+        lastScroll: element.scrollTop
+      };
+      /*   this.setState(prevState => {
+        return {currentId: prevState.currentId + 1}
+     })
+      this.scrollTo(this.state.currentId + 1);*/
+      // console.log("dfsf");
+      element.scrollTo(0, this.myRef);
+      console.log(this.myRef);
+    } else if (element.scrollTop < this.state.lastScroll) {
+      this.state = {
+        lastScroll: element.scrollTop
+      };
+
+      /*   this.setState(prevState => {
+        return {currentId: prevState.currentId - 1}
+     })
+      console.log("fdfdf");
+      this.scrollTo(this.state.currentId - 1);*/
+      this.handleShow(10);
     }
+  }
+
+  handleShow(i) {
+    this.setState({ index: i });
+    // console.log(i);
+    // console.log(this.refs[i]);
+    // this.refs[i].scrollIntoView({ block: "end", behavior: "smooth" });
+  }
+
+  scrollTo(id) {
+    this.itemRefs[id].scrollIntoView();
   }
 
   render() {
@@ -36,10 +82,19 @@ class App extends React.Component {
       dots: true,
       appendDots: dots => (
         <div>
-          <ul className="cards-list"> {dots}</ul>
+          <ul className="cards-list" onScroll={this.handleScroll}>
+            {" "}
+            {dots}
+          </ul>
         </div>
       ),
-      customPaging: i => <li key={i}>{Cards[i].Name}</li>,
+      customPaging: (
+        i //i moze byc inne niz mysle!!! sprawdzic!!!
+      ) => (
+        <li key={i} ref={i => (this.myRef = i)}>
+          {Cards[i].Name + i}
+        </li>
+      ),
       infinite: false,
       slidesToShow: 1,
       slidesToSrcoll: 1,
@@ -48,11 +103,6 @@ class App extends React.Component {
       arrows: false,
       verticalSwiping: true
     };
-
-    const slider = document.getElementsByClassName(".slick-track");
-
-    console.log(slider);
-    //slider[0].onwheel = this.bla;
 
     return (
       /* <div className="professy-interface">
