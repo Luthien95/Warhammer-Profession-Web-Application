@@ -76,6 +76,7 @@ ul
     z-index: 100
     list-style: none
     width: 200px
+    scroll-behavior: smooth
     li
         margin: 15px 0
     .slick-active
@@ -88,3 +89,22 @@ ul
 #root
     position: relative
     height: 100%
+
+.profession-list .slick-slide
+    width: 100vw
+    height: 100vh
+
+.cards-list
+    position: fixed
+    top: 50%
+    transform: translateY(-50%)
+    left: 0
+    overflow: hidden
+    li
+        color: white
+        padding: 10px 0
+        &:focus
+            outline: none
+    .slick-current
+        li
+            color: green
