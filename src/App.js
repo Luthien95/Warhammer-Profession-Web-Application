@@ -63,10 +63,12 @@ class App extends React.Component {
         <Slider
           asNavFor={this.state.nav1}
           ref={slider => (this.slider2 = slider)}
-          slidesToShow={3}
+          slidesToShow={5}
           focusOnSelect={true}
           className="cards-list"
           centerMode={true}
+          swipeToSlide={true}
+          speed={100}
           {...settings}
         >
           {Cards.map((item, key) => (
