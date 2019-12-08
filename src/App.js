@@ -20,7 +20,7 @@ class App extends React.Component {
       nav2: this.slider2
     });
 
-    let slickListDiv = document.getElementsByClassName("cards-list")[0];
+    let slickListDiv = document.getElementsByClassName("name-list")[0];
 
     slickListDiv.addEventListener("wheel", event => {
       event.preventDefault();
@@ -54,6 +54,7 @@ class App extends React.Component {
           fade={true}
           className="profession-list"
           swipe={false}
+          speed={100}
           {...settings}
         >
           {Cards.map((item, key) => (
@@ -65,21 +66,15 @@ class App extends React.Component {
           ref={slider => (this.slider2 = slider)}
           slidesToShow={5}
           focusOnSelect={true}
-          className="cards-list"
+          className="name-list"
           centerMode={true}
           swipeToSlide={true}
           speed={100}
           {...settings}
         >
           {Cards.map((item, key) => (
-            <li
-              className={
-                item.Name == this.state.active
-                  ? "cards-list__item cards-list__item--active"
-                  : "cards-list__item"
-              }
-            >
-              {item.Name}
+            <li className="name-list__item" key={key}>
+              <p className="name-list__header">{item.Name}</p>
             </li>
           ))}
         </Slider>

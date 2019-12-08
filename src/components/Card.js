@@ -37,7 +37,7 @@ class Card extends React.Component {
       <div className="card-interface">
         <div className="container">
           <h1>{this.props.name}</h1>
-          <p>
+          <p className="description">
             {" "}
             W hierarchii wartości mieszkańców Starego Świata religia spadła na
             drugie miejsce, ustępując bogactwu, ale wciąż jeszcze wielu młodych
