@@ -1,6 +1,7 @@
 import React from "react";
 import "./../style/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import CardExtended from "./CardExtended";
 
 class Card extends React.Component {
   constructor(props) {
@@ -8,43 +9,42 @@ class Card extends React.Component {
 
     this.state = {
       transition: 0,
-      active: false
+      active: false,
+      render: ""
     };
+    //this.changeState = this.changeState.bind(this);
 
     //this.changeState = this.changeState.bind(this);
   }
-  /*
-  componentDidMount() {
-    this.state = {
-      transition:
-        this.descriptionElement.clientHeight - this.headerElement.clientHeight
-    };
 
-    this.descriptionElement.style.setProperty(
-      "--element-height",
-      this.state.transition + "px"
-    );
-  }
-
-  changeState() {
-    this.setState(prevState => ({ active: true }), function() {
-      this.props.parentCallback(this.state.active, this.props.name);
+  handleClick(compName, e) {
+    console.log("dsdsd");
+    this.setState({
+      active: true
     });
   }
-*/
+
+  _renderSubComp() {
+    return (
+      <CardExtended
+        name={this.props.name}
+        description={this.props.description}
+        id={this.props.id}
+        imageId={this.props.imageId}
+      />
+    );
+  }
   render() {
     return (
       <div className="card-interface">
         <div className="container">
           <h1>{this.props.name}</h1>
           <p className="description">
-            {" "}
-            W hierarchii wartości mieszkańców Starego Świata religia spadła na
-            drugie miejsce, ustępując bogactwu, ale wciąż jeszcze wielu młodych
-            ludzi obojga płci znajduje w sobie powołanie do służby bożej.
+            {this.props.description.substring(0, 200) + "..."}
           </p>
-          <button>czytaj więcej</button>
+          <button onClick={this.handleClick.bind(this)}>czytaj więcej</button>
         </div>
+        {this.state.active ? this._renderSubComp() : null}
       </div>
     );
   }

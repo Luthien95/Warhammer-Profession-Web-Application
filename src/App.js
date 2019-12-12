@@ -2,6 +2,7 @@ import React from "react";
 import Cards from "./data/data.json";
 import Card from "./components/Card";
 import Slider from "react-slick";
+import axios from "axios";
 import "./App.css";
 
 class App extends React.Component {
@@ -10,8 +11,12 @@ class App extends React.Component {
 
     this.state = {
       nav1: null,
-      nav2: null
+      nav2: null,
+      professions: []
     };
+
+    this.getData = this.getData.bind(this);
+    this.sendData = this.sendData.bind(this);
   }
 
   componentDidMount() {
@@ -33,9 +38,39 @@ class App extends React.Component {
         this.slider1.slickPrev();
       }
     });
+
+    this.getData();
   }
 
+  getData() {
+    axios
+      .get(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
+        {
+          headers: { "Content-Type": "application/json" }
+        }
+      )
+      .then(response =>
+        response.data.map(professions => ({
+          description: `${professions.description}`,
+          name: `${professions.name}`,
+          id: `${professions.id}`,
+          imageId: `${professions.imageId}`
+        }))
+      )
+      .then(professions => {
+        this.setState({
+          professions
+        });
+      })
+      .catch(error => console.log("Error" + error));
+  }
+
+  sendData = event => {};
+
   render() {
+    const { professions } = this.state;
+
     var settings = {
       infinite: false,
       slidesToSrcoll: 1,
@@ -54,11 +89,17 @@ class App extends React.Component {
           fade={true}
           className="profession-list"
           swipe={false}
-          speed={100}
+          speed={200}
           {...settings}
         >
-          {Cards.map((item, key) => (
-            <Card name={item.Name} key={key} />
+          {professions.map((item, key) => (
+            <Card
+              name={item.name}
+              description={item.description}
+              id={item.id}
+              imageId={item.imageId}
+              key={key}
+            />
           ))}
         </Slider>
         <Slider
@@ -69,12 +110,12 @@ class App extends React.Component {
           className="name-list"
           centerMode={true}
           swipeToSlide={true}
-          speed={100}
+          speed={200}
           {...settings}
         >
-          {Cards.map((item, key) => (
+          {professions.map((item, key) => (
             <li className="name-list__item" key={key}>
-              <p className="name-list__header">{item.Name}</p>
+              <p className="name-list__header">{item.name}</p>
             </li>
           ))}
         </Slider>
