@@ -9,7 +9,7 @@ class CardExtended extends React.Component {
 
     this.state = {
       profession: {},
-      id: null
+      id: 3
     };
 
     this.getData = this.getData.bind(this);
@@ -32,27 +32,49 @@ class CardExtended extends React.Component {
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/" +
           this.state.id,
         {
+          params: { id: this.state.id },
           headers: { "Content-Type": "application/json" }
         }
       )
-      .then(response => {
-        console.log(response.data);
-      })
-      .then(data =>
+      .then(res => {
+        var data = res.data;
+
+        var profession = {
+          abilities: data.abilities,
+          equipment: data.equipment,
+          professionLevel: data.professionLevel,
+          professionRaceAllowed: data.professionRaceAllowed,
+          skills: data.skills,
+          agility: data.agility,
+          attacks: data.attacks,
+          closeCombat: data.closeCombat,
+          description: data.description,
+          entranceProfessions: data.entranceProfessions,
+          hitpoints: data.hitpoints,
+          id: data.id,
+          imageId: data.imageId,
+          inteligence: data.inteligence,
+          magic: data.magic,
+          name: data.name,
+          outputProfessions: data.outputProfessions,
+          polish: data.polish,
+          resistance: data.resistance,
+          shooting: data.shooting,
+          speed: data.speed,
+          stamina: data.stamina,
+          willpower: data.willpower
+        };
+
         this.setState({
-          profession: {
-            ...this.state.profession,
-            data
-          }
-        })
-      )
+          profession: profession
+        });
+      })
       .catch(error => console.log("Error" + error));
   }
 
   render() {
     const { profession } = this.state;
 
-    console.log(this.state.profession);
     return (
       <div className="card-extended">
         <div className="">
@@ -62,8 +84,8 @@ class CardExtended extends React.Component {
               onClick={this.changeState}
             ></i>
           </div>
-          {this.state.profession}
-          {this.state.description}
+          {this.state.profession.name}
+          {this.state.profession.description}
         </div>
       </div>
     );
