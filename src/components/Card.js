@@ -8,43 +8,39 @@ class Card extends React.Component {
     super(props);
 
     this.state = {
-      transition: 0,
-      active: false,
-      render: ""
+      active: false
     };
-    //this.changeState = this.changeState.bind(this);
-
-    //this.changeState = this.changeState.bind(this);
   }
 
-  handleClick(compName, e) {
-    console.log("dsdsd");
-    this.setState({
-      active: true
-    });
+  handleClick(e) {
+    this.setState({ active: true });
   }
 
-  _renderSubComp() {
+  callbackFunction = childData => {
+    this.setState({ active: childData });
+  };
+
+  renderExtendedCard() {
     return (
-      <CardExtended
-        name={this.props.name}
-        description={this.props.description}
-        id={this.props.id}
-        imageId={this.props.imageId}
-      />
+      <CardExtended id={this.props.id} parentCallback={this.callbackFunction} />
     );
   }
   render() {
     return (
       <div className="card-interface">
-        <div className="container">
-          <h1>{this.props.name}</h1>
-          <p className="description">
+        <div className="card-interface__text-container">
+          <h1 className="card-interface__header">{this.props.name}</h1>
+          <p className="card-interface__description">
             {this.props.description.substring(0, 200) + "..."}
           </p>
-          <button onClick={this.handleClick.bind(this)}>czytaj więcej</button>
+          <button
+            className="card-interface__button"
+            onClick={this.handleClick.bind(this)}
+          >
+            czytaj więcej
+          </button>
         </div>
-        {this.state.active ? this._renderSubComp() : null}
+        {this.state.active ? this.renderExtendedCard() : null}
       </div>
     );
   }

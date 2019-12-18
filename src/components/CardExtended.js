@@ -17,9 +17,12 @@ class CardExtended extends React.Component {
   }
 
   changeState() {
-    this.setState(prevState => ({ active: false }), function() {
-      this.props.parentCallback(this.state.active);
-    });
+    this.setState(
+      prevState => ({ active: false }),
+      function() {
+        this.props.parentCallback(this.state.active);
+      }
+    );
   }
 
   componentDidMount() {

@@ -1,7 +1,7 @@
 import React from "react";
-import Cards from "./data/data.json";
 import Card from "./components/Card";
 import Slider from "react-slick";
+import Select from "./components/Select";
 import axios from "axios";
 import "./App.css";
 
@@ -10,9 +10,9 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      nav1: null,
-      nav2: null,
-      professions: []
+      mainSlider: null,
+      listSlider: null,
+      professionList: []
     };
 
     this.getData = this.getData.bind(this);
@@ -21,8 +21,8 @@ class App extends React.Component {
 
   componentDidMount() {
     this.setState({
-      nav1: this.slider1,
-      nav2: this.slider2
+      mainSlider: this.mainSlider,
+      listSlider: this.listSlider
     });
 
     let slickListDiv = document.getElementsByClassName("name-list")[0];
@@ -31,11 +31,11 @@ class App extends React.Component {
       event.preventDefault();
 
       if (event.deltaY > 0) {
-        this.slider2.slickNext();
-        this.slider1.slickNext();
+        this.listSlider.slickNext();
+        this.mainSlider.slickNext();
       } else {
-        this.slider2.slickPrev();
-        this.slider1.slickPrev();
+        this.listSlider.slickPrev();
+        this.mainSlider.slickPrev();
       }
     });
 
@@ -58,9 +58,9 @@ class App extends React.Component {
           imageId: `${professions.imageId}`
         }))
       )
-      .then(professions => {
+      .then(professionList => {
         this.setState({
-          professions
+          professionList
         });
       })
       .catch(error => console.log("Error" + error));
@@ -69,7 +69,7 @@ class App extends React.Component {
   sendData = event => {};
 
   render() {
-    const { professions } = this.state;
+    const { professionList } = this.state;
 
     var settings = {
       infinite: false,
@@ -77,22 +77,20 @@ class App extends React.Component {
       vertical: true,
       arrows: false,
       dots: false,
-      verticalSwiping: true
+      verticalSwiping: true,
+      speed: 200
     };
 
     return (
       <div>
         <Slider
-          asNavFor={this.state.nav2}
-          ref={slider => (this.slider1 = slider)}
+          asNavFor={this.state.listSlider}
+          ref={slider => (this.mainSlider = slider)}
           slidesToShow={1}
-          fade={true}
-          className="profession-list"
           swipe={false}
-          speed={200}
           {...settings}
         >
-          {professions.map((item, key) => (
+          {professionList.map((item, key) => (
             <Card
               name={item.name}
               description={item.description}
@@ -102,18 +100,18 @@ class App extends React.Component {
             />
           ))}
         </Slider>
+        <Select data={this.state.professionList} />
         <Slider
-          asNavFor={this.state.nav1}
-          ref={slider => (this.slider2 = slider)}
+          asNavFor={this.state.mainSlider}
+          ref={slider => (this.listSlider = slider)}
           slidesToShow={5}
           focusOnSelect={true}
           className="name-list"
           centerMode={true}
           swipeToSlide={true}
-          speed={200}
           {...settings}
         >
-          {professions.map((item, key) => (
+          {professionList.map((item, key) => (
             <li className="name-list__item" key={key}>
               <p className="name-list__header">{item.name}</p>
             </li>
