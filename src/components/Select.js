@@ -9,14 +9,19 @@ class Select extends React.Component {
 
     this.state = {
       startProfessionId: 0,
-      endProfessionId: 0
+      endProfessionId: 0,
+      id: 0,
+      professionList: []
     };
 
     this.getData = this.getData.bind(this);
   }
 
   componentDidMount() {
-    this.setState({ id: this.props.id });
+    this.setState({
+      id: this.props.id,
+      professionList: this.props.professionList
+    });
   }
 
   getData() {
@@ -50,14 +55,14 @@ class Select extends React.Component {
   }
 
   render() {
-    const { profession } = this.state;
+    const { professionList } = this.state;
     console.log(this.state.endProfessionId, this.state.startProfessionId);
     return (
       <div className="select">
         <select
           onChange={e => this.setState({ startProfessionId: e.target.value })}
         >
-          {this.props.data.map((item, key) => (
+          {professionList.map((item, key) => (
             <option key={key} value={item.id}>
               {item.name}
             </option>
@@ -66,7 +71,7 @@ class Select extends React.Component {
         <select
           onChange={e => this.setState({ endProfessionId: e.target.value })}
         >
-          {this.props.data.map((item, key) => (
+          {professionList.map((item, key) => (
             <option key={key} value={item.id}>
               {item.name}
             </option>
