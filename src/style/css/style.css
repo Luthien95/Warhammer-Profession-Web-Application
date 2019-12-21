@@ -125,3 +125,170 @@ button {
 .select {
   position: absolute;
   top: 0; }
+
+.navigation__bar {
+  display: flex;
+  flex-flow: row;
+  z-index: 2;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: black;
+  transition-delay: 0.2s;
+  padding: 20px; }
+
+.navigation__button {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  flex: 0;
+  padding: 5px;
+  align-items: flex-end; }
+
+.navigation__button-bar {
+  position: relative;
+  width: 1.34em;
+  height: 3px;
+  border-radius: 5px;
+  background: white; }
+  .navigation__button-bar--close {
+    transform-origin: center center;
+    position: absolute;
+    margin-top: -1.5px;
+    opacity: 0;
+    top: 50%;
+    opacity: 0;
+    transition: transform 0.5s ease-in-out, opacity 0.125s ease-in-out 0.5s; }
+    .navigation__button-bar--close:not(:last-child) {
+      transform: rotate(45deg) translateX(-250%); }
+    .navigation__button-bar--close:last-child {
+      transform: rotate(-45deg) translateX(250%); }
+  .navigation__button-bar--open {
+    opacity: 1;
+    transition: transform 0.3s ease-in-out 0.5s, opacity 0.15s ease-in-out 0.5s; }
+    .navigation__button-bar--open:not(first-child) {
+      margin-top: 4px; }
+    .navigation__button-bar--open:nth-child(1) {
+      transform-origin: top right;
+      transform: rotate(-45deg);
+      width: 1.8em; }
+    .navigation__button-bar--open:nth-child(2) {
+      transform: rotate(-45deg) translate(0, -4px); }
+    .navigation__button-bar--open:nth-child(3) {
+      transform: rotate(-45deg) translate(0, 1px);
+      width: 0.8em; }
+
+.navigation__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  transition: z-index 0.01s ease-in-out 0.5s; }
+
+.navigation__background {
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+  align-items: stretch;
+  min-height: 100vw;
+  top: -50%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform-origin: center;
+  transform: rotate(45deg) scale(1.2); }
+
+.navigation__background-part {
+  background: #c796ec;
+  flex: 1 1 100%;
+  transition: transform 0.5s ease-in-out; }
+  .navigation__background-part:nth-child(odd) {
+    transform: translateX(-100%); }
+  .navigation__background-part:nth-child(even) {
+    transform: translateX(100%); }
+
+.navigation__links {
+  display: none; }
+
+.navigation__open .navigation__bar {
+  background: none; }
+
+.navigation__open .navigation__button-bar:nth-child(1) {
+  transform: rotate(-45deg) translateX(-400%); }
+
+.navigation__open .navigation__button-bar:nth-child(2) {
+  transform: rotate(-45deg) translate(0, -4px) translateX(200%); }
+
+.navigation__open .navigation__button-bar:nth-child(3) {
+  transform: rotate(-45deg) translate(0, 1px) translateX(200%); }
+
+.navigation__open .navigation__button-bar--close {
+  opacity: 1;
+  transition: transform 0.5s ease-in-out 0.3s, opacity 0.125s ease-in-out 0.3s; }
+  .navigation__open .navigation__button-bar--close:not(:last-child) {
+    transform: rotate(45deg); }
+  .navigation__open .navigation__button-bar--close:last-child {
+    transform: rotate(-45deg); }
+
+.navigation__open .navigation__button-bar--open {
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.15s ease-in-out 0.15s; }
+
+.navigation__open .navigation__content {
+  z-index: 1;
+  transition: z-index 0.01s ease-in-out 0.3s; }
+
+.navigation__open .navigation__background-part {
+  transform: translateX(0%);
+  transition: transform 0.5s ease-in-out 0.3s; }
+
+.navigation__open .navigation__links {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+
+.navigation__open .navigation__list {
+  padding: 0;
+  list-style: none;
+  text-align: center; }
+
+.navigation__open .navigation__item {
+  margin: 10px 0; }
+
+.navigation__open .navigation__link {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all .5s; }
+  .navigation__open .navigation__link--active {
+    position: relative;
+    font-size: 24px; }
+    .navigation__open .navigation__link--active:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 4px;
+      background: white; }
+  .navigation__open .navigation__link:hover {
+    transition: all .5s;
+    position: relative;
+    font-size: 24px; }
+    .navigation__open .navigation__link:hover:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 4px;
+      background: white; }
