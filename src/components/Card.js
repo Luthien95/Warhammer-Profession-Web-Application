@@ -2,6 +2,7 @@ import React from "react";
 import "./../style/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import CardExtended from "./CardExtended";
+import Background from "./../images/tlo-1.jpg";
 
 class Card extends React.Component {
   constructor(props) {
@@ -27,7 +28,12 @@ class Card extends React.Component {
   }
   render() {
     return (
-      <div className="card-interface">
+      <div
+        className="card-interface"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%), linear-gradient(0deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,.8) 100%), url(${Background})`
+        }}
+      >
         <div className="card-interface__text-container">
           <h1 className="card-interface__header">{this.props.name}</h1>
           <p className="card-interface__description">

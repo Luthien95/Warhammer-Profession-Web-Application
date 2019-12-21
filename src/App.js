@@ -94,72 +94,67 @@ class App extends React.Component {
     if (this.state.professionList && this.state.professionList.length > 0) {
       return (
         <Router>
-          <div>
-            <div
-              className={
-                this.state.active ? "navigation navigation__open" : "navigation"
-              }
-              onClick={this.toogleNavigation}
-            >
-              <div className="navigation__bar">
-                <div className="navigation__button">
-                  <div className="navigation__button-bar navigation__button-bar--open"></div>
-                  <div className="navigation__button-bar navigation__button-bar--open"></div>
-                  <div className="navigation__button-bar navigation__button-bar--open"></div>
-                  <div className="navigation__button-bar navigation__button-bar--close"></div>
-                  <div className="navigation__button-bar navigation__button-bar--close"></div>
-                </div>
-              </div>
-              <div className="navigation__content">
-                <div className="navigation__background">
-                  <div className="navigation__background-part"></div>
-                  <div className="navigation__background-part"></div>
-                  <div className="navigation__background-part"></div>
-                </div>
-                <div className="navigation__links">
-                  <ul className="navigation__list">
-                    <li className="navigation__item">
-                      <NavLink
-                        to={"/"}
-                        className="navigation__link"
-                        activeClassName="navigation__link--active"
-                      >
-                        {" "}
-                        Home{" "}
-                      </NavLink>
-                    </li>
-                    <li className="navigation__item">
-                      <NavLink
-                        to={"/select"}
-                        className="navigation__link"
-                        activeClassName="navigation__link--active"
-                      >
-                        Select
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
+          <div
+            className={
+              this.state.active ? "navigation navigation__open" : "navigation"
+            }
+            onClick={this.toogleNavigation}
+          >
+            <div className="navigation__bar">
+              <div className="navigation__button">
+                <div className="navigation__button-bar navigation__button-bar--open"></div>
+                <div className="navigation__button-bar navigation__button-bar--open"></div>
+                <div className="navigation__button-bar navigation__button-bar--open"></div>
+                <div className="navigation__button-bar navigation__button-bar--close"></div>
+                <div className="navigation__button-bar navigation__button-bar--close"></div>
               </div>
             </div>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => (
-                  <Home {...props} professionList={this.state.professionList} />
-                )}
-              />
-              <Route
-                path="/select"
-                render={props => (
-                  <Select
-                    {...props}
-                    professionList={this.state.professionList}
-                  />
-                )}
-              />
-            </Switch>
+            <div className="navigation__content">
+              <div className="navigation__background">
+                <div className="navigation__background-part"></div>
+                <div className="navigation__background-part"></div>
+                <div className="navigation__background-part"></div>
+              </div>
+              <div className="navigation__links">
+                <ul className="navigation__list">
+                  <li className="navigation__item">
+                    <NavLink
+                      to={"/"}
+                      className="navigation__link"
+                      activeClassName="navigation__link--active"
+                    >
+                      {" "}
+                      Home{" "}
+                    </NavLink>
+                  </li>
+                  <li className="navigation__item">
+                    <NavLink
+                      to={"/select"}
+                      className="navigation__link"
+                      activeClassName="navigation__link--active"
+                    >
+                      Select
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Home {...props} professionList={this.state.professionList} />
+              )}
+            />
+            <Route
+              path="/select"
+              render={props => (
+                <Select {...props} professionList={this.state.professionList} />
+              )}
+            />
+          </Switch>
         </Router>
       );
     } else {

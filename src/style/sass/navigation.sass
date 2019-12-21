@@ -2,7 +2,7 @@
     &__bar
         display: flex
         flex-flow: row
-        z-index: 2
+        z-index: 4
         position: absolute
         top: 10px
         left: 10px
@@ -20,7 +20,7 @@
         align-items: flex-end
     &__button-bar
         position: relative
-        width: 1.34em
+        width: 1.1em
         height: 3px
         border-radius: 5px
         background: white
@@ -40,16 +40,16 @@
             opacity: 1
             transition: transform 0.3s ease-in-out 0.5s, opacity 0.15s ease-in-out 0.5s
             &:not(first-child)
-                margin-top: 4px
+                margin-top: 5px
             &:nth-child(1)
                 transform-origin: top right
                 transform: rotate(-45deg)
                 width: 1.8em
             &:nth-child(2)
-                transform: rotate(-45deg) translate(0, -4px)
+                transform: rotate(-45deg) translate(0, -5px)
             &:nth-child(3)
                 transform: rotate(-45deg) translate(0, 1px)
-                width: 0.8em
+                width: 0.9em
     &__content
         position: absolute
         top: 0
@@ -71,7 +71,7 @@
         transform-origin: center
         transform: rotate(45deg) scale(1.2)
     &__background-part
-        background: #c796ec
+        background: #171717
         flex: 1 1 100%
         transition: transform 0.5s ease-in-out
         &:nth-child(odd)
@@ -102,7 +102,7 @@
                     opacity: 0
                     transition: transform 0.3s ease-in-out, opacity 0.15s ease-in-out 0.15s
             &__content
-                z-index: 1
+                z-index: 3
                 transition: z-index 0.01s ease-in-out 0.3s
             &__background-part
                 transform: translateX(0%)
