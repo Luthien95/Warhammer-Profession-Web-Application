@@ -12,16 +12,24 @@ class Select extends React.Component {
       endProfessionId: 0,
       id: 0,
       professionList: [],
-      changePaths: []
+      changePaths: [],
+      activeId: 0
     };
 
     this.getData = this.getData.bind(this);
+    this.activeProfessionPath = this.activeProfessionPath.bind(this);
   }
 
   componentDidMount() {
     this.setState({
       id: this.props.id,
       professionList: this.props.professionList
+    });
+  }
+
+  activeProfessionPath(e) {
+    this.setState({ activeId: e.target.dataset.index }, function() {
+      console.log(this.state.activeId);
     });
   }
 
@@ -38,39 +46,21 @@ class Select extends React.Component {
           headers: { "Content-Type": "application/json" }
         }
       )
-      .then(
-        response =>
-          response.data.paths.map(path => ({
-            path: path.summary
-          }))
-        //console.log(response.data.paths)
+      .then(response =>
+        response.data.paths.map(path => ({
+          path: path.summary
+        }))
       )
       .then(path => {
         this.setState({
           changePaths: path
         });
-        console.log(this.state.changePaths);
-      })
-      // http://192.168.0.52:8020/WarhammerProfessionsApp/api/Professions/GetProfessionsPaths?startProfessionId=20&endProfessionId=98&mappingLevels=4&includeStartingProfession=false&includeEndingProfession=true&race=1&fbclid=IwAR1GqA7mM2RWXc0e_6SZIELJUK37glHTWL0yZIlXqQH2taJt4w0kv1L-xlA
-      .then(res => {
-        /* var data = res.data;
-
-        var profession = {
-          id: data.id,
-          name: data.name
-        };
-
-        this.setState({
-          profession: profession
-        });*/
-        console.log(res);
       })
       .catch(error => console.log("Error" + error));
   }
 
   render() {
     const { professionList } = this.state;
-    console.log(this.state.endProfessionId, this.state.startProfessionId);
 
     return (
       <div className="select-subpage">
@@ -103,15 +93,59 @@ class Select extends React.Component {
           <ul className="select-subpage__list">
             {" "}
             {this.state.changePaths.map((item, key) => (
-              <li key={key} className="select-subpage__item">
-                {item.path.path}
-                <button className="select-subpage__button">Read more</button>
+              <li
+                key={key}
+                className={
+                  this.state.activeId == key
+                    ? "select-subpage__item select-subpage__item--active"
+                    : "select-subpage__item"
+                }
+              >
+                <p className="select-subpage__path">{item.path.path}</p>
+                <button
+                  className="select-subpage__button"
+                  data-index={key}
+                  onClick={this.activeProfessionPath}
+                >
+                  {this.state.activeId == key ? (
+                    <i class="fas fa-times-circle"></i>
+                  ) : (
+                    <i class="fas fa-plus-circle"></i>
+                  )}
+                </button>
+                {this.state.activeId == key ? (
+                  <div className="select-subpage__full-description">
+                    <p className="select-subpage__number">
+                      {key < 10 ? "0" + (key + 1) + "." : key + 1 + "."}
+                    </p>
+                    <p className="select-subpage__paragraph">
+                      Minimal Experience Cost: {item.path.minimalExperienceCost}
+                    </p>
+                    <p className="select-subpage__paragraph">
+                      Maximum Experience Cost: {item.path.maximumExperienceCost}
+                    </p>
+                    <p className="select-subpage__paragraph">
+                      Abilities to learn:
+                    </p>
+                    <ul className="select-subpage__list">
+                      {item.path.abilitiesToLearn.map((item, key) => (
+                        <li className="select-subpage__list-item">{item}</li>
+                      ))}
+                    </ul>
+                    <p className="select-subpage__paragraph">
+                      Skills to learn:
+                    </p>
+                    <ul className="select-subpage__list">
+                      {item.path.skillsToLearn.map((item, key) => (
+                        <li className="select-subpage__list-item">{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </li>
             ))}
           </ul>
-        ) : (
-          <p></p>
-        )}
+        ) : null}
       </div>
     );
   }

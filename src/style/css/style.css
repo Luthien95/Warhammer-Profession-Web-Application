@@ -294,7 +294,8 @@ button {
       background: white; }
 
 .select-subpage {
-  background: black;
+  background: white;
+  color: black;
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
@@ -311,15 +312,15 @@ button {
     margin: 10px;
     height: 40px; }
   .select-subpage__button {
-    background: white;
-    color: black;
+    background: black;
+    color: white;
     padding: 0 35px;
     text-transform: uppercase;
     font-weight: bold;
     height: 40px;
     margin: 10px; }
   .select-subpage__list {
-    color: white;
+    color: black;
     list-style: none;
     padding: 0;
     width: 80%;
@@ -330,14 +331,45 @@ button {
     position: relative;
     display: flex;
     justify-content: space-between;
-    align-items: center; }
-    .select-subpage__item:before {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      background: white;
-      width: 10px;
-      height: 80px; }
+    align-items: center;
+    flex-wrap: wrap;
+    border: 1px solid #efebeb; }
+    .select-subpage__item--active {
+      font-size: 24px; }
+      .select-subpage__item--active .select-subpage__path {
+        margin: 50px 0 50px 20px;
+        font-size: 30px;
+        font-weight: 300; }
+      .select-subpage__item--active .select-subpage__paragraph {
+        color: black;
+        margin: 10px 0;
+        font-size: 20px;
+        font-family: Lato; }
+      .select-subpage__item--active .select-subpage__list {
+        width: 100%;
+        margin-left: 50px;
+        list-style: circle;
+        column-count: 3; }
+        .select-subpage__item--active .select-subpage__list-item {
+          font-size: 16px;
+          font-family: Lato; }
+      .select-subpage__item--active .select-subpage__button {
+        border-radius: 25px;
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        display: flex;
+        align-items: center; }
+  .select-subpage__path {
+    color: black; }
+  .select-subpage__full-description {
+    width: 100%;
+    color: black; }
+  .select-subpage__number {
+    color: black;
+    position: absolute;
+    top: 10px;
+    font-size: 100px;
+    font-weight: 700;
+    opacity: .1;
+    user-select: none; }
