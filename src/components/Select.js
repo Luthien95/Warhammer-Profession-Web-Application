@@ -36,16 +36,16 @@ class Select extends React.Component {
   getData() {
     axios
       .get(
-        /* "http://192.168.0.52:8020/WarhammerProfessionsApp/api/Professions/GetProfessionsPaths?startProfessionId=" +
-          this.state.startProfessionId +
-          "&endProfessionId=" +
-          this.state.endProfessionId +
-          "&mappingLevels=4&includeStartingProfession=false&includeEndingProfession=true&race=1",*/
-        "http://localhost:5000/api/Professions/GetProfessionsPaths?startProfessionId=" +
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/Professions/GetProfessionsPaths?startProfessionId=" +
           this.state.startProfessionId +
           "&endProfessionId=" +
           this.state.endProfessionId +
           "&mappingLevels=4&includeStartingProfession=false&includeEndingProfession=true&race=1",
+        /*"http://localhost:5000/api/Professions/GetProfessionsPaths?startProfessionId=" +
+          this.state.startProfessionId +
+          "&endProfessionId=" +
+          this.state.endProfessionId +
+          "&mappingLevels=4&includeStartingProfession=false&includeEndingProfession=true&race=1",*/
         {
           params: { id: this.state.id },
           headers: { "Content-Type": "application/json" }
@@ -60,6 +60,7 @@ class Select extends React.Component {
         this.setState({
           changePaths: path
         });
+        console.log(path, this.state.changePaths);
       })
       .catch(error => console.log("Error" + error));
   }
@@ -92,7 +93,7 @@ class Select extends React.Component {
             ))}
           </select>
           <button className="select-subpage__button" onClick={this.getData}>
-            search
+            szukaj
           </button>
         </div>
         {this.state.changePaths && this.state.changePaths.length > 0 ? (
@@ -118,9 +119,9 @@ class Select extends React.Component {
                   onClick={this.activeProfessionPath}
                 >
                   {this.state.activeId == key ? (
-                    <i class="fas fa-times-circle"></i>
+                    <i className="fas fa-times-circle"></i>
                   ) : (
-                    <i class="fas fa-plus-circle"></i>
+                    <i className="fas fa-plus-circle"></i>
                   )}
                 </button>
                 {this.state.activeId == key ? (
@@ -129,13 +130,15 @@ class Select extends React.Component {
                       {key < 10 ? "0" + (key + 1) + "." : key + 1 + "."}
                     </p>
                     <p className="select-subpage__paragraph">
-                      Minimal Experience Cost: {item.path.minimalExperienceCost}
+                      Minimalny koszt doświadczenia:{" "}
+                      {item.path.minimalExperienceCost}
                     </p>
                     <p className="select-subpage__paragraph">
-                      Maximum Experience Cost: {item.path.maximumExperienceCost}
+                      Maksymalny koszt doświadczenia:{" "}
+                      {item.path.maximumExperienceCost}
                     </p>
                     <p className="select-subpage__paragraph">
-                      Abilities to learn:
+                      Zdolności do wyuczenia:
                     </p>
                     <ul className="select-subpage__list">
                       {item.path.abilitiesToLearn.map((item, key) => (
@@ -143,13 +146,38 @@ class Select extends React.Component {
                       ))}
                     </ul>
                     <p className="select-subpage__paragraph">
-                      Skills to learn:
+                      Umiejętności do wyuczenia:
                     </p>
                     <ul className="select-subpage__list">
                       {item.path.skillsToLearn.map((item, key) => (
                         <li className="select-subpage__list-item">{item}</li>
                       ))}
                     </ul>
+                    <table>
+                      <thead>
+                        <tr>
+                          <td>Walka wręcz</td>
+                          <td>Zwinność</td>
+                          <td>Atak</td>
+                          <td>Punkty uderzenia</td>
+                          <td>Intelignecja</td>
+                          <td>Magia</td>
+                          <td>Ogłada</td>
+                          <td>Odporność</td>
+                          <td>Umiejętności strzeleckie</td>
+                          <td>Szybkość</td>
+                          <td>Wytrzymałość</td>
+                          <td>Siła woli</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          {Object.keys(item.path.statistics).map((item, i) => (
+                            <p>{item.path.statistics[item].newValue}</p>
+                          ))}
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 ) : null}
               </li>
