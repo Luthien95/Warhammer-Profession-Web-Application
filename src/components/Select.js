@@ -36,7 +36,12 @@ class Select extends React.Component {
   getData() {
     axios
       .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/Professions/GetProfessionsPaths?startProfessionId=" +
+        /* "http://192.168.0.52:8020/WarhammerProfessionsApp/api/Professions/GetProfessionsPaths?startProfessionId=" +
+          this.state.startProfessionId +
+          "&endProfessionId=" +
+          this.state.endProfessionId +
+          "&mappingLevels=4&includeStartingProfession=false&includeEndingProfession=true&race=1",*/
+        "http://localhost:5000/api/Professions/GetProfessionsPaths?startProfessionId=" +
           this.state.startProfessionId +
           "&endProfessionId=" +
           this.state.endProfessionId +
@@ -61,6 +66,7 @@ class Select extends React.Component {
 
   render() {
     const { professionList } = this.state;
+    const reactStringReplace = require("react-string-replace");
 
     return (
       <div className="select-subpage">
@@ -101,7 +107,11 @@ class Select extends React.Component {
                     : "select-subpage__item"
                 }
               >
-                <p className="select-subpage__path">{item.path.path}</p>
+                <p className="select-subpage__path">
+                  {reactStringReplace(item.path.path, "=>", (match, i) => (
+                    <i className="fas fa-chevron-right select-subpage__path--icon"></i>
+                  ))}
+                </p>
                 <button
                   className="select-subpage__button"
                   data-index={key}
