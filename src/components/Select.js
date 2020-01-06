@@ -2,6 +2,7 @@ import React from "react";
 import "./../style/css/style.css";
 import axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import SelectDetails from "./selectDetails/SelectDetails";
 
 class Select extends React.Component {
   constructor(props) {
@@ -60,7 +61,6 @@ class Select extends React.Component {
         this.setState({
           changePaths: path
         });
-        console.log(path, this.state.changePaths);
       })
       .catch(error => console.log("Error" + error));
   }
@@ -68,6 +68,8 @@ class Select extends React.Component {
   render() {
     const { professionList } = this.state;
     const reactStringReplace = require("react-string-replace");
+
+    console.log(this.state.activeId);
 
     return (
       <div className="select-subpage">
@@ -125,60 +127,10 @@ class Select extends React.Component {
                   )}
                 </button>
                 {this.state.activeId == key ? (
-                  <div className="select-subpage__full-description">
-                    <p className="select-subpage__number">
-                      {key < 10 ? "0" + (key + 1) + "." : key + 1 + "."}
-                    </p>
-                    <p className="select-subpage__paragraph">
-                      Minimalny koszt doświadczenia:{" "}
-                      {item.path.minimalExperienceCost}
-                    </p>
-                    <p className="select-subpage__paragraph">
-                      Maksymalny koszt doświadczenia:{" "}
-                      {item.path.maximumExperienceCost}
-                    </p>
-                    <p className="select-subpage__paragraph">
-                      Zdolności do wyuczenia:
-                    </p>
-                    <ul className="select-subpage__list">
-                      {item.path.abilitiesToLearn.map((item, key) => (
-                        <li className="select-subpage__list-item">{item}</li>
-                      ))}
-                    </ul>
-                    <p className="select-subpage__paragraph">
-                      Umiejętności do wyuczenia:
-                    </p>
-                    <ul className="select-subpage__list">
-                      {item.path.skillsToLearn.map((item, key) => (
-                        <li className="select-subpage__list-item">{item}</li>
-                      ))}
-                    </ul>
-                    <table>
-                      <thead>
-                        <tr>
-                          <td>Walka wręcz</td>
-                          <td>Zwinność</td>
-                          <td>Atak</td>
-                          <td>Punkty uderzenia</td>
-                          <td>Intelignecja</td>
-                          <td>Magia</td>
-                          <td>Ogłada</td>
-                          <td>Odporność</td>
-                          <td>Umiejętności strzeleckie</td>
-                          <td>Szybkość</td>
-                          <td>Wytrzymałość</td>
-                          <td>Siła woli</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          {Object.keys(item.path.statistics).map((item, i) => (
-                            <p>{item.path.statistics[item].newValue}</p>
-                          ))}
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                  <SelectDetails
+                    path={this.state.changePaths[this.state.activeId]}
+                    activeId={this.state.activeId}
+                  />
                 ) : null}
               </li>
             ))}

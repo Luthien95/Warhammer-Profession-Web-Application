@@ -26,8 +26,8 @@ class App extends React.Component {
   getData() {
     axios
       .get(
-        // "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
-        "http://localhost:5000/api/Professions/",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
+        //"http://localhost:5000/api/Professions/",
         {
           headers: { "Content-Type": "application/json" }
         }

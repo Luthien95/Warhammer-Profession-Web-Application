@@ -387,3 +387,10 @@ button {
     font-weight: 700;
     opacity: .1;
     user-select: none; }
+  .select-subpage__table {
+    border: 1px solid #efebeb;
+    margin-top: 20px; }
+  .select-subpage__table-item {
+    font-size: .9rem;
+    border: 1px solid #efebeb;
+    padding: 10px; }
