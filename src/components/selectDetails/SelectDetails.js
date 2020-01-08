@@ -22,7 +22,6 @@ class SelectDetails extends React.Component {
   render() {
     const { currentPath, activeId } = this.state;
 
-    console.log(currentPath, activeId);
     return (
       <div className="select-subpage__full-description">
         <p className="select-subpage__number">
@@ -88,52 +87,7 @@ class SelectDetails extends React.Component {
           </tbody>
         </table>
       </div>
-      // <p>fef</p>
     );
   }
 }
 export default SelectDetails;
-
-/*
-<ul className="select-subpage__list">
-          {currentPath.abilitiesToLearn.map((item, key) => (
-            <li className="select-subpage__list-item" key={key}>
-              {item}
-            </li>
-          ))}
-        </ul>
-        <p className="select-subpage__paragraph">Umiejętności do wyuczenia:</p>
-        <ul className="select-subpage__list">
-          {currentPath.skillsToLearn.map((item, key) => (
-            <li className="select-subpage__list-item" key={key}>
-              {item}
-            </li>
-          ))}
-        </ul>
-        <table>
-          <thead>
-            <tr>
-              <td>Walka wręcz</td>
-              <td>Zwinność</td>
-              <td>Atak</td>
-              <td>Punkty uderzenia</td>
-              <td>Intelignecja</td>
-              <td>Magia</td>
-              <td>Ogłada</td>
-              <td>Odporność</td>
-              <td>Umiejętności strzeleckie</td>
-              <td>Szybkość</td>
-              <td>Wytrzymałość</td>
-              <td>Siła woli</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {Object.keys(currentPath.statistics).map((item, i) => (
-                <td>{item}</td>
-              ))}
-            </tr>
-          </tbody>
-        </table>
-
-        */

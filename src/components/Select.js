@@ -69,8 +69,6 @@ class Select extends React.Component {
     const { professionList } = this.state;
     const reactStringReplace = require("react-string-replace");
 
-    console.log(this.state.activeId);
-
     return (
       <div className="select-subpage">
         <div className="select-subpage__search">
