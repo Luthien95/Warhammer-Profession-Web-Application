@@ -145,7 +145,8 @@ button {
   cursor: pointer;
   flex: 0;
   padding: 5px;
-  align-items: flex-end; }
+  align-items: flex-end;
+  transform: translate(-4px, -4px); }
 
 .navigation__button-bar {
   position: relative;
@@ -313,11 +314,17 @@ button {
     height: 40px; }
   .select-subpage__button {
     color: black;
-    padding: 0 35px;
+    padding: 20px; }
+  .select-subpage__select-button {
+    color: black;
     text-transform: uppercase;
     font-weight: bold;
     height: 40px;
-    margin: 10px; }
+    margin: 10px;
+    border: 1px solid darkgray;
+    padding: 10px 30px; }
+    .select-subpage__select-button:hover {
+      cursor: pointer; }
   .select-subpage__list {
     color: black;
     list-style: none;
@@ -364,15 +371,13 @@ button {
             width: 1.5em;
             font-size: 13px; }
       .select-subpage__item--active .select-subpage__button {
-        padding: 0;
         font-size: 16px;
         display: flex;
         align-items: center;
         justify-content: center; }
   .select-subpage__path {
     color: black;
-    display: flex;
-    align-items: center; }
+    width: 90%; }
     .select-subpage__path--icon {
       font-size: 12px;
       margin: 0 10px; }
@@ -389,7 +394,8 @@ button {
     user-select: none; }
   .select-subpage__table {
     border: 1px solid #efebeb;
-    margin-top: 30px; }
+    margin-top: 40px;
+    border-collapse: collapse; }
   .select-subpage__table-item {
     font-size: .8rem;
     border: 1px solid #efebeb;

@@ -19,11 +19,17 @@
         height: 40px
     &__button
         color: black
-        padding: 0 35px
+        padding: 20px
+    &__select-button
+        color: black
         text-transform: uppercase
         font-weight: bold
         height: 40px
         margin: 10px
+        border: 1px solid rgb(169, 169, 169)
+        padding: 10px 30px
+        &:hover
+            cursor: pointer
     &__list
         color: black
         list-style: none
@@ -71,15 +77,13 @@
                             width: 1.5em
                             font-size: 13px
                 &__button
-                    padding: 0
                     font-size: 16px
                     display: flex
                     align-items: center
                     justify-content: center
     &__path
         color: black
-        display: flex
-        align-items: center
+        width: 90%
         &--icon
             font-size: 12px
             margin: 0 10px
@@ -96,7 +100,8 @@
         user-select: none
     &__table
         border: 1px solid #efebeb
-        margin-top: 30px
+        margin-top: 40px
+        border-collapse: collapse
     &__table-item
         font-size: .8rem
         border: 1px solid #efebeb

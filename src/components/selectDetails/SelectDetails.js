@@ -53,6 +53,7 @@ class SelectDetails extends React.Component {
         <table className="select-subpage__table">
           <thead>
             <tr>
+              <td className="select-subpage__table-item"></td>
               <td className="select-subpage__table-item">Walka wręcz</td>
               <td className="select-subpage__table-item">Zwinność</td>
               <td className="select-subpage__table-item">Atak</td>
@@ -71,6 +72,7 @@ class SelectDetails extends React.Component {
           </thead>
           <tbody>
             <tr>
+              <td className="select-subpage__table-item">Wartość początkowa</td>
               {Object.keys(currentPath.statistics).map((item, i) => (
                 <td className="select-subpage__table-item">
                   {currentPath.statistics[item].originalValue}
@@ -78,6 +80,7 @@ class SelectDetails extends React.Component {
               ))}
             </tr>
             <tr>
+              <td className="select-subpage__table-item">Wartość końcowa</td>
               {Object.keys(currentPath.statistics).map((item, i) => (
                 <td className="select-subpage__table-item">
                   {currentPath.statistics[item].newValue}

@@ -92,7 +92,10 @@ class Select extends React.Component {
               </option>
             ))}
           </select>
-          <button className="select-subpage__button" onClick={this.getData}>
+          <button
+            className="select-subpage__select-button"
+            onClick={this.getData}
+          >
             szukaj
           </button>
         </div>
