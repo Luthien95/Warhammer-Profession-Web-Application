@@ -107,28 +107,3 @@ class Form extends React.Component {
   }
 }
 export default Form;
-
-
-abilities: `${professions.description}`,
-          equipment: `${professions.equipment}`,
-          professionLevel: `${professions.name}`,
-          professionRaceAllowed: `${professions.name}`,
-          skills: `${professions.name}`,
-          agility: `${professions.name}`,
-          attacks: `${professions.name}`,
-          closeCombat: `${professions.name}`,
-          description: `${professions.name}`,
-          entranceProfessions: `${professions.name}`,
-          hitpoints: `${professions.name}`,
-          id: `${professions.name}`,
-          imageId: `${professions.name}`,
-          inteligence: `${professions.name}`,
-          magic: `${professions.name}`,
-          name: `${professions.name}`,
-          outputProfessions: `${professions.name}`,
-          polish: `${professions.name}`,
-          resistance: `${professions.name}`,
-          shooting: `${professions.name}`,
-          speed: `${professions.name}`,
-          stamina: `${professions.name}`,
-          willpower: `${professions.name}`

@@ -14,7 +14,6 @@ class App extends React.Component {
       professionList: []
     };
 
-    //this.getData = this.getData.bind(this);
     this.sendData = this.sendData.bind(this);
   }
 
@@ -38,33 +37,7 @@ class App extends React.Component {
         this.mainSlider.slickPrev();
       }
     });
-
-    //this.getData();
   }
-  /*
-  getData() {
-    axios
-      .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
-        {
-          headers: { "Content-Type": "application/json" }
-        }
-      )
-      .then(response =>
-        response.data.map(professions => ({
-          description: `${professions.description}`,
-          name: `${professions.name}`,
-          id: `${professions.id}`,
-          imageId: `${professions.imageId}`
-        }))
-      )
-      .then(professionList => {
-        this.setState({
-          professionList
-        });
-      })
-      .catch(error => console.log("Error" + error));
-  }*/
 
   sendData = event => {};
 

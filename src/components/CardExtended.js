@@ -80,15 +80,19 @@ class CardExtended extends React.Component {
 
     return (
       <div className="card-extended">
-        <div className="">
-          <div className="header-icons">
-            <i
-              className="fas fa-times header-icons__icon"
-              onClick={this.changeState}
-            ></i>
-          </div>
-          {this.state.profession.name}
-          {this.state.profession.description}
+        <div className="header-icons">
+          <i
+            className="fas fa-times header-icons__icon"
+            onClick={this.changeState}
+          ></i>
+        </div>
+        <div className="card-description">
+          <h2 className="card-description__header">
+            {this.state.profession.name}
+          </h2>
+          <p className="card-description__description">
+            {this.state.profession.description}
+          </p>
         </div>
       </div>
     );

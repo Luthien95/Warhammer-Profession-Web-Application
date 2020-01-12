@@ -63,7 +63,7 @@ class App extends React.Component {
         <Router>
           <div
             className={
-              this.state.active ? "navigation navigation__open" : "navigation"
+              this.state.active ? "navigation navigation--open" : "navigation"
             }
             onClick={this.toogleNavigation}
           >

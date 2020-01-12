@@ -1,6 +1,7 @@
 import React from "react";
 import "./../../style/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import statistics from "./../../data/statistics.json";
 
 class SelectDetails extends React.Component {
   constructor(props) {
@@ -54,20 +55,11 @@ class SelectDetails extends React.Component {
           <thead>
             <tr>
               <td className="select-subpage__table-item"></td>
-              <td className="select-subpage__table-item">Walka wręcz</td>
-              <td className="select-subpage__table-item">Zwinność</td>
-              <td className="select-subpage__table-item">Atak</td>
-              <td className="select-subpage__table-item">Punkty uderzenia</td>
-              <td className="select-subpage__table-item">Intelignecja</td>
-              <td className="select-subpage__table-item">Magia</td>
-              <td className="select-subpage__table-item">Ogłada</td>
-              <td className="select-subpage__table-item">Odporność</td>
-              <td className="select-subpage__table-item">
-                Umiejętności strzeleckie
-              </td>
-              <td className="select-subpage__table-item">Szybkość</td>
-              <td className="select-subpage__table-item">Wytrzymałość</td>
-              <td className="select-subpage__table-item">Siła woli</td>
+              {Object.keys(statistics).map((item, i) => (
+                <td className="select-subpage__table-item">
+                  {statistics[item].Name}
+                </td>
+              ))}
             </tr>
           </thead>
           <tbody>
