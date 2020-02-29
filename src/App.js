@@ -90,6 +90,7 @@ class App extends React.Component {
                   <li className="navigation__item">
                     <NavLink
                       to={"/"}
+                      exact
                       className="navigation__link"
                       activeClassName="navigation__link--active"
                     >

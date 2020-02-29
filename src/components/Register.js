@@ -31,43 +31,33 @@ class Register extends React.Component {
     this.setState({
       [name]: event.target.value
     });
-
-    console.log(this.state.login);
   }
 
   render() {
     return (
-      <form action="/" method="post">
-        <div class="field-wrap">
-          <label>
-            Login<span class="req">*</span>
-          </label>
-          <input
-            type="text"
-            autocomplete="off"
-            name="login"
-            value={this.state.login}
-            onChange={this.handleChange}
-            required
-          />
-        </div>
+      <form method="post" className="login-form">
+        <input
+          type="text"
+          name="login"
+          placeholder="Login"
+          value={this.state.login}
+          onChange={this.handleChange}
+          required
+          className="login-form__input"
+        />
 
-        <div class="field-wrap">
-          <label>
-            Password<span class="req">*</span>
-          </label>
-          <input
-            type="password"
-            autocomplete="off"
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-          />
-        </div>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={this.state.password}
+          onChange={this.handleChange}
+          className="login-form__input"
+        />
 
         <button
           type="submit"
-          class="button button-block"
+          className="login-form__button"
           onClick={this.sendData}
         >
           Get Started

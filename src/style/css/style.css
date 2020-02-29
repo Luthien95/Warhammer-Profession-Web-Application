@@ -416,10 +416,21 @@ button {
     border: 1px solid #efebeb;
     padding: 10px; }
 
-form {
+.login-form {
   position: absolute;
   top: 50%;
-  left: 50%; }
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 300px; }
+  .login-form__input {
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    border: 1px solid darkgray; }
+  .login-form__button {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid darkgray; }
 
 .listOfSkills {
   top: 100px;

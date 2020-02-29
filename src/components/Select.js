@@ -49,7 +49,10 @@ class Select extends React.Component {
           "&mappingLevels=4&includeStartingProfession=false&includeEndingProfession=true&race=1",*/
         {
           params: { id: this.state.id },
-          headers: { "Content-Type": "application/json" }
+          headers: {
+            "Content-Type": "application/json"
+            // Authorization: "Bearer " + token
+          }
         }
       )
       .then(response =>
