@@ -7,6 +7,9 @@ import {
 } from "react-router-dom";
 import Home from "./components/Home";
 import Select from "./components/Select";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import Skills from "./components/Skills";
 import "./App.css";
 import axios from "axios";
 
@@ -103,6 +106,33 @@ class App extends React.Component {
                       Select
                     </NavLink>
                   </li>
+                  <li className="navigation__item">
+                    <NavLink
+                      to={"/register"}
+                      className="navigation__link"
+                      activeClassName="navigation__link--active"
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                  <li className="navigation__item">
+                    <NavLink
+                      to={"/login"}
+                      className="navigation__link"
+                      activeClassName="navigation__link--active"
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                  <li className="navigation__item">
+                    <NavLink
+                      to={"/skills"}
+                      className="navigation__link"
+                      activeClassName="navigation__link--active"
+                    >
+                      Skills
+                    </NavLink>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -119,6 +149,14 @@ class App extends React.Component {
               path="/select"
               render={props => (
                 <Select {...props} professionList={this.state.professionList} />
+              )}
+            />
+            <Route path="/register" render={props => <Register />} />
+            <Route path="/login" render={props => <Login />} />
+            <Route
+              path="/skills"
+              render={props => (
+                <Skills {...props} professionList={this.state.professionList} />
               )}
             />
           </Switch>

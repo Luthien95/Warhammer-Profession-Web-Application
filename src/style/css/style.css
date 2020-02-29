@@ -247,7 +247,10 @@ button {
 
 .navigation--open .navigation__content {
   z-index: 3;
-  transition: z-index 0.01s ease-in-out 0.3s; }
+  transition: z-index 0.01s ease-in-out 0.3s;
+  animation-name: animateBackground;
+  animation-delay: 1s;
+  animation-fill-mode: forwards; }
 
 .navigation--open .navigation__background-part {
   transform: translateX(0%);
@@ -299,6 +302,12 @@ button {
       width: 30px;
       height: 4px;
       background: white; }
+
+@keyframes animateBackground {
+  from {
+    background-color: transparent; }
+  to {
+    background-color: #171717; } }
 
 .select-subpage {
   background: white;
@@ -406,3 +415,13 @@ button {
     font-size: .8rem;
     border: 1px solid #efebeb;
     padding: 10px; }
+
+form {
+  position: absolute;
+  top: 50%;
+  left: 50%; }
+
+.listOfSkills {
+  top: 100px;
+  position: relative;
+  overflow-y: scroll; }

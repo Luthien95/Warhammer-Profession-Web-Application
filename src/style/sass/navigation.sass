@@ -105,6 +105,9 @@
             &__content
                 z-index: 3
                 transition: z-index 0.01s ease-in-out 0.3s
+                animation-name: animateBackground
+                animation-delay: 1s
+                animation-fill-mode: forwards
             &__background-part
                 transform: translateX(0%)
                 transition: transform 0.5s ease-in-out 0.3s
@@ -151,3 +154,10 @@
                         width: 30px 
                         height: 4px
                         background: white
+
+
+@keyframes animateBackground 
+    from 
+        background-color: transparent
+    to 
+        background-color: #171717

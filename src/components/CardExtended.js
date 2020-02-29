@@ -32,8 +32,8 @@ class CardExtended extends React.Component {
   getData() {
     axios
       .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/" +
-          this.state.id,
+        //"http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/" +
+        "http://localhost:5000/api/Professions/" + this.state.id,
         {
           params: { id: this.state.id },
           headers: { "Content-Type": "application/json" }
