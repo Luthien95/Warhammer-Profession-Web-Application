@@ -1,8 +1,6 @@
 import React from "react";
 import Card from "./Card";
 import Slider from "react-slick";
-import Select from "./Select";
-import axios from "axios";
 
 class App extends React.Component {
   constructor(props) {

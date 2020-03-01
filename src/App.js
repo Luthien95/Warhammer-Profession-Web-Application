@@ -12,6 +12,7 @@ import Login from "./components/Login";
 import Skills from "./components/Skills";
 import "./App.css";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class App extends React.Component {
 
     this.state = {
       professionList: [],
-      menuActive: false
+      menuActive: false,
+      isLogginIn: false
     };
 
     this.getData = this.getData.bind(this);
@@ -55,12 +57,25 @@ class App extends React.Component {
     this.getData();
   }
 
+  componentDidMount() {
+    let token = localStorage.getItem("token"); //retriving the token from localStorage
+    if (token === null) {
+      this.setState({ isLogginIn: true });
+    }
+    console.log(token);
+  }
+
   toogleNavigation() {
     this.setState({ active: !this.state.active });
   }
 
+  logOut() {
+    localStorage.clear();
+  }
+
   render() {
     const { professionList } = this.state;
+
     if (this.state.professionList && this.state.professionList.length > 0) {
       return (
         <Router>
@@ -87,17 +102,20 @@ class App extends React.Component {
               </div>
               <div className="navigation__links">
                 <ul className="navigation__list">
-                  <li className="navigation__item">
-                    <NavLink
-                      to={"/"}
-                      exact
-                      className="navigation__link"
-                      activeClassName="navigation__link--active"
-                    >
-                      {" "}
-                      Home{" "}
-                    </NavLink>
-                  </li>
+                  {this.state.isLogginIn ? (
+                    <li className="navigation__item">
+                      <NavLink
+                        to={"/"}
+                        exact
+                        className="navigation__link"
+                        activeClassName="navigation__link--active"
+                      >
+                        {" "}
+                        Home{" "}
+                      </NavLink>
+                    </li>
+                  ) : null}
+
                   <li className="navigation__item">
                     <NavLink
                       to={"/select"}
@@ -133,6 +151,9 @@ class App extends React.Component {
                     >
                       Skills
                     </NavLink>
+                  </li>
+                  <li>
+                    <button onClick={this.logOut}>Wyloguj się</button>
                   </li>
                 </ul>
               </div>

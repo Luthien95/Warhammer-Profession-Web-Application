@@ -3,6 +3,10 @@ import "./../style/css/style.css";
 import axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import SelectDetails from "./selectDetails/SelectDetails";
+import { withCookies, useCookies } from "react-cookie";
+
+//const token =
+//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjYiLCJuYmYiOjE1ODMwNjA3NTMsImV4cCI6MTU4MzE0NzE1MywiaWF0IjoxNTgzMDYwNzUzfQ.nJsEuEGWZMryK2SxEzuIKU-vs0AUih3wX1wyopJvW20";
 
 class Select extends React.Component {
   constructor(props) {
@@ -35,6 +39,8 @@ class Select extends React.Component {
   }
 
   getData() {
+    const [cookies, setCookie] = useCookies(["token"]);
+
     axios
       .get(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/Professions/GetProfessionsPaths?startProfessionId=" +
@@ -50,8 +56,8 @@ class Select extends React.Component {
         {
           params: { id: this.state.id },
           headers: {
-            "Content-Type": "application/json"
-            // Authorization: "Bearer " + token
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.get("token")
           }
         }
       )
