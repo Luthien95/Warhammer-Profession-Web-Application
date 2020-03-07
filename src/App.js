@@ -10,6 +10,7 @@ import Select from "./components/Select";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Skills from "./components/Skills";
+import UserPanel from "./components/UserPanel";
 import "./App.css";
 import axios from "axios";
 import { useCookies } from "react-cookie";
@@ -31,8 +32,8 @@ class App extends React.Component {
   getData() {
     axios
       .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
-        //"http://localhost:5000/api/Professions/",
+        //"http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
+        "http://localhost:5000/api/Professions/",
         {
           headers: { "Content-Type": "application/json" }
         }
@@ -59,10 +60,13 @@ class App extends React.Component {
 
   componentDidMount() {
     let token = localStorage.getItem("token"); //retriving the token from localStorage
-    if (token === null) {
-      this.setState({ isLogginIn: true });
-    }
     console.log(token);
+    if (token != null) {
+      this.setState({ isLogginIn: true });
+    } else {
+      this.setState({ isLogginIn: false });
+    }
+    //console.log(token);
   }
 
   toogleNavigation() {
@@ -71,6 +75,7 @@ class App extends React.Component {
 
   logOut() {
     localStorage.clear();
+    console.log(localStorage.getItem("token"));
   }
 
   render() {
@@ -102,7 +107,7 @@ class App extends React.Component {
               </div>
               <div className="navigation__links">
                 <ul className="navigation__list">
-                  {this.state.isLogginIn ? (
+                  {localStorage.getItem("token") != null ? (
                     <li className="navigation__item">
                       <NavLink
                         to={"/"}
@@ -115,7 +120,15 @@ class App extends React.Component {
                       </NavLink>
                     </li>
                   ) : null}
-
+                  <li className="navigation__item">
+                    <NavLink
+                      to={"/userpanel"}
+                      className="navigation__link"
+                      activeClassName="navigation__link--active"
+                    >
+                      User panel
+                    </NavLink>
+                  </li>
                   <li className="navigation__item">
                     <NavLink
                       to={"/select"}
@@ -179,6 +192,15 @@ class App extends React.Component {
               path="/skills"
               render={props => (
                 <Skills {...props} professionList={this.state.professionList} />
+              )}
+            />
+            <Route
+              path="/userpanel"
+              render={props => (
+                <UserPanel
+                  {...props}
+                  professionList={this.state.professionList}
+                />
               )}
             />
           </Switch>

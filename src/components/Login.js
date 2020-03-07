@@ -17,9 +17,10 @@ class Login extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  sendData(event) {
-    const [cookies, setCookie] = useCookies(["token"]);
-
+  sendData(e) {
+    //const [cookies, setCookie] = useCookies(["token"]);
+    //e.preventDefault();
+    //e.stopPropagation();
     axios
       .post(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/users/Authenticate",
@@ -36,19 +37,13 @@ class Login extends React.Component {
           sameSite: true
         });
       })*/
-      .then(res => {
-        if (res.status === 200) {
-          localStorage.setItem("token", res.data.token); //storing the token in localStorage.
-          this.props.history.push("/MyPlaces");
-        } else {
-          const error = new Error(res.error);
-          throw error;
-        }
+      .then(response => {
+        console.log(response.data.token);
+        localStorage.setItem("token", response.data.token); //storing the token in localStorage.
       })
-
       .catch(error => console.log("Error" + error));
 
-    event.preventDefault();
+    e.preventDefault();
   }
 
   handleChange(event) {
