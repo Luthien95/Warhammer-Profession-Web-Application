@@ -43,9 +43,9 @@ class Table extends React.Component {
             ))}
           </thead>
           <tbody>
-            <Row />
+            <Row headers={this.state.headers} />
             {this.state.data.map(id => (
-              <Row id={id} headers={this.state.headers} />
+              <Row headers={this.state.headers} />
             ))}
           </tbody>
         </table>
@@ -55,15 +55,18 @@ class Table extends React.Component {
   }
 }
 
-const Row = props => (
-  <tr>
-    <td>
-      <input type="text" id={`select-type-${props.id}`} />
-    </td>
-    <td>
-      <input type="text" id={`select-position-${props.id}`} />
-    </td>
-    <p>{props.headers}</p>
-  </tr>
-);
+const Row = ({ headers }) => {
+  return (
+    <tr>
+      {headers.map(item => {
+        return (
+          <td>
+            <input type="text" />
+          </td>
+        );
+      })}
+    </tr>
+  );
+};
+
 export default Table;

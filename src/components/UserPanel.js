@@ -345,36 +345,6 @@ class UserPanel extends React.Component {
 
           <p>Pancerz</p>
           <Table date={["Typ pancerza", "Lokacja ciała", "Obc.", "PZ"]} />
-          <table>
-            <thead>
-              <tr>
-                <td>Typ pancerza</td>
-                <td>Lokacja ciała</td>
-                <td>Obc.</td>
-                <td>PZ</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </form>
       </div>
     );
