@@ -2,6 +2,7 @@ import React from "react";
 import "./../style/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Table from "./userPanel/table";
+import Skills from "./userPanel/skills";
 
 class UserPanel extends React.Component {
   constructor(props) {
@@ -342,9 +343,7 @@ class UserPanel extends React.Component {
               </tr>
             </tbody>
           </table>
-
-          <p>Pancerz</p>
-          <Table date={["Typ pancerza", "Lokacja ciała", "Obc.", "PZ"]} />
+          <Skills />
         </form>
       </div>
     );
