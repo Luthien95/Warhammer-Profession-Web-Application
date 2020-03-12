@@ -12,6 +12,7 @@ class Skills extends React.Component {
       activeSkillList: []
     };
 
+    this.postData = this.postData.bind(this);
     this.getData = this.getData.bind(this);
     this.addSkillToList = this.addSkillToList.bind(this);
     this.deleteSkill = this.deleteSkill.bind(this);
@@ -39,8 +40,42 @@ class Skills extends React.Component {
       .catch(error => console.log("Error" + error));
   }
 
+  postData(e, currentId) {
+    console.log(currentId);
+
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addCharacterSkill",
+        currentId,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(response => {
+        //console.log(this.state.activeSkillList);
+      })
+      .catch(error => console.log("Error" + error));
+
+    this.getData();
+    //e.preventDefault();
+  }
+
   componentWillMount() {
     this.getData();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.ownedSkills !== this.props.ownedSkills) {
+      this.setState({
+        activeSkillList: [
+          ...this.state.activeSkillList,
+          ...this.props.ownedSkills
+        ]
+      });
+    }
   }
 
   addSkillToList(event) {
@@ -52,37 +87,82 @@ class Skills extends React.Component {
       event.target.selectedIndex
     ].getAttribute("data-key");
 
-    let ifSkillInArray = false;
+    /*let ifSkillInArray = false;
 
     for (var i = 0; i < this.state.activeSkillList.length; i++) {
       if (currentId === this.state.activeSkillList[i].id) {
         ifSkillInArray = true;
+        console.log("yes");
       }
     }
 
     if (!ifSkillInArray) {
       let newSkill = [
-        { name: currentSkill, trait: currentTrait, id: currentId }
+        { id: +currentId, name: currentSkill, trait: currentTrait }
       ];
 
       this.setState({
         activeSkillList: [...this.state.activeSkillList, ...newSkill]
       });
-    }
+    }*/
+
+    // this.postData(currentId);
+
+    let newSkill = [
+      { id: +currentId, name: currentSkill, trait: currentTrait }
+    ];
+
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addCharacterSkill",
+        currentId,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(response => {
+        this.setState({
+          activeSkillList: [...this.state.activeSkillList, ...newSkill]
+        });
+      })
+      .then(response => {})
+      .catch(error => console.log("Error" + error));
+
+    //event.preventDefault();
   }
 
-  deleteSkill(itemId) {
+  deleteSkill(itemId, e) {
     const items = this.state.activeSkillList.filter(item => item.id !== itemId);
-    this.setState({ activeSkillList: items });
+    //this.setState({ activeSkillList: items });
+
+    axios
+      .delete(
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeCharacterSkill?id=${itemId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(response => {
+        this.setState({ activeSkillList: items });
+      })
+      .catch(error => console.log("Error" + error));
+
+    //e.preventDefault();
   }
 
   render() {
     return (
-      <div>
-        <p>Umiejętności</p>
+      <div className="skill-panel">
+        <p className="skill-panel__header">Umiejętności</p>
         {this.state.activeSkillList.map(item => (
-          <p>
-            {item.name}, {item.trait}{" "}
+          <p className="skill-panel__skill">
+            {item.name}, {item.trait}
             <i
               onClick={e => this.deleteSkill(item.id, e)}
               className="fas fa-trash-alt"

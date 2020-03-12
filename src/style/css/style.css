@@ -2,7 +2,7 @@ body {
   font-family: Montserrat;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   position: relative; }
 
 .app,
@@ -28,9 +28,8 @@ button {
     cursor: pointer; }
 
 .subpage {
-  width: 100vw;
+  width: calc(100vw - 200px);
   height: auto;
-  overflow: auto;
   padding: 100px; }
   .subpage p {
     color: black; }
@@ -444,3 +443,13 @@ button {
   top: 100px;
   position: relative;
   overflow-y: scroll; }
+
+.skill-panel__header {
+  text-transform: uppercase; }
+
+.skill-panel__skill {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between; }

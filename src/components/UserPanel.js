@@ -1,58 +1,47 @@
 import React from "react";
 import "./../style/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Table from "./userPanel/Table";
+import axios from "axios";
+import Hero from "./userPanel/Hero";
 import Skills from "./userPanel/Skills";
 import Abilities from "./userPanel/Abilities";
 
 class UserPanel extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      ownedSkills: []
+    };
+  }
+
+  getData() {
+    axios
+      .get("http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          ownedSkills: res.data.skills /*set response data in items array*/
+        });
+      })
+      .catch(error => console.log("Error" + error));
+  }
+
+  componentWillMount() {
+    this.getData();
   }
 
   render() {
+    console.log(this.state.ownedSkills);
     return (
       <div className="subpage">
         <form>
-          <p>Bohater</p>
-          <label for="userName">Imię: </label>
-          <input type="text" name="userName" placeholder="Imię" />
-          <label for="userRace">Rasa: </label>
-          <input type="text" name="userRace" placeholder="Rasa" />
-          <label for="proffesionList">Obecna profesja:</label>
-          <select id="cars" name="proffesionList" form="carform">
-            {this.props.professionList.map((item, key) => (
-              <option key={key} value={item.name}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-          <label for="proffesionList">Poprzednia profesja:</label>
-          <select id="cars" name="proffesionList" form="carform">
-            {this.props.professionList.map((item, key) => (
-              <option key={key} value={item.name}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-
-          <p>Opis bohatera</p>
-          <p>
-            Pozostałe doświadczenie: <input type="number" />
-          </p>
-          <p>
-            Wykorzystane doświadczenie: <input type="number" />
-          </p>
-          <p>Pieniądze</p>
-          <p>
-            Złote Korony(ZK): <input type="number" />
-          </p>
-          <p>
-            Srebrne Szylingi(S): <input type="number" />
-          </p>
-          <p>
-            Miedziane Pensy(P): <input type="number" />
-          </p>
+          <Hero professionList={this.props.professionList} />
           <p>Cechy</p>
           <table>
             <thead>
@@ -360,7 +349,7 @@ class UserPanel extends React.Component {
               </tr>
             </tbody>
           </table>
-          <Skills />
+          <Skills ownedSkills={this.state.ownedSkills} />
           <Abilities />
         </form>
       </div>
