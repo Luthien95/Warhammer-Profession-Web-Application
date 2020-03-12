@@ -1,8 +1,9 @@
 import React from "react";
 import "./../style/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Table from "./userPanel/table";
-import Skills from "./userPanel/skills";
+import Table from "./userPanel/Table";
+import Skills from "./userPanel/Skills";
+import Abilities from "./userPanel/Abilities";
 
 class UserPanel extends React.Component {
   constructor(props) {
@@ -36,6 +37,22 @@ class UserPanel extends React.Component {
           </select>
 
           <p>Opis bohatera</p>
+          <p>
+            Pozostałe doświadczenie: <input type="number" />
+          </p>
+          <p>
+            Wykorzystane doświadczenie: <input type="number" />
+          </p>
+          <p>Pieniądze</p>
+          <p>
+            Złote Korony(ZK): <input type="number" />
+          </p>
+          <p>
+            Srebrne Szylingi(S): <input type="number" />
+          </p>
+          <p>
+            Miedziane Pensy(P): <input type="number" />
+          </p>
           <p>Cechy</p>
           <table>
             <thead>
@@ -344,6 +361,7 @@ class UserPanel extends React.Component {
             </tbody>
           </table>
           <Skills />
+          <Abilities />
         </form>
       </div>
     );
