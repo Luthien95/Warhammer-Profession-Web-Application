@@ -41,42 +41,75 @@ class Abilities extends React.Component {
     this.getData();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.ownedAbilities !== this.props.ownedAbilities) {
+      this.setState({
+        activeAbilitiesList: [
+          ...this.state.activeAbilitiesList,
+          ...this.props.ownedAbilities
+        ]
+      });
+    }
+  }
+
   addSkillToList(event) {
     let currentAbility = event.target.value;
     let currentId = event.target.options[
       event.target.selectedIndex
     ].getAttribute("data-key");
 
-    let ifAbilityInArray = false;
+    let newAbility = [{ name: currentAbility, id: currentId }];
 
-    for (var i = 0; i < this.state.activeAbilitiesList.length; i++) {
-      if (currentId === this.state.activeAbilitiesList[i].id) {
-        ifAbilityInArray = true;
-      }
-    }
-
-    if (!ifAbilityInArray) {
-      let newAbility = [{ name: currentAbility, id: currentId }];
-
-      this.setState({
-        activeAbilitiesList: [...this.state.activeAbilitiesList, ...newAbility]
-      });
-    }
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addCharacterAbility",
+        currentId,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(response => {
+        this.setState({
+          activeAbilitiesList: [
+            ...this.state.activeAbilitiesList,
+            ...newAbility
+          ]
+        });
+      })
+      .then(response => {})
+      .catch(error => console.log("Error" + error));
   }
 
-  deleteSkill(itemId) {
+  deleteSkill(itemId, e) {
     const items = this.state.activeAbilitiesList.filter(
       item => item.id !== itemId
     );
-    this.setState({ activeAbilitiesList: items });
+
+    axios
+      .delete(
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeCharacterAbility?id=${itemId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(response => {
+        this.setState({ activeAbilitiesList: items });
+      })
+      .catch(error => console.log("Error" + error));
   }
 
   render() {
     return (
-      <div>
-        <p>Zdolności</p>
+      <div className="ability-panel">
+        <p className="ability-panel__header">Zdolności</p>
         {this.state.activeAbilitiesList.map(item => (
-          <p>
+          <p className="ability-panel__item">
             {item.name}
             <i
               onClick={e => this.deleteSkill(item.id, e)}
@@ -90,9 +123,14 @@ class Abilities extends React.Component {
           form="skillList"
           onChange={this.addSkillToList}
           value={this.state.value}
+          className="ability-panel__select"
         >
           {this.state.abilitiesList.map(item => (
-            <option value={item.name} data-key={item.id}>
+            <option
+              value={item.name}
+              data-key={item.id}
+              className="ability-panel__option"
+            >
               {item.name}
             </option>
           ))}

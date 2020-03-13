@@ -12,7 +12,6 @@ class Skills extends React.Component {
       activeSkillList: []
     };
 
-    this.postData = this.postData.bind(this);
     this.getData = this.getData.bind(this);
     this.addSkillToList = this.addSkillToList.bind(this);
     this.deleteSkill = this.deleteSkill.bind(this);
@@ -38,29 +37,6 @@ class Skills extends React.Component {
         });
       })
       .catch(error => console.log("Error" + error));
-  }
-
-  postData(e, currentId) {
-    console.log(currentId);
-
-    axios
-      .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addCharacterSkill",
-        currentId,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      )
-      .then(response => {
-        //console.log(this.state.activeSkillList);
-      })
-      .catch(error => console.log("Error" + error));
-
-    this.getData();
-    //e.preventDefault();
   }
 
   componentWillMount() {
@@ -130,8 +106,6 @@ class Skills extends React.Component {
       })
       .then(response => {})
       .catch(error => console.log("Error" + error));
-
-    //event.preventDefault();
   }
 
   deleteSkill(itemId, e) {
@@ -152,8 +126,6 @@ class Skills extends React.Component {
         this.setState({ activeSkillList: items });
       })
       .catch(error => console.log("Error" + error));
-
-    //e.preventDefault();
   }
 
   render() {
@@ -161,7 +133,7 @@ class Skills extends React.Component {
       <div className="skill-panel">
         <p className="skill-panel__header">Umiejętności</p>
         {this.state.activeSkillList.map(item => (
-          <p className="skill-panel__skill">
+          <p className="skill-panel__item">
             {item.name}, {item.trait}
             <i
               onClick={e => this.deleteSkill(item.id, e)}
@@ -175,6 +147,7 @@ class Skills extends React.Component {
           form="skillList"
           onChange={this.addSkillToList}
           value={this.state.value}
+          className="skill-panel__select"
         >
           {this.state.skillList.map(item => (
             <option value={item.name} data={item.trait} data-key={item.id}>

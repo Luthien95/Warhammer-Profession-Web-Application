@@ -11,7 +11,9 @@ class UserPanel extends React.Component {
     super(props);
 
     this.state = {
-      ownedSkills: []
+      ownedSkills: [],
+      ownedAbilities: [],
+      character: {}
     };
   }
 
@@ -26,7 +28,9 @@ class UserPanel extends React.Component {
       .then(res => {
         console.log(res.data);
         this.setState({
-          ownedSkills: res.data.skills /*set response data in items array*/
+          ownedSkills: res.data.skills /*set response data in items array*/,
+          ownedAbilities: res.data.abilities,
+          character: res.data
         });
       })
       .catch(error => console.log("Error" + error));
@@ -37,11 +41,14 @@ class UserPanel extends React.Component {
   }
 
   render() {
-    console.log(this.state.ownedSkills);
+    console.log(this.state.character.gold);
     return (
       <div className="subpage">
         <form>
-          <Hero professionList={this.props.professionList} />
+          <Hero
+            professionList={this.props.professionList}
+            usersMoney={this.state.character.money}
+          />
           <p>Cechy</p>
           <table>
             <thead>
@@ -350,7 +357,7 @@ class UserPanel extends React.Component {
             </tbody>
           </table>
           <Skills ownedSkills={this.state.ownedSkills} />
-          <Abilities />
+          <Abilities ownedAbilities={this.state.ownedAbilities} />
         </form>
       </div>
     );

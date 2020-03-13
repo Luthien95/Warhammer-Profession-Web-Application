@@ -444,12 +444,19 @@ button {
   position: relative;
   overflow-y: scroll; }
 
-.skill-panel__header {
-  text-transform: uppercase; }
+.skill-panel__header,
+.ability-panel__header {
+  text-transform: uppercase;
+  margin-top: 20px; }
 
-.skill-panel__skill {
+.skill-panel__item,
+.ability-panel__item {
   padding: 10px;
   border: 1px solid #e0e0e0;
   margin: 10px 0;
   display: flex;
   justify-content: space-between; }
+
+.skill-panel__select,
+.ability-panel__select {
+  padding: 10px; }
