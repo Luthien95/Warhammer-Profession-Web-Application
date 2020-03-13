@@ -8,8 +8,11 @@ class Hero extends React.Component {
     super(props);
 
     this.state = {
-      money: []
+      money: {}
     };
+
+    this.handleBasicFromInputValue = this.handleBasicFromInputValue.bind(this);
+    this.passData = this.passData.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -20,16 +23,11 @@ class Hero extends React.Component {
     }
   }
 
-  handleChange(event) {
-    //this.setState({money.bronze: event.target.value});
+  passData(event) {
     axios
       .post(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeCharacterMoney",
-        {
-          gold: 2,
-          silver: 3,
-          bronze: 4
-        },
+        this.state.money,
         {
           headers: {
             "Content-Type": "application/json",
@@ -37,19 +35,19 @@ class Hero extends React.Component {
           }
         }
       )
-      .then(res => {
-        console.log(res);
-        this.setState({
-          ownedSkills: res.data.skills /*set response data in items array*/,
-          ownedAbilities: res.data.abilities,
-          character: res.data
-        });
-      })
       .catch(error => console.log("Error" + error));
   }
 
+  handleBasicFromInputValue = event => {
+    this.setState({
+      money: {
+        ...this.state.money,
+        [event.target.name]: +event.target.value
+      }
+    });
+  };
+
   render() {
-    console.log(this.state.money);
     return (
       <div>
         <p>Bohater</p>
@@ -84,18 +82,32 @@ class Hero extends React.Component {
         <p>Pieniądze</p>
         <p>
           Złote Korony(ZK):{" "}
-          <input type="number" value={this.state.money.gold} />
+          <input
+            type="number"
+            name="gold"
+            defaultValue={this.state.money.gold}
+            onChange={this.handleBasicFromInputValue}
+            onBlur={this.passData}
+          />
         </p>
         <p>
           Srebrne Szylingi(S):{" "}
-          <input type="number" value={this.state.money.silver} />
+          <input
+            type="number"
+            name="silver"
+            defaultValue={this.state.money.silver}
+            onChange={this.handleBasicFromInputValue}
+            onBlur={this.passData}
+          />
         </p>
         <p>
           Miedziane Pensy(P):{" "}
           <input
             type="number"
-            value={this.state.money.bronze}
-            onChange={this.handleChange}
+            name="bronze"
+            defaultValue={this.state.money.bronze}
+            onChange={this.handleBasicFromInputValue}
+            onBlur={this.passData}
           />
         </p>
       </div>
