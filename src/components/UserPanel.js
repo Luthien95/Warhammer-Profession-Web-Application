@@ -3,6 +3,7 @@ import "./../style/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import axios from "axios";
 import Hero from "./userPanel/Hero";
+import Table from "./userPanel/Table";
 import Skills from "./userPanel/Skills";
 import Abilities from "./userPanel/Abilities";
 
@@ -13,7 +14,9 @@ class UserPanel extends React.Component {
     this.state = {
       ownedSkills: [],
       ownedAbilities: [],
-      character: {}
+      character: {},
+      basicStatistics: [],
+      advancedStatistics: []
     };
   }
 
@@ -28,9 +31,11 @@ class UserPanel extends React.Component {
       .then(res => {
         console.log(res.data);
         this.setState({
-          ownedSkills: res.data.skills /*set response data in items array*/,
+          ownedSkills: res.data.skills,
           ownedAbilities: res.data.abilities,
-          character: res.data
+          character: res.data,
+          basicStatistics: res.data.basicStatistics,
+          advancedStatistics: res.data.advancedStatistics
         });
       })
       .catch(error => console.log("Error" + error));
@@ -50,312 +55,8 @@ class UserPanel extends React.Component {
             usersMoney={this.state.character.money}
           />
           <p>Cechy</p>
-          <table>
-            <thead>
-              <tr>
-                <th></th>
-                <th>WW</th>
-                <th>US</th>
-                <th>K</th>
-                <th>Odp</th>
-                <th>Zr</th>
-                <th>Int</th>
-                <th>SW</th>
-                <th>Ogd</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>Główne</th>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <th>Początkowe</th>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <th>Schemat rozwoju</th>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <th>Aktualne</th>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <table>
-            <thead>
-              <tr>
-                <th></th>
-                <th>A</th>
-                <th>Żyw</th>
-                <th>S</th>
-                <th>Wt</th>
-                <th>Sz</th>
-                <th>Mag</th>
-                <th>PO</th>
-                <th>PP</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>Drugorzędowe</th>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <th>Początkowe</th>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <th>Schemat rozwoju</th>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-              </tr>
-              <tr>
-                <th>Aktualne</th>
-                <td>
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-                <td>
-                  {" "}
-                  <input type="number" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Table statistics={this.state.basicStatistics} step="5" />
+          <Table statistics={this.state.advancedStatistics} step="1" />
           <Skills ownedSkills={this.state.ownedSkills} />
           <Abilities ownedAbilities={this.state.ownedAbilities} />
         </form>

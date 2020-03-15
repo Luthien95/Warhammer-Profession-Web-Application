@@ -34,6 +34,9 @@ button {
   .subpage p {
     color: black; }
 
+input {
+  width: 120px; }
+
 .card-interface {
   width: 100vw;
   height: 100vh;

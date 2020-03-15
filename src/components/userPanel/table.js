@@ -1,67 +1,83 @@
 import React from "react";
 import "./../../style/css/style.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 
 class Table extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      data: [],
-      headers: []
+      statistics: [],
+      step: ""
     };
-
-    this.addRow = this.addRow.bind(this);
   }
 
-  componentWillMount() {
-    this.setState(
-      {
-        headers: [...this.state.headers, ...this.props.date]
-      },
-      () => {
-        console.log(this.state.headers);
-      }
-    );
-  }
-
-  addRow(e) {
-    e.preventDefault();
-    let { data } = this.state;
-    data.push(data.length);
-    this.setState({ data });
+  componentDidUpdate(prevProps) {
+    if (prevProps.statistics !== this.props.statistics) {
+      this.setState({
+        statistics: [...this.state.statistics, ...this.props.statistics],
+        step: [...this.state.step, ...this.props.step]
+      });
+    }
   }
 
   render() {
-    //console.log(this.props.date);
     return (
-      <div>
-        <table>
-          <thead>
-            {this.state.headers.map(item => (
-              <th>{item}</th>
-            ))}
-          </thead>
-          <tbody>
-            <Row headers={this.state.headers} />
-            {this.state.data.map(id => (
-              <Row headers={this.state.headers} />
-            ))}
-          </tbody>
-        </table>
-        <button onClick={this.addRow}>Add</button>
-      </div>
+      <table>
+        <thead>
+          <th></th>
+          {this.state.statistics.map(item => (
+            <th>{item.name}</th>
+          ))}
+        </thead>
+        <tbody>
+          <Row
+            header={{ text: "Podstawowa wartość" }}
+            value="baseValue"
+            statistics={this.state.statistics}
+            type="number"
+            step={this.state.step}
+          />
+          <Row
+            header={{ text: "Maksymalna wartość" }}
+            value="maximumValue"
+            statistics={this.state.statistics}
+            type="number"
+            step={this.state.step}
+          />
+          <Row
+            header={{ text: "Obecna wartość" }}
+            value="currentValue"
+            statistics={this.state.statistics}
+            type="number"
+            step={this.state.step}
+          />
+          <Row
+            header={{ text: "Działanie" }}
+            value="maximumDescription"
+            statistics={this.state.statistics}
+            type="text"
+          />
+        </tbody>
+      </table>
     );
   }
 }
 
-const Row = ({ headers }) => {
+const Row = ({ header, value, statistics, type, step }) => {
+  const currentValue = value;
+
   return (
     <tr>
-      {headers.map(item => {
+      <td>{header.text}</td>
+      {statistics.map(item => {
         return (
           <td>
-            <input type="text" />
+            <input
+              type={type}
+              name={header}
+              defaultValue={item[currentValue]}
+              step={step}
+            />
           </td>
         );
       })}
