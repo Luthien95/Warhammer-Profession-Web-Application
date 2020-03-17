@@ -1,14 +1,18 @@
 .navigation
+    &__container
+        width: calc(100vw - 60px)
+        padding: 30px 30px 0 30px
+        display: flex
+        justify-content: space-between
     &__bar
         display: flex
         flex-flow: row
         z-index: 4
-        position: absolute
-        top: 10px
-        left: 10px
         background: black
         transition-delay: 0.2s
         padding: 20px
+        width: 40px
+        height: 40px
     &__button
         display: flex
         flex-flow: column
@@ -18,7 +22,6 @@
         flex: 0
         padding: 5px
         align-items: flex-end
-        transform: translate(-4px, -4px)
     &__button-bar
         position: relative
         width: 1.1em
