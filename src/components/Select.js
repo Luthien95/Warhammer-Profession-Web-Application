@@ -57,7 +57,7 @@ class Select extends React.Component {
           params: { id: this.state.id },
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + cookies.get("token")
+            Authorization: `Bearer ${localStorage.getItem("token")}`
           }
         }
       )
@@ -80,6 +80,7 @@ class Select extends React.Component {
 
     return (
       <div className="select-subpage">
+        <p>dfdf</p>
         <div className="select-subpage__search">
           <select
             onChange={e => this.setState({ startProfessionId: e.target.value })}

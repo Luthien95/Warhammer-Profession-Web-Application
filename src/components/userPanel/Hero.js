@@ -50,13 +50,30 @@ class Hero extends React.Component {
   render() {
     return (
       <div>
-        <p>Bohater</p>
+        <p className="user-panel__header">
+          <span className="user-panel__header--span">Twój</span> bohater
+        </p>
         <label for="userName">Imię: </label>
-        <input type="text" name="userName" placeholder="Imię" />
+        <input
+          type="text"
+          name="userName"
+          placeholder="Imię"
+          className="user-panel__input"
+        />
         <label for="userRace">Rasa: </label>
-        <input type="text" name="userRace" placeholder="Rasa" />
+        <input
+          type="text"
+          name="userRace"
+          placeholder="Rasa"
+          className="user-panel__input"
+        />
         <label for="proffesionList">Obecna profesja:</label>
-        <select id="cars" name="proffesionList" form="carform">
+        <select
+          id="cars"
+          name="proffesionList"
+          form="carform"
+          className="user-panel__select"
+        >
           {this.props.professionList.map((item, key) => (
             <option key={key} value={item.name}>
               {item.name}
@@ -64,7 +81,12 @@ class Hero extends React.Component {
           ))}
         </select>
         <label for="proffesionList">Poprzednia profesja:</label>
-        <select id="cars" name="proffesionList" form="carform">
+        <select
+          id="cars"
+          name="proffesionList"
+          form="carform"
+          className="user-panel__select"
+        >
           {this.props.professionList.map((item, key) => (
             <option key={key} value={item.name}>
               {item.name}
@@ -72,44 +94,47 @@ class Hero extends React.Component {
           ))}
         </select>
 
-        <p>Opis bohatera</p>
-        <p>
-          Pozostałe doświadczenie: <input type="number"></input>
-        </p>
-        <p>
-          Wykorzystane doświadczenie: <input type="number" />
-        </p>
+        <p className="user-panel__text">Opis bohatera</p>
+        <label for="userLeftExperience">Pozostałe doświadczenie: </label>
+        <input
+          type="text"
+          name="userLeftExperience"
+          className="user-panel__input"
+        />
+        <label for="userUsedExperience">Wykorzystane doświadczenie: </label>
+        <input
+          type="text"
+          name="userUsedExperience"
+          className="user-panel__input"
+        />
         <p>Pieniądze</p>
-        <p>
-          Złote Korony(ZK):{" "}
-          <input
-            type="number"
-            name="gold"
-            defaultValue={this.state.money.gold}
-            onChange={this.handleBasicFromInputValue}
-            onBlur={this.passData}
-          />
-        </p>
-        <p>
-          Srebrne Szylingi(S):{" "}
-          <input
-            type="number"
-            name="silver"
-            defaultValue={this.state.money.silver}
-            onChange={this.handleBasicFromInputValue}
-            onBlur={this.passData}
-          />
-        </p>
-        <p>
-          Miedziane Pensy(P):{" "}
-          <input
-            type="number"
-            name="bronze"
-            defaultValue={this.state.money.bronze}
-            onChange={this.handleBasicFromInputValue}
-            onBlur={this.passData}
-          />
-        </p>
+        <label for="userGoldCoins">Złote Korony(ZK): </label>
+        <input
+          type="number"
+          name="userGoldCoins"
+          className="user-panel__input"
+          defaultValue={this.state.money.gold}
+          onChange={this.handleBasicFromInputValue}
+          onBlur={this.passData}
+        />
+        <label for="userSilverCoins">Srebrne Szylingi(S): </label>
+        <input
+          type="number"
+          name="userSilverCoins"
+          className="user-panel__input"
+          defaultValue={this.state.money.silver}
+          onChange={this.handleBasicFromInputValue}
+          onBlur={this.passData}
+        />
+        <label for="userBonzeCoins">Miedziane Pensy(P): </label>
+        <input
+          type="number"
+          name="userBronzeCoins"
+          className="user-panel__input"
+          defaultValue={this.state.money.bronze}
+          onChange={this.handleBasicFromInputValue}
+          onBlur={this.passData}
+        />
       </div>
     );
   }
