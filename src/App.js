@@ -5,7 +5,6 @@ import {
   Route,
   NavLink
 } from "react-router-dom";
-import { history } from "react-router";
 import Home from "./components/Home";
 import Select from "./components/Select";
 import Register from "./components/Register";
@@ -28,7 +27,6 @@ class App extends React.Component {
 
     this.getData = this.getData.bind(this);
     this.toogleNavigation = this.toogleNavigation.bind(this);
-    this.goToHomepage = this.goToHomepage.bind(this);
   }
 
   getData() {
@@ -78,12 +76,6 @@ class App extends React.Component {
     localStorage.clear();
   }
 
-  goToHomepage() {
-    // console.log(selectedTab);
-    this.props.history.push("/");
-    // console.log(this.props);
-  }
-
   render() {
     const { professionList } = this.state;
 
@@ -122,69 +114,70 @@ class App extends React.Component {
                 <div className="navigation__background-part"></div>
               </div>
               <div className="navigation__links">
-                <ul className="navigation__list">
-                  {localStorage.getItem("token") != null ? (
-                    <div>
-                      <li className="navigation__item">
-                        <NavLink
-                          to={"/"}
-                          exact
-                          className="navigation__link"
-                          activeClassName="navigation__link--active"
-                        >
-                          {" "}
-                          Home{" "}
-                        </NavLink>
-                      </li>
-                      <li className="navigation__item">
-                        <NavLink
-                          to={"/userpanel"}
-                          className="navigation__link"
-                          activeClassName="navigation__link--active"
-                        >
-                          User panel
-                        </NavLink>
-                      </li>
-                      <li className="navigation__item">
-                        <NavLink
-                          to={"/select"}
-                          className="navigation__link"
-                          activeClassName="navigation__link--active"
-                        >
-                          Select
-                        </NavLink>
-                      </li>
-                      <li className="navigation__item">
-                        <NavLink
-                          to={"/skills"}
-                          className="navigation__link"
-                          activeClassName="navigation__link--active"
-                        >
-                          Skills
-                        </NavLink>
-                      </li>
-                    </div>
-                  ) : null}
-
-                  <li className="navigation__item">
-                    <NavLink
-                      to={"/register"}
-                      className="navigation__link"
-                      activeClassName="navigation__link--active"
-                    >
-                      Register
-                    </NavLink>
-                  </li>
-                  <li className="navigation__item">
-                    <NavLink
-                      to={"/login"}
-                      className="navigation__link"
-                      activeClassName="navigation__link--active"
-                    >
-                      Login
-                    </NavLink>
-                  </li>
-                </ul>
+                {localStorage.getItem("token") != null ? (
+                  <ul className="navigation__list">
+                    <li className="navigation__item">
+                      <NavLink
+                        to={"/"}
+                        exact
+                        className="navigation__link"
+                        activeClassName="navigation__link--active"
+                      >
+                        {" "}
+                        Home{" "}
+                      </NavLink>
+                    </li>
+                    <li className="navigation__item">
+                      <NavLink
+                        to={"/userpanel"}
+                        className="navigation__link"
+                        activeClassName="navigation__link--active"
+                      >
+                        User panel
+                      </NavLink>
+                    </li>
+                    <li className="navigation__item">
+                      <NavLink
+                        to={"/select"}
+                        className="navigation__link"
+                        activeClassName="navigation__link--active"
+                      >
+                        Select
+                      </NavLink>
+                    </li>
+                    <li className="navigation__item">
+                      <NavLink
+                        to={"/skills"}
+                        className="navigation__link"
+                        activeClassName="navigation__link--active"
+                      >
+                        Skills
+                      </NavLink>
+                    </li>
+                  </ul>
+                ) : (
+                  <ul className="navigation__list">
+                    <li className="navigation__item">
+                      <NavLink
+                        to={"/register"}
+                        className="navigation__link"
+                        activeClassName="navigation__link--active"
+                      >
+                        Register
+                      </NavLink>
+                    </li>
+                    <li className="navigation__item">
+                      <NavLink
+                        to={"/login"}
+                        exact
+                        className="navigation__link"
+                        activeClassName="navigation__link--active"
+                      >
+                        Login
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
               </div>
             </div>
           </div>
@@ -203,10 +196,7 @@ class App extends React.Component {
               )}
             />
             <Route path="/register" render={props => <Register />} />
-            <Route
-              path="/login"
-              render={props => <Login goToHomepage={this.goToHomepage} />}
-            />
+            <Route path="/login" render={props => <Login />} />
             <Route
               path="/skills"
               render={props => (

@@ -46,7 +46,6 @@ class UserPanel extends React.Component {
   }
 
   render() {
-    console.log(this.state.character.gold);
     return (
       <div className="subpage">
         <form>
@@ -64,4 +63,5 @@ class UserPanel extends React.Component {
     );
   }
 }
+
 export default UserPanel;

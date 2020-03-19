@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 import "./../style/css/style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import axios from "axios";
-import { useCookies } from "react-cookie";
 
 class Login extends React.Component {
   constructor(props) {
@@ -40,8 +39,7 @@ class Login extends React.Component {
         });
       })*/
       .then(response => {
-        console.log(response.data.token);
-        localStorage.setItem("token", response.data.token); //storing the token in localStorage.
+        localStorage.setItem("token", response.data.token);
         this.setState({
           redirectToReferrer: true
         });
@@ -61,9 +59,8 @@ class Login extends React.Component {
   }
 
   render() {
-    console.log(localStorage.getItem("token"));
-
     const redirectToReferrer = this.state.redirectToReferrer;
+
     if (redirectToReferrer === true) {
       return <Redirect to="/" />;
     } else {
@@ -96,95 +93,5 @@ class Login extends React.Component {
     }
   }
 }
+
 export default Login;
-
-/*
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      login: "",
-      password: "",
-      redirectToRefferer: false
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.sendData = this.sendData.bind(this);
-  }
-
-  handleChange(event) {
-    const target = event.target;
-    const name = target.name;
-
-    this.setState({
-      [name]: event.target.value
-    });
-  }
-
-  sendData(e) {
-    const { login, password } = this.state;
-    axios
-      .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/users/Authenticate",
-        {
-          login: this.state.login,
-          password: this.state.password
-        }
-      )
-      .then(response => {
-        setCookie("token", response.data.token, {
-          path: "/",
-          httpOnly: true,
-          secure: true,
-          sameSite: true
-        });
-      })
-      .then(response => {
-        localStorage.setItem("token", response.data.token); //storing the token in localStorage.
-      })
-      .catch(error => console.log("Error" + error));
-
-    e.preventDefault();
-  }
-
-  render() {
-
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { redirectToReferrer } = this.state;
-    
-    if (redirectToReferrer) {
-      return (
-        <Redirect to={from}/>
-      )
-    }
-
-    return(
-      <form className="login-form" onSubmit={this.sendData}>
-        <input
-          type="text"
-          name="login"
-          placeholder="Login"
-          value={this.state.login}
-          onChange={this.handleChange}
-          required
-          className="login-form__input"
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={this.state.password}
-          onChange={this.handleChange}
-          className="login-form__input"
-        />
-
-        <button type="submit" className="button button-block">
-          Zaloguj
-        </button>
-      </form>
-    )
-  }
-}
-*/
