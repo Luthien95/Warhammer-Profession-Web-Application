@@ -5,9 +5,6 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import SelectDetails from "./selectDetails/SelectDetails";
 import { withCookies, useCookies } from "react-cookie";
 
-//const token =
-//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjYiLCJuYmYiOjE1ODMwNjA3NTMsImV4cCI6MTU4MzE0NzE1MywiaWF0IjoxNTgzMDYwNzUzfQ.nJsEuEGWZMryK2SxEzuIKU-vs0AUih3wX1wyopJvW20";
-
 class Select extends React.Component {
   constructor(props) {
     super(props);
@@ -39,8 +36,6 @@ class Select extends React.Component {
   }
 
   getData() {
-    const [cookies, setCookie] = useCookies(["token"]);
-
     axios
       .get(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/Professions/GetProfessionsPaths?startProfessionId=" +
@@ -48,13 +43,12 @@ class Select extends React.Component {
           "&endProfessionId=" +
           this.state.endProfessionId +
           "&mappingLevels=4&includeStartingProfession=false&includeEndingProfession=true&race=1",
-        /*"http://localhost:5000/api/Professions/GetProfessionsPaths?startProfessionId=" +
+        /* "http://localhost:5000/api/Professions/GetProfessionsPaths?startProfessionId=" +
           this.state.startProfessionId +
           "&endProfessionId=" +
           this.state.endProfessionId +
           "&mappingLevels=4&includeStartingProfession=false&includeEndingProfession=true&race=1",*/
         {
-          params: { id: this.state.id },
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -79,8 +73,14 @@ class Select extends React.Component {
     const reactStringReplace = require("react-string-replace");
 
     return (
-      <div className="select-subpage">
-        <p>dfdf</p>
+      <div className="subpage">
+        <p className="user-panel__header">
+          <span className="user-panel__header--span">Ścieżka</span> rozwoju
+        </p>
+        <p>
+          Tutaj możesz sprawdzić, jaka ścieżka rozwoju z obecnej profesji na
+          wymarzoną, będzie dla Ciebie najlepsza.
+        </p>
         <div className="select-subpage__search">
           <select
             onChange={e => this.setState({ startProfessionId: e.target.value })}

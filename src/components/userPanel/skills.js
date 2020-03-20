@@ -134,7 +134,7 @@ class Skills extends React.Component {
         <p className="skill-panel__header">Umiejętności</p>
         {this.state.activeSkillList.map(item => (
           <p className="skill-panel__item">
-            {item.name}, {item.trait}
+            {item.name} | {item.trait}
             <i
               onClick={e => this.deleteSkill(item.id, e)}
               className="fas fa-trash-alt"

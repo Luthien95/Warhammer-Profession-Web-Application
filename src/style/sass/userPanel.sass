@@ -24,8 +24,7 @@
             text-transform: initial
             font-size: 4rem
             margin-right: 10px
-    &__input,
-    &__select
+    &__input
         border: 1px solid #efebeb
         padding: 10px
         margin: 10px
@@ -33,22 +32,6 @@
         &:focus
             border: 2px solid black
             outline: none
-    &__select 
-        padding-right: 0   
-        -webkit-box-sizing: border-box
-        -moz-box-sizing: border-box
-        box-sizing: border-box
-        -webkit-appearance: none
-        -moz-appearance: none
-        background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc)
-        background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em
-        background-size: 5px 5px, 5px 5px, 1px 1.5em
-        background-repeat: no-repeat
-        &:focus
-            background-image: linear-gradient(45deg, black 50%, transparent 50%), linear-gradient(135deg, transparent 50%, black 50%), linear-gradient(to right, #ccc, #ccc)
-            background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, calc(100% - 2.5em) 0.5em
-            background-size: 5px 5px, 5px 5px, 1px 1.5em
-            background-repeat: no-repeat
         & > option
             padding: 5px
             margin: 50px 0

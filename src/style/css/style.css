@@ -28,14 +28,41 @@ button {
     cursor: pointer; }
 
 .subpage {
-  width: calc(100vw - 200px);
+  width: calc(100vw - 300px);
   height: auto;
-  padding: 50px 100px; }
+  padding: 50px 150px; }
   .subpage p {
     color: black; }
 
 input {
-  width: 120px; }
+  width: 120px;
+  border: 1px solid #efebeb;
+  padding: 10px; }
+
+select {
+  border: 1px solid #efebeb;
+  padding: 10px;
+  margin: 10px;
+  padding-right: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc);
+  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat; }
+  select:focus {
+    background-image: linear-gradient(45deg, black 50%, transparent 50%), linear-gradient(135deg, transparent 50%, black 50%), linear-gradient(to right, #ccc, #ccc);
+    background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+    border: 2px solid black;
+    outline: none; }
+  select:active {
+    border: 2px solid black;
+    outline: none; }
 
 .card-interface {
   width: 100vw;
@@ -143,8 +170,8 @@ input {
   top: 0; }
 
 .navigation__container {
-  width: calc(100vw - 60px);
-  padding: 30px 30px 0 30px;
+  width: calc(100vw - 80px);
+  padding: 40px 40px 0 40px;
   display: flex;
   justify-content: space-between; }
 
@@ -363,9 +390,7 @@ input {
   .select-subpage__list {
     color: black;
     list-style: none;
-    padding: 0;
-    width: 80%;
-    margin-left: 10%; }
+    padding: 0; }
   .select-subpage__item {
     margin: 30px 0;
     padding: 30px;
@@ -487,31 +512,14 @@ input {
     font-size: 4rem;
     margin-right: 10px; }
 
-.user-panel__input, .user-panel__select {
+.user-panel__input {
   border: 1px solid #efebeb;
   padding: 10px;
   margin: 10px; }
-  .user-panel__input:active, .user-panel__input:focus, .user-panel__select:active, .user-panel__select:focus {
+  .user-panel__input:active, .user-panel__input:focus {
     border: 2px solid black;
     outline: none; }
-
-.user-panel__select {
-  padding-right: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc);
-  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
-  background-size: 5px 5px, 5px 5px, 1px 1.5em;
-  background-repeat: no-repeat; }
-  .user-panel__select:focus {
-    background-image: linear-gradient(45deg, black 50%, transparent 50%), linear-gradient(135deg, transparent 50%, black 50%), linear-gradient(to right, #ccc, #ccc);
-    background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, calc(100% - 2.5em) 0.5em;
-    background-size: 5px 5px, 5px 5px, 1px 1.5em;
-    background-repeat: no-repeat; }
-  .user-panel__select > option {
+  .user-panel__input > option {
     padding: 5px;
     margin: 50px 0; }
 

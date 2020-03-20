@@ -28,7 +28,6 @@ class SelectDetails extends React.Component {
         <p className="select-subpage__number">
           {activeId < 10 ? "0" + (activeId + 1) + "." : activeId + 1 + "."}
         </p>
-        <p>{activeId}</p>
         <p className="select-subpage__paragraph">
           Minimalny koszt doświadczenia: {currentPath.minimalExperienceCost}
         </p>

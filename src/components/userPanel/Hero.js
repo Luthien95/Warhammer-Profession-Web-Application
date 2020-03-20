@@ -53,6 +53,11 @@ class Hero extends React.Component {
         <p className="user-panel__header">
           <span className="user-panel__header--span">Twój</span> bohater
         </p>
+        <p>
+          Tutaj możesz wprowadzić lub zuaktualizować informacje dotyczące Twojej
+          postaci.
+        </p>
+        <br />
         <label for="userName">Imię: </label>
         <input
           type="text"
