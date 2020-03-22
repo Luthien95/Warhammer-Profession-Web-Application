@@ -10,13 +10,20 @@ class Hero extends React.Component {
     this.state = {
       money: {},
       heroInformations: {},
-      change: 0
+      change: 0,
+      filteredProfessions: [],
+      previousProffesion: null
     };
 
     this.handleBasicFromInputValue = this.handleBasicFromInputValue.bind(this);
     this.passData = this.passData.bind(this);
+    this.getData = this.getData.bind(this);
     this.changeCurrentProfession = this.changeCurrentProfession.bind(this);
     this.removeLastProfession = this.removeLastProfession.bind(this);
+  }
+
+  componentWillMount() {
+    this.getData();
   }
 
   componentDidUpdate(prevProps) {
@@ -54,6 +61,26 @@ class Hero extends React.Component {
     }
   }
 
+  getData() {
+    axios
+      .get(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredProfessions",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(res => {
+        console.log(res);
+        this.setState({
+          filteredProfessions: res.data
+        });
+      })
+      .catch(error => console.log("Error" + error));
+  }
+
   passData(event) {
     axios
       .post(
@@ -70,10 +97,37 @@ class Hero extends React.Component {
   }
 
   changeCurrentProfession(e) {
-    /* axios
+    let newProfession = JSON.parse(e.target.value);
+
+    axios
       .post(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/setNextCharacterProfession",
-        e.target.value,
+        newProfession.id,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(
+        this.setState({
+          previousProffesion: this.state.heroInformations.actualProfessionName,
+          heroInformations: {
+            ...this.state.heroInformations,
+            actualProfessionName: newProfession.name
+          }
+        })
+      )
+      .then(this.getData())
+      .catch(error => console.log("Error" + error));
+  }
+
+  removeLastProfession() {
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeLastCharacterProfession",
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -85,25 +139,11 @@ class Hero extends React.Component {
         this.setState({
           heroInformations: {
             ...this.state.heroInformations,
-            actualProfessionName: +event.target.value
+            actualProfessionName: this.state.previousProffesion
           }
         })
       )
-      .catch(error => console.log("Error" + error));*/
-    console.log(e.target);
-  }
-
-  removeLastProfession() {
-    axios
-      .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeLastCharacterProfession",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      )
+      .then(this.getData())
       .catch(error => console.log("Error" + error));
   }
 
@@ -146,7 +186,6 @@ class Hero extends React.Component {
         <input
           type="text"
           name="userProfession"
-          placeholder="Rasa"
           className="user-panel__input"
           defaultValue={this.state.heroInformations.actualProfessionName}
         />
@@ -158,14 +197,17 @@ class Hero extends React.Component {
           className="user-panel__select"
           onChange={this.changeCurrentProfession}
         >
-          {this.props.professionList.map((item, key) => {
+          {this.state.filteredProfessions.map((item, key) => {
             return item.name ===
               this.state.heroInformations.actualProfessionName ? (
-              <option key={key} value={name: "${item.id}",type: "${item.name}}"} selected>
+              <option key={key} value={[item.name, item.id]} selected>
                 {item.name}
               </option>
             ) : (
-              <option key={key} value={item.id}>
+              <option
+                key={key}
+                value={JSON.stringify({ name: item.name, id: item.id })}
+              >
                 {item.name}
               </option>
             );
