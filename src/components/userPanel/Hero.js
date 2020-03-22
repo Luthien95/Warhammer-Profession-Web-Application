@@ -8,18 +8,49 @@ class Hero extends React.Component {
     super(props);
 
     this.state = {
-      money: {}
+      money: {},
+      heroInformations: {},
+      change: 0
     };
 
     this.handleBasicFromInputValue = this.handleBasicFromInputValue.bind(this);
     this.passData = this.passData.bind(this);
+    this.changeCurrentProfession = this.changeCurrentProfession.bind(this);
+    this.removeLastProfession = this.removeLastProfession.bind(this);
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.usersMoney !== this.props.usersMoney) {
+    if (
+      prevProps.usersMoney !== this.props.usersMoney ||
+      prevProps.basicInformations !== this.props.basicInformations
+    ) {
       this.setState({
-        money: this.props.usersMoney
+        money: this.props.usersMoney,
+        heroInformations: this.props.basicInformations
       });
+    }
+    if (prevProps.changedSkill !== this.props.changedSkill) {
+      this.setState({
+        change: this.props.changedSkill
+      });
+
+      if (this.props.changedSkill > this.state.change) {
+        this.setState({
+          heroInformations: {
+            ...this.state.heroInformations,
+            experienceLeft: this.state.heroInformations.experienceLeft - 100
+          },
+          change: this.props.changedSkill
+        });
+      } else if (this.props.changedSkill < this.state.change) {
+        this.setState({
+          heroInformations: {
+            ...this.state.heroInformations,
+            experienceLeft: this.state.heroInformations.experienceLeft + 100
+          },
+          change: this.props.changedSkill
+        });
+      }
     }
   }
 
@@ -38,11 +69,49 @@ class Hero extends React.Component {
       .catch(error => console.log("Error" + error));
   }
 
+  changeCurrentProfession(e) {
+    /* axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/setNextCharacterProfession",
+        e.target.value,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(
+        this.setState({
+          heroInformations: {
+            ...this.state.heroInformations,
+            actualProfessionName: +event.target.value
+          }
+        })
+      )
+      .catch(error => console.log("Error" + error));*/
+    console.log(e.target);
+  }
+
+  removeLastProfession() {
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeLastCharacterProfession",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .catch(error => console.log("Error" + error));
+  }
+
   handleBasicFromInputValue = event => {
     this.setState({
       money: {
         ...this.state.money,
-        [event.target.name]: +event.target.value
+        experienceLeft: +event.target.value
       }
     });
   };
@@ -64,6 +133,7 @@ class Hero extends React.Component {
           name="userName"
           placeholder="Imię"
           className="user-panel__input"
+          defaultValue={this.state.heroInformations.name}
         />
         <label for="userRace">Rasa: </label>
         <input
@@ -72,45 +142,53 @@ class Hero extends React.Component {
           placeholder="Rasa"
           className="user-panel__input"
         />
-        <label for="proffesionList">Obecna profesja:</label>
+        <label for="currentProffesion">Obecna profesja:</label>
+        <input
+          type="text"
+          name="userProfession"
+          placeholder="Rasa"
+          className="user-panel__input"
+          defaultValue={this.state.heroInformations.actualProfessionName}
+        />
+
+        <label for="previousProffesion">Zmień profesję:</label>
         <select
-          id="cars"
-          name="proffesionList"
-          form="carform"
+          name="changeProffesion"
+          form="changeProffesion"
           className="user-panel__select"
+          onChange={this.changeCurrentProfession}
         >
-          {this.props.professionList.map((item, key) => (
-            <option key={key} value={item.name}>
-              {item.name}
-            </option>
-          ))}
-        </select>
-        <label for="proffesionList">Poprzednia profesja:</label>
-        <select
-          id="cars"
-          name="proffesionList"
-          form="carform"
-          className="user-panel__select"
-        >
-          {this.props.professionList.map((item, key) => (
-            <option key={key} value={item.name}>
-              {item.name}
-            </option>
-          ))}
+          {this.props.professionList.map((item, key) => {
+            return item.name ===
+              this.state.heroInformations.actualProfessionName ? (
+              <option key={key} value={name: "${item.id}",type: "${item.name}}"} selected>
+                {item.name}
+              </option>
+            ) : (
+              <option key={key} value={item.id}>
+                {item.name}
+              </option>
+            );
+          })}
         </select>
 
+        <button onClick={this.removeLastProfession}>
+          Usuń ostatnią profesję
+        </button>
         <p className="user-panel__text">Opis bohatera</p>
         <label for="userLeftExperience">Pozostałe doświadczenie: </label>
         <input
           type="text"
           name="userLeftExperience"
           className="user-panel__input"
+          defaultValue={this.state.heroInformations.experienceLeft}
         />
-        <label for="userUsedExperience">Wykorzystane doświadczenie: </label>
+        <label for="userExperience">Doświadczenie: </label>
         <input
           type="text"
-          name="userUsedExperience"
+          name="userExperience"
           className="user-panel__input"
+          defaultValue={this.state.heroInformations.experienceSum}
         />
         <p>Pieniądze</p>
         <label for="userGoldCoins">Złote Korony(ZK): </label>

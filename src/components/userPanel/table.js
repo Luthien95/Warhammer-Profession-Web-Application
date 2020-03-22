@@ -24,10 +24,12 @@ class Table extends React.Component {
     return (
       <table>
         <thead>
-          <th></th>
-          {this.state.statistics.map(item => (
-            <th>{item.name}</th>
-          ))}
+          <tr>
+            <td></td>
+            {this.state.statistics.map(item => (
+              <td key={item.name}>{item.name}</td>
+            ))}
+          </tr>
         </thead>
         <tbody>
           <Row

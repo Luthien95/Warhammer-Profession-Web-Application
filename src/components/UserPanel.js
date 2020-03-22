@@ -16,7 +16,9 @@ class UserPanel extends React.Component {
       ownedAbilities: [],
       character: {},
       basicStatistics: [],
-      advancedStatistics: []
+      advancedStatistics: [],
+      basicInformations: {},
+      changedSkill: 0
     };
   }
 
@@ -35,7 +37,8 @@ class UserPanel extends React.Component {
           ownedAbilities: res.data.abilities,
           character: res.data,
           basicStatistics: res.data.basicStatistics,
-          advancedStatistics: res.data.advancedStatistics
+          advancedStatistics: res.data.advancedStatistics,
+          basicInformations: res.data.basicValues
         });
       })
       .catch(error => console.log("Error" + error));
@@ -45,20 +48,30 @@ class UserPanel extends React.Component {
     this.getData();
   }
 
+  callbackFunction = childData => {
+    this.setState(prevState => {
+      return { changedSkill: prevState.changedSkill + childData };
+    });
+  };
+
   render() {
+    console.log(this.state.changedSkill);
     return (
       <div className="subpage">
-        <form>
-          <Hero
-            professionList={this.props.professionList}
-            usersMoney={this.state.character.money}
-          />
-          <p>Cechy</p>
-          <Table statistics={this.state.basicStatistics} step="5" />
-          <Table statistics={this.state.advancedStatistics} step="1" />
-          <Skills ownedSkills={this.state.ownedSkills} />
-          <Abilities ownedAbilities={this.state.ownedAbilities} />
-        </form>
+        <Hero
+          professionList={this.props.professionList}
+          usersMoney={this.state.character.money}
+          basicInformations={this.state.basicInformations}
+          changedSkill={this.state.changedSkill}
+        />
+        <p>Cechy</p>
+        <Table statistics={this.state.basicStatistics} step="5" />
+        <Table statistics={this.state.advancedStatistics} step="1" />
+        <Skills
+          ownedSkills={this.state.ownedSkills}
+          parentCallback={this.callbackFunction}
+        />
+        <Abilities ownedAbilities={this.state.ownedAbilities} />
       </div>
     );
   }

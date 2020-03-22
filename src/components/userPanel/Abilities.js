@@ -19,9 +19,15 @@ class Abilities extends React.Component {
 
   getData() {
     axios
-      .get("http://192.168.0.52:8020/WarhammerProfessionsApp/api/abilities", {
-        headers: { "Content-Type": "application/json" }
-      })
+      .get(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredAbilities",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
       .then(response =>
         response.data.map(skill => ({
           id: `${skill.id}`,
@@ -109,7 +115,7 @@ class Abilities extends React.Component {
       <div className="ability-panel">
         <p className="ability-panel__header">Zdolności</p>
         {this.state.activeAbilitiesList.map(item => (
-          <p className="ability-panel__item">
+          <p className="ability-panel__item" key={item.name}>
             {item.name}
             <i
               onClick={e => this.deleteSkill(item.id, e)}
@@ -130,6 +136,7 @@ class Abilities extends React.Component {
               value={item.name}
               data-key={item.id}
               className="ability-panel__option"
+              key={item.name}
             >
               {item.name}
             </option>

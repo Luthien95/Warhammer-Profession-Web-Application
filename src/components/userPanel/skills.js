@@ -15,13 +15,20 @@ class Skills extends React.Component {
     this.getData = this.getData.bind(this);
     this.addSkillToList = this.addSkillToList.bind(this);
     this.deleteSkill = this.deleteSkill.bind(this);
+    this.sendInformationToParent = this.sendInformationToParent.bind(this);
   }
 
   getData() {
     axios
-      .get("http://192.168.0.52:8020/WarhammerProfessionsApp/api/skills", {
-        headers: { "Content-Type": "application/json" }
-      })
+      .get(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredSkills",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
       .then(response =>
         response.data.map(skill => ({
           id: `${skill.id}`,
@@ -54,6 +61,10 @@ class Skills extends React.Component {
     }
   }
 
+  sendInformationToParent(value) {
+    this.props.parentCallback(value);
+  }
+
   addSkillToList(event) {
     let currentTrait = event.target.options[
       event.target.selectedIndex
@@ -63,30 +74,11 @@ class Skills extends React.Component {
       event.target.selectedIndex
     ].getAttribute("data-key");
 
-    /*let ifSkillInArray = false;
-
-    for (var i = 0; i < this.state.activeSkillList.length; i++) {
-      if (currentId === this.state.activeSkillList[i].id) {
-        ifSkillInArray = true;
-        console.log("yes");
-      }
-    }
-
-    if (!ifSkillInArray) {
-      let newSkill = [
-        { id: +currentId, name: currentSkill, trait: currentTrait }
-      ];
-
-      this.setState({
-        activeSkillList: [...this.state.activeSkillList, ...newSkill]
-      });
-    }*/
-
-    // this.postData(currentId);
-
     let newSkill = [
       { id: +currentId, name: currentSkill, trait: currentTrait }
     ];
+
+    this.getData();
 
     axios
       .post(
@@ -103,14 +95,14 @@ class Skills extends React.Component {
         this.setState({
           activeSkillList: [...this.state.activeSkillList, ...newSkill]
         });
+
+        this.sendInformationToParent(1);
       })
-      .then(response => {})
       .catch(error => console.log("Error" + error));
   }
 
   deleteSkill(itemId, e) {
     const items = this.state.activeSkillList.filter(item => item.id !== itemId);
-    //this.setState({ activeSkillList: items });
 
     axios
       .delete(
@@ -125,7 +117,10 @@ class Skills extends React.Component {
       .then(response => {
         this.setState({ activeSkillList: items });
       })
+      .then(this.sendInformationToParent(-1))
       .catch(error => console.log("Error" + error));
+
+    this.getData();
   }
 
   render() {
@@ -133,7 +128,7 @@ class Skills extends React.Component {
       <div className="skill-panel">
         <p className="skill-panel__header">Umiejętności</p>
         {this.state.activeSkillList.map(item => (
-          <p className="skill-panel__item">
+          <p className="skill-panel__item" key={item.id}>
             {item.name} | {item.trait}
             <i
               onClick={e => this.deleteSkill(item.id, e)}
@@ -149,8 +144,16 @@ class Skills extends React.Component {
           value={this.state.value}
           className="skill-panel__select"
         >
+          <option value="none" selected disabled hidden>
+            Wybierz umiejętność
+          </option>
           {this.state.skillList.map(item => (
-            <option value={item.name} data={item.trait} data-key={item.id}>
+            <option
+              value={item.name}
+              data={item.trait}
+              data-key={item.id}
+              key={item.id}
+            >
               {item.name}
             </option>
           ))}

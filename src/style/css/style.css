@@ -42,8 +42,8 @@ input {
 select {
   border: 1px solid #efebeb;
   padding: 10px;
+  padding-right: 50px;
   margin: 10px;
-  padding-right: 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -499,7 +499,7 @@ select {
 
 .skill-panel__select,
 .ability-panel__select {
-  padding: 10px; }
+  margin: 10px 0; }
 
 .user-panel__header {
   font-weight: bold;
