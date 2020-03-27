@@ -22,6 +22,7 @@ class Skills extends React.Component {
     axios
       .get(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredSkills",
+        //"http://localhost:5000/api/characters/getFilteredSkills/",
         {
           headers: {
             "Content-Type": "application/json",
@@ -83,6 +84,7 @@ class Skills extends React.Component {
     axios
       .post(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addCharacterSkill",
+        //"http://localhost:5000/api/characters/addCharacterSkill/",
         currentId,
         {
           headers: {
@@ -107,6 +109,7 @@ class Skills extends React.Component {
     axios
       .delete(
         `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeCharacterSkill?id=${itemId}`,
+        //`http://localhost:5000/api/characters/removeCharacterSkill?id=${itemId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -142,11 +145,9 @@ class Skills extends React.Component {
           form="skillList"
           onChange={this.addSkillToList}
           value={this.state.value}
+          defaultValue="Wybierz umiejętność"
           className="skill-panel__select"
         >
-          <option value="none" selected disabled hidden>
-            Wybierz umiejętność
-          </option>
           {this.state.skillList.map(item => (
             <option
               value={item.name}

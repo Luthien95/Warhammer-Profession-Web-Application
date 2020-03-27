@@ -20,6 +20,8 @@ class Hero extends React.Component {
     this.getData = this.getData.bind(this);
     this.changeCurrentProfession = this.changeCurrentProfession.bind(this);
     this.removeLastProfession = this.removeLastProfession.bind(this);
+    this.changeName = this.changeName.bind(this);
+    this.changeNameState = this.changeNameState.bind(this);
   }
 
   componentWillMount() {
@@ -65,6 +67,7 @@ class Hero extends React.Component {
     axios
       .get(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredProfessions",
+        //"http://localhost:5000/api/characters/getFilteredProfessions/",
         {
           headers: {
             "Content-Type": "application/json",
@@ -73,7 +76,6 @@ class Hero extends React.Component {
         }
       )
       .then(res => {
-        console.log(res);
         this.setState({
           filteredProfessions: res.data
         });
@@ -85,6 +87,7 @@ class Hero extends React.Component {
     axios
       .post(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeCharacterMoney",
+        //"http://localhost:5000/api/characters/changeCharacterMoney/",
         this.state.money,
         {
           headers: {
@@ -102,6 +105,7 @@ class Hero extends React.Component {
     axios
       .post(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/setNextCharacterProfession",
+        //"http://localhost:5000/api/characters/setNextCharacterProfession/",
         newProfession.id,
         {
           headers: {
@@ -127,6 +131,7 @@ class Hero extends React.Component {
     axios
       .post(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeLastCharacterProfession",
+        //"http://localhost:5000/api/characters/removeLastCharacterProfession/",
         {},
         {
           headers: {
@@ -156,7 +161,42 @@ class Hero extends React.Component {
     });
   };
 
+  changeNameState = event => {
+    this.setState({
+      heroInformations: {
+        ...this.state.heroInformations,
+        name: event.target.value
+      }
+    });
+  };
+
+  changeCurrentState = (event, array, value) => {
+    this.setState({
+      array: {
+        ...this.state.array,
+        name: event.target.value
+      }
+    });
+  };
+
+  changeName() {
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeCharacterName",
+        //"http://localhost:5000/api/characters/changeCharacterName/",
+        JSON.stringify(this.state.heroInformations.name),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .catch(error => console.log("Error" + error));
+  }
+
   render() {
+    console.log(this.state.heroInformations.name);
     return (
       <div>
         <p className="user-panel__header">
@@ -174,6 +214,8 @@ class Hero extends React.Component {
           placeholder="Imię"
           className="user-panel__input"
           defaultValue={this.state.heroInformations.name}
+          onChange={this.changeNameState}
+          onBlur={this.changeName}
         />
         <label for="userRace">Rasa: </label>
         <input

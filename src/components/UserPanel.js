@@ -24,12 +24,16 @@ class UserPanel extends React.Component {
 
   getData() {
     axios
-      .get("http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+      .get(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters",
+        //"http://localhost:5000/api/characters/",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
         }
-      })
+      )
       .then(res => {
         console.log(res.data);
         this.setState({
@@ -55,7 +59,6 @@ class UserPanel extends React.Component {
   };
 
   render() {
-    console.log(this.state.changedSkill);
     return (
       <div className="subpage">
         <Hero

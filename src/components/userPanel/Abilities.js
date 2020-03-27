@@ -21,6 +21,7 @@ class Abilities extends React.Component {
     axios
       .get(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredAbilities",
+        //"http://localhost:5000/api/characters/getFilteredAbilities",
         {
           headers: {
             "Content-Type": "application/json",

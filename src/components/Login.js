@@ -19,12 +19,10 @@ class Login extends React.Component {
   }
 
   sendData(e) {
-    //const [cookies, setCookie] = useCookies(["token"]);
-    //e.preventDefault();
-    //e.stopPropagation();
     axios
       .post(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/users/Authenticate",
+        //"http://localhost:5000/api/users/Authenticate",
         {
           login: this.state.login,
           password: this.state.password

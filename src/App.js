@@ -33,7 +33,7 @@ class App extends React.Component {
     axios
       .get(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
-        //"http://localhost:5000/api/Professions/",
+        //"http://localhost:5000/api/professions/",
         {
           headers: { "Content-Type": "application/json" }
         }
@@ -77,8 +77,6 @@ class App extends React.Component {
   }
 
   render() {
-    const { professionList } = this.state;
-
     if (this.state.professionList && this.state.professionList.length > 0) {
       return (
         <Router>
