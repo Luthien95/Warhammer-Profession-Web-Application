@@ -12,20 +12,27 @@ class Hero extends React.Component {
       heroInformations: {},
       change: 0,
       filteredProfessions: [],
-      previousProffesion: null
+      previousProffesion: null,
+      filteredRaces: []
     };
 
     this.handleBasicFromInputValue = this.handleBasicFromInputValue.bind(this);
     this.passData = this.passData.bind(this);
     this.getData = this.getData.bind(this);
+    this.getRaces = this.getRaces.bind(this);
     this.changeCurrentProfession = this.changeCurrentProfession.bind(this);
     this.removeLastProfession = this.removeLastProfession.bind(this);
     this.changeName = this.changeName.bind(this);
     this.changeNameState = this.changeNameState.bind(this);
+
+    this.changeCurrentRace = this.changeCurrentRace.bind(this);
+    this.changeSumExperience = this.changeSumExperience.bind(this);
+    this.changeExperience = this.changeExperience.bind(this);
   }
 
   componentWillMount() {
     this.getData();
+    this.getRaces();
   }
 
   componentDidUpdate(prevProps) {
@@ -78,6 +85,26 @@ class Hero extends React.Component {
       .then(res => {
         this.setState({
           filteredProfessions: res.data
+        });
+      })
+      .catch(error => console.log("Error" + error));
+  }
+
+  getRaces() {
+    axios
+      .get(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getRaces",
+        //"http://localhost:5000/api/characters/getRaces/",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(res => {
+        this.setState({
+          filteredRaces: res.data
         });
       })
       .catch(error => console.log("Error" + error));
@@ -156,7 +183,7 @@ class Hero extends React.Component {
     this.setState({
       money: {
         ...this.state.money,
-        experienceLeft: +event.target.value
+        [event.target.name]: +event.target.value
       }
     });
   };
@@ -195,8 +222,63 @@ class Hero extends React.Component {
       .catch(error => console.log("Error" + error));
   }
 
+  changeCurrentRace(e) {
+    let newRace = JSON.parse(e.target.value);
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/setCharacterRace",
+        //"http://localhost:5000/api/characters/setCharacterRace",
+        newRace.id,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .then(
+        this.setState({
+          heroInformations: {
+            ...this.state.heroInformations,
+            race: {
+              id: newRace.id,
+              name: newRace.name
+            }
+          }
+        })
+      )
+      .then(this.getData())
+      .catch(error => console.log("Error" + error));
+  }
+
+  changeSumExperience = event => {
+    this.setState({
+      heroInformations: {
+        ...this.state.heroInformations,
+        experienceSum: event.target.value
+      }
+    });
+  };
+
+  changeExperience() {
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeCharacterMaximumExperience",
+        //"http://localhost:5000/api/characters/changeCharacterMaximumExperience/",
+        this.state.heroInformations.experienceSum,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .catch(error => console.log("Error" + error));
+  }
+
   render() {
-    console.log(this.state.heroInformations.name);
+    let currentRace = Object.assign({}, this.state.heroInformations.race);
+
     return (
       <div>
         <p className="user-panel__header">
@@ -218,12 +300,29 @@ class Hero extends React.Component {
           onBlur={this.changeName}
         />
         <label for="userRace">Rasa: </label>
-        <input
-          type="text"
-          name="userRace"
-          placeholder="Rasa"
-          className="user-panel__input"
-        />
+        <select
+          name="changeRace"
+          form="changeRace"
+          className="user-panel__select"
+          defaultValue="Wybierz rasę"
+          onChange={this.changeCurrentRace}
+        >
+          {this.state.filteredRaces.map((item, key) => {
+            return item.id === currentRace.id ? (
+              <option key={key} value={[item.name, item.id]} selected>
+                {item.name}
+              </option>
+            ) : (
+              <option
+                key={key}
+                value={JSON.stringify({ name: item.name, id: item.id })}
+              >
+                {item.name}
+              </option>
+            );
+          })}{" "}
+        </select>
+
         <label for="currentProffesion">Obecna profesja:</label>
         <input
           type="text"
@@ -273,12 +372,14 @@ class Hero extends React.Component {
           name="userExperience"
           className="user-panel__input"
           defaultValue={this.state.heroInformations.experienceSum}
+          onChange={this.changeSumExperience}
+          onBlur={this.changeExperience}
         />
         <p>Pieniądze</p>
         <label for="userGoldCoins">Złote Korony(ZK): </label>
         <input
           type="number"
-          name="userGoldCoins"
+          name="gold"
           className="user-panel__input"
           defaultValue={this.state.money.gold}
           onChange={this.handleBasicFromInputValue}
@@ -287,7 +388,7 @@ class Hero extends React.Component {
         <label for="userSilverCoins">Srebrne Szylingi(S): </label>
         <input
           type="number"
-          name="userSilverCoins"
+          name="silver"
           className="user-panel__input"
           defaultValue={this.state.money.silver}
           onChange={this.handleBasicFromInputValue}
@@ -296,7 +397,7 @@ class Hero extends React.Component {
         <label for="userBonzeCoins">Miedziane Pensy(P): </label>
         <input
           type="number"
-          name="userBronzeCoins"
+          name="bronze"
           className="user-panel__input"
           defaultValue={this.state.money.bronze}
           onChange={this.handleBasicFromInputValue}
@@ -308,3 +409,30 @@ class Hero extends React.Component {
 }
 
 export default Hero;
+
+/*
+ {this.state.filteredRaces.length > 0 ? (
+          /*<select
+            name="changeRace"
+            form="changeRace"
+            className="user-panel__select"
+            defaultValue="Wybierz rasę"
+            onChange={this.changeCurrentRace}
+          >
+            {this.state.filteredRaces.map((item, key) => {
+              return item.id === this.state.heroInformations.race.id ? (
+                <option key={key} value={[item.name, item.id]} selected>
+                  {item.name}
+                </option>
+              ) : (
+                <option
+                  key={key}
+                  value={JSON.stringify({ name: item.name, id: item.id })}
+                >
+                  {item.name}
+                </option>
+              );
+            })}{" "}
+          </select>
+          
+          ) : null}*/
