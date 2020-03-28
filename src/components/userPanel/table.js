@@ -9,6 +9,9 @@ class Table extends React.Component {
       statistics: [],
       step: ""
     };
+
+    this.changeValue = this.changeValue.bind(this);
+    this.changeStatisticValue = this.changeStatisticValue.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -19,6 +22,45 @@ class Table extends React.Component {
       });
     }
   }
+
+  changeValue() {}
+
+  changeStatisticValue = (event, name) => {
+    console.log(name);
+    /* this.setState({
+      heroInformations: {
+        ...this.state.heroInformations,
+        name: event.target.value
+      }
+    });*/
+
+    /* this.setState({
+      statistics: {
+        ...this.state.statistics
+      }
+    });*/
+
+    /*this.setState({
+      statistics: this.state.statistics.filter(function(stat) {
+        if(stat.name === name) {
+          ...this.state.statistics,
+
+        }
+      })
+    });*/
+    /*
+    this.setState(prevState => ({
+      items: {
+        ...prevState.items,
+        [prevState.items[1].name]: e.target.value
+      }
+    }));*/
+    /*
+    this.setState(prevState => ({
+      statistics: this.state.statistics.filter()
+
+    }))*/
+  };
 
   render() {
     return (
@@ -38,6 +80,7 @@ class Table extends React.Component {
             statistics={this.state.statistics}
             type="number"
             step={this.state.step}
+            changeStatisticValue={this.changeStatisticValue}
           />
           <Row
             header={{ text: "Maksymalna wartość" }}
@@ -65,7 +108,14 @@ class Table extends React.Component {
   }
 }
 
-const Row = ({ header, value, statistics, type, step }) => {
+const Row = ({
+  header,
+  value,
+  statistics,
+  type,
+  step,
+  changeStatisticValue
+}) => {
   const currentValue = value;
 
   return (
@@ -76,9 +126,15 @@ const Row = ({ header, value, statistics, type, step }) => {
           <td>
             <input
               type={type}
-              name={header}
+              name={item.name}
               defaultValue={item[currentValue]}
               step={step}
+              onChange={
+                changeStatisticValue
+                  ? event => changeStatisticValue(event, item.name)
+                  : undefined
+              }
+              //onBlur={this.changeValue}
             />
           </td>
         );
