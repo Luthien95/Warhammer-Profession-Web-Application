@@ -84,10 +84,9 @@ class App extends React.Component {
             className={
               this.state.active ? "navigation navigation--open" : "navigation"
             }
-            onClick={this.toogleNavigation}
           >
             <nav className="navigation__container">
-              <div className="navigation__bar">
+              <div className="navigation__bar" onClick={this.toogleNavigation}>
                 <div className="navigation__button">
                   <div className="navigation__button-bar navigation__button-bar--open"></div>
                   <div className="navigation__button-bar navigation__button-bar--open"></div>

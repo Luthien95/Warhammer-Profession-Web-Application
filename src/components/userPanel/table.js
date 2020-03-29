@@ -64,46 +64,48 @@ class Table extends React.Component {
 
   render() {
     return (
-      <table>
-        <thead>
-          <tr>
-            <td></td>
-            {this.state.statistics.map(item => (
-              <td key={item.name}>{item.name}</td>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <Row
-            header={{ text: "Podstawowa wartość" }}
-            value="baseValue"
-            statistics={this.state.statistics}
-            type="number"
-            step={this.state.step}
-            changeStatisticValue={this.changeStatisticValue}
-          />
-          <Row
-            header={{ text: "Maksymalna wartość" }}
-            value="maximumValue"
-            statistics={this.state.statistics}
-            type="number"
-            step={this.state.step}
-          />
-          <Row
-            header={{ text: "Obecna wartość" }}
-            value="currentValue"
-            statistics={this.state.statistics}
-            type="number"
-            step={this.state.step}
-          />
-          <Row
-            header={{ text: "Działanie" }}
-            value="maximumDescription"
-            statistics={this.state.statistics}
-            type="text"
-          />
-        </tbody>
-      </table>
+      <div className="user-panel__table-container">
+        <table>
+          <thead>
+            <tr>
+              <td></td>
+              {this.state.statistics.map(item => (
+                <td key={item.name}>{item.name}</td>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <Row
+              header={{ text: "Podstawowa wartość" }}
+              value="baseValue"
+              statistics={this.state.statistics}
+              type="number"
+              step={this.state.step}
+              changeStatisticValue={this.changeStatisticValue}
+            />
+            <Row
+              header={{ text: "Maksymalna wartość" }}
+              value="maximumValue"
+              statistics={this.state.statistics}
+              type="number"
+              step={this.state.step}
+            />
+            <Row
+              header={{ text: "Obecna wartość" }}
+              value="currentValue"
+              statistics={this.state.statistics}
+              type="number"
+              step={this.state.step}
+            />
+            <Row
+              header={{ text: "Działanie" }}
+              value="maximumDescription"
+              statistics={this.state.statistics}
+              type="text"
+            />
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

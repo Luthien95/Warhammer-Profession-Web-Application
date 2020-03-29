@@ -60,21 +60,24 @@ class UserPanel extends React.Component {
 
   render() {
     return (
-      <div className="subpage">
+      <div className="subpage user-panel">
         <Hero
           professionList={this.props.professionList}
           usersMoney={this.state.character.money}
           basicInformations={this.state.basicInformations}
           changedSkill={this.state.changedSkill}
         />
-        <p>Cechy</p>
-        <Table statistics={this.state.basicStatistics} step="5" />
-        <Table statistics={this.state.advancedStatistics} step="1" />
-        <Skills
-          ownedSkills={this.state.ownedSkills}
-          parentCallback={this.callbackFunction}
-        />
-        <Abilities ownedAbilities={this.state.ownedAbilities} />
+        <div class="user-panel__statistics">
+          <Table statistics={this.state.basicStatistics} step="5" />
+          <Table statistics={this.state.advancedStatistics} step="1" />
+          <div className="user-abilities">
+            <Skills
+              ownedSkills={this.state.ownedSkills}
+              parentCallback={this.callbackFunction}
+            />
+            <Abilities ownedAbilities={this.state.ownedAbilities} />
+          </div>
+        </div>
       </div>
     );
   }

@@ -13,7 +13,8 @@ class Hero extends React.Component {
       change: 0,
       filteredProfessions: [],
       previousProffesion: null,
-      filteredRaces: []
+      filteredRaces: [],
+      ifChangeProfessionActive: false
     };
 
     this.handleBasicFromInputValue = this.handleBasicFromInputValue.bind(this);
@@ -280,30 +281,11 @@ class Hero extends React.Component {
     let currentRace = Object.assign({}, this.state.heroInformations.race);
 
     return (
-      <div>
-        <p className="user-panel__header">
-          <span className="user-panel__header--span">Twój</span> bohater
-        </p>
-        <p>
-          Tutaj możesz wprowadzić lub zuaktualizować informacje dotyczące Twojej
-          postaci.
-        </p>
-        <br />
-        <label for="userName">Imię: </label>
-        <input
-          type="text"
-          name="userName"
-          placeholder="Imię"
-          className="user-panel__input"
-          defaultValue={this.state.heroInformations.name}
-          onChange={this.changeNameState}
-          onBlur={this.changeName}
-        />
-        <label for="userRace">Rasa: </label>
+      <div className="user-panel__description">
         <select
           name="changeRace"
           form="changeRace"
-          className="user-panel__select"
+          className="user-panel__race"
           defaultValue="Wybierz rasę"
           onChange={this.changeCurrentRace}
         >
@@ -322,87 +304,129 @@ class Hero extends React.Component {
             );
           })}{" "}
         </select>
-
-        <label for="currentProffesion">Obecna profesja:</label>
         <input
           type="text"
-          name="userProfession"
-          className="user-panel__input"
-          defaultValue={this.state.heroInformations.actualProfessionName}
+          name="userName"
+          placeholder="Imię"
+          className="user-panel__login"
+          defaultValue={this.state.heroInformations.name}
+          onChange={this.changeNameState}
+          onBlur={this.changeName}
         />
+        <p className="user-panel__profession-options">
+          {this.state.heroInformations.actualProfessionName}{" "}
+          {this.state.ifChangeProfessionActive == true ? (
+            <select
+              name="changeProffesion"
+              form="changeProffesion"
+              className="user-panel__select"
+              onChange={this.changeCurrentProfession}
+            >
+              {this.state.filteredProfessions.map((item, key) => {
+                return item.name ===
+                  this.state.heroInformations.actualProfessionName ? (
+                  <option key={key} value={[item.name, item.id]} selected>
+                    {item.name}
+                  </option>
+                ) : (
+                  <option
+                    key={key}
+                    value={JSON.stringify({ name: item.name, id: item.id })}
+                  >
+                    {item.name}
+                  </option>
+                );
+              })}
+            </select>
+          ) : (
+            <i className="fas fa-ellipsis-h"></i>
+          )}
+          <button
+            onClick={this.removeLastProfession}
+            className="user-panel__change-button"
+          >
+            <i class="far fa-trash-alt"></i>
+            <span className="user-panel__delete-span">
+              Usuń ostatnią profesję
+            </span>
+          </button>
+        </p>
 
-        <label for="previousProffesion">Zmień profesję:</label>
-        <select
-          name="changeProffesion"
-          form="changeProffesion"
-          className="user-panel__select"
-          onChange={this.changeCurrentProfession}
-        >
-          {this.state.filteredProfessions.map((item, key) => {
-            return item.name ===
-              this.state.heroInformations.actualProfessionName ? (
-              <option key={key} value={[item.name, item.id]} selected>
-                {item.name}
-              </option>
-            ) : (
-              <option
-                key={key}
-                value={JSON.stringify({ name: item.name, id: item.id })}
-              >
-                {item.name}
-              </option>
-            );
-          })}
-        </select>
+        <div className="user-panel__experience-box">
+          <input
+            type="text"
+            name="userLeftExperience"
+            className="user-panel__experience-input"
+            disabled
+            defaultValue={this.state.heroInformations.experienceLeft}
+          />
+          <label
+            for="userLeftExperience"
+            className="user-panel__experience-label"
+          >
+            Pozostałe doświadczenie
+          </label>
+        </div>
+        <div className="user-panel__experience-box">
+          <input
+            type="text"
+            name="userExperience"
+            className="user-panel__experience-input"
+            defaultValue={this.state.heroInformations.experienceSum}
+            onChange={this.changeSumExperience}
+            onBlur={this.changeExperience}
+          />
+          <label for="userExperience" className="user-panel__experience-label">
+            Doświadczenie
+          </label>
+        </div>
 
-        <button onClick={this.removeLastProfession}>
-          Usuń ostatnią profesję
-        </button>
-        <p className="user-panel__text">Opis bohatera</p>
-        <label for="userLeftExperience">Pozostałe doświadczenie: </label>
-        <input
-          type="text"
-          name="userLeftExperience"
-          className="user-panel__input"
-          defaultValue={this.state.heroInformations.experienceLeft}
-        />
-        <label for="userExperience">Doświadczenie: </label>
-        <input
-          type="text"
-          name="userExperience"
-          className="user-panel__input"
-          defaultValue={this.state.heroInformations.experienceSum}
-          onChange={this.changeSumExperience}
-          onBlur={this.changeExperience}
-        />
-        <p>Pieniądze</p>
-        <label for="userGoldCoins">Złote Korony(ZK): </label>
-        <input
-          type="number"
-          name="gold"
-          className="user-panel__input"
-          defaultValue={this.state.money.gold}
-          onChange={this.handleBasicFromInputValue}
-          onBlur={this.passData}
-        />
-        <label for="userSilverCoins">Srebrne Szylingi(S): </label>
-        <input
-          type="number"
-          name="silver"
-          className="user-panel__input"
-          defaultValue={this.state.money.silver}
-          onChange={this.handleBasicFromInputValue}
-          onBlur={this.passData}
-        />
-        <label for="userBonzeCoins">Miedziane Pensy(P): </label>
-        <input
-          type="number"
-          name="bronze"
-          className="user-panel__input"
-          defaultValue={this.state.money.bronze}
-          onChange={this.handleBasicFromInputValue}
-          onBlur={this.passData}
-        />
+        <p className="user-panel__label">
+          <i className="fas fa-coins"></i> Pieniądze
+        </p>
+        <div>
+          <input
+            type="number"
+            name="gold"
+            className="user-panel__input"
+            defaultValue={this.state.money.gold}
+            onChange={this.handleBasicFromInputValue}
+            onBlur={this.passData}
+          />
+          <label for="userGoldCoins">Złotych Koron (ZK)</label>
+        </div>
+        <div>
+          <input
+            type="number"
+            name="silver"
+            className="user-panel__input"
+            defaultValue={this.state.money.silver}
+            onChange={this.handleBasicFromInputValue}
+            onBlur={this.passData}
+          />
+          <label for="userSilverCoins">Srebrnych Szylingów (S)</label>
+        </div>
+        <div>
+          <input
+            type="number"
+            name="bronze"
+            className="user-panel__input"
+            defaultValue={this.state.money.bronze}
+            onChange={this.handleBasicFromInputValue}
+            onBlur={this.passData}
+          />
+          <label for="userBonzeCoins">Miedzianych Pensów (P)</label>
+        </div>
+
+        <p className="user-panel__label">
+          <i className="far fa-sticky-note"></i> Notatki
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
       </div>
     );
   }

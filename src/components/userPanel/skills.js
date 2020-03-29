@@ -129,36 +129,41 @@ class Skills extends React.Component {
   render() {
     return (
       <div className="skill-panel">
-        <p className="skill-panel__header">Umiejętności</p>
+        <p className="user-panel__label">Umiejętności</p>
         {this.state.activeSkillList.map(item => (
           <p className="skill-panel__item" key={item.id}>
-            {item.name} | {item.trait}
+            {item.name} <span>| {item.trait}</span>
             <i
               onClick={e => this.deleteSkill(item.id, e)}
               className="fas fa-trash-alt"
             ></i>
           </p>
         ))}
-        <select
-          id="skillList"
-          name="skillList"
-          form="skillList"
-          onChange={this.addSkillToList}
-          value={this.state.value}
-          defaultValue="Wybierz umiejętność"
-          className="skill-panel__select"
-        >
-          {this.state.skillList.map(item => (
-            <option
-              value={item.name}
-              data={item.trait}
-              data-key={item.id}
-              key={item.id}
-            >
-              {item.name}
+        <div className="skill-panel__select-container">
+          <select
+            id="skillList"
+            name="skillList"
+            form="skillList"
+            onChange={this.addSkillToList}
+            value={this.state.value}
+            defaultValue="Wybierz umiejętność"
+            className="skill-panel__select-skill"
+          >
+            <option value="" selected disabled>
+              Dodaj nową umiejętność
             </option>
-          ))}
-        </select>
+            {this.state.skillList.map(item => (
+              <option
+                value={item.name}
+                data={item.trait}
+                data-key={item.id}
+                key={item.id}
+              >
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     );
   }
