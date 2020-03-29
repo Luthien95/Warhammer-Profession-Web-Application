@@ -127,11 +127,12 @@ class Skills extends React.Component {
   }
 
   render() {
+    console.log(this.state.activeSkillList);
     return (
       <div className="skill-panel">
         <p className="user-panel__label">Umiejętności</p>
         {this.state.activeSkillList.map(item => (
-          <p className="skill-panel__item" key={item.id}>
+          <p className="skill-panel__item" key={`Owned skills - ${item.id}`}>
             {item.name} <span>| {item.trait}</span>
             <i
               onClick={e => this.deleteSkill(item.id, e)}
@@ -146,7 +147,7 @@ class Skills extends React.Component {
             form="skillList"
             onChange={this.addSkillToList}
             value={this.state.value}
-            defaultValue="Wybierz umiejętność"
+            defaultValue="Dodaj nową umiejętność"
             className="skill-panel__select-skill"
           >
             <option value="" selected disabled>
@@ -156,8 +157,7 @@ class Skills extends React.Component {
               <option
                 value={item.name}
                 data={item.trait}
-                data-key={item.id}
-                key={item.id}
+                key={`All skills - ${item.id}`}
               >
                 {item.name}
               </option>

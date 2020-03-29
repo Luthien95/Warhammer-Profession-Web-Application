@@ -116,7 +116,10 @@ class Abilities extends React.Component {
       <div className="ability-panel">
         <p className="user-panel__label">Zdolności</p>
         {this.state.activeAbilitiesList.map(item => (
-          <p className="ability-panel__item" key={item.name}>
+          <p
+            className="ability-panel__item"
+            key={`Owned abilities - ${item.id}`}
+          >
             {item.name}
             <i
               onClick={e => this.deleteSkill(item.id, e)}
@@ -139,9 +142,8 @@ class Abilities extends React.Component {
             {this.state.abilitiesList.map(item => (
               <option
                 value={item.name}
-                data-key={item.id}
                 className="ability-panel__option"
-                key={item.name}
+                key={`All abilities - ${item.id}`}
               >
                 {item.name}
               </option>

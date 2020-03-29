@@ -75,20 +75,13 @@ class Table extends React.Component {
             </tr>
           </thead>
           <tbody>
-            <Row
+            <InputRow
               header={{ text: "Podstawowa wartość" }}
               value="baseValue"
               statistics={this.state.statistics}
               type="number"
               step={this.state.step}
               changeStatisticValue={this.changeStatisticValue}
-            />
-            <Row
-              header={{ text: "Maksymalna wartość" }}
-              value="maximumValue"
-              statistics={this.state.statistics}
-              type="number"
-              step={this.state.step}
             />
             <Row
               header={{ text: "Obecna wartość" }}
@@ -109,6 +102,41 @@ class Table extends React.Component {
     );
   }
 }
+
+const InputRow = ({
+  header,
+  value,
+  statistics,
+  type,
+  step,
+  changeStatisticValue
+}) => {
+  const currentValue = value;
+
+  return (
+    <tr>
+      <td>{header.text}</td>
+      {statistics.map(item => {
+        return (
+          <td>
+            <input
+              type={type}
+              name={item.name}
+              defaultValue={item[currentValue]}
+              step={step}
+              onChange={
+                changeStatisticValue
+                  ? event => changeStatisticValue(event, item.name)
+                  : undefined
+              }
+              //onBlur={this.changeValue}
+            />
+          </td>
+        );
+      })}
+    </tr>
+  );
+};
 
 const Row = ({
   header,

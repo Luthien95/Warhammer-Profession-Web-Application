@@ -207,6 +207,15 @@ class Hero extends React.Component {
     });
   };
 
+  changeNote = event => {
+    this.setState({
+      heroInformations: {
+        ...this.state.heroInformations,
+        note: event.target.value
+      }
+    });
+  };
+
   changeName() {
     axios
       .post(
@@ -345,7 +354,7 @@ class Hero extends React.Component {
             onClick={this.removeLastProfession}
             className="user-panel__change-button"
           >
-            <i class="far fa-trash-alt"></i>
+            <i className="far fa-trash-alt"></i>
             <span className="user-panel__delete-span">
               Usuń ostatnią profesję
             </span>
@@ -421,12 +430,18 @@ class Hero extends React.Component {
         <p className="user-panel__label">
           <i className="far fa-sticky-note"></i> Notatki
         </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
+        <textarea
+          className="user-panel__textarea"
+          defaultValue={
+            this.state.heroInformations.notes
+              ? this.state.heroInformations.notes
+              : "Tutaj możesz dodać własną notatkę ;)"
+          }
+          onChange={this.changeNote}
+        />
+        <button className="user-panel__textarea-button" onClick={this.saveNote}>
+          Zapisz notatkę
+        </button>
       </div>
     );
   }

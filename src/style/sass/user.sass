@@ -12,9 +12,21 @@ select
     color: white
     font-family: Montserrat
     margin-left: 0
+    option
+        color: black
+        background: white
     &:hover
         cursor: pointer
 
+textarea
+    width: 100%
+    max-height: 80px
+    background: none
+    border: none
+    font-family: Montserrat
+    color: white
+    &:focus
+        outline: 1px solid rgba(255, 255, 255, .2)
 
 input::-webkit-outer-spin-button
 input::-webkit-inner-spin-button 
@@ -49,7 +61,7 @@ input[type=number]
             outline: 1px solid rgba(255, 255, 255, .2)
     &__race
         opacity: .5
-        padding: 10px 50px 0 0
+        padding: 10px 50px 10px 0
         margin-top: 60px
         &:focus
             background-image: linear-gradient(45deg, white 50%, transparent 50%), linear-gradient(135deg, transparent 50%, white 50%), linear-gradient(to right, #ccc, #ccc)
@@ -97,12 +109,22 @@ input[type=number]
         margin: 20px 5%
         td
             font-size: .8rem
+            text-align: center
+        input
+            width: 50px
+            text-align: center
     .skill-panel,
     .ability-panel
         background: #3d3850
         border-radius: 10px
         padding: 20px
         width: 43%
+    &__textarea-button
+        color: white
+        float: right
+        text-transform: uppercase
+        margin-top: 10px
+        font-weight: bold
 
     .user-abilities
         display: flex
@@ -134,3 +156,4 @@ input[type=number]
             align-items: flex-end
         .fas
             margin-left: auto
+    
