@@ -64,41 +64,36 @@ class Table extends React.Component {
 
   render() {
     return (
-      <div className="user-panel__table-container">
-        <table>
-          <thead>
-            <tr>
-              <td></td>
-              {this.state.statistics.map(item => (
-                <td key={item.name}>{item.name}</td>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <InputRow
-              header={{ text: "Podstawowa wartość" }}
-              value="baseValue"
-              statistics={this.state.statistics}
-              type="number"
-              step={this.state.step}
-              changeStatisticValue={this.changeStatisticValue}
-            />
-            <Row
-              header={{ text: "Obecna wartość" }}
-              value="currentValue"
-              statistics={this.state.statistics}
-              type="number"
-              step={this.state.step}
-            />
-            <Row
-              header={{ text: "Działanie" }}
-              value="maximumDescription"
-              statistics={this.state.statistics}
-              type="text"
-            />
-          </tbody>
-        </table>
-      </div>
+      <table className="feature-table">
+        <thead>
+          <tr>
+            <td className="feature-table__item"></td>
+            {this.state.statistics.map(item => (
+              <td key={item.name} className="feature-table__item">
+                {item.name}
+              </td>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          <InputRow
+            header={{ text: "Podstawowa wartość" }}
+            value={["baseValue", "isReadOnly"]}
+            statistics={this.state.statistics}
+            type="number"
+            step={this.state.step}
+            changeStatisticValue={this.changeStatisticValue}
+            isDisabled="false"
+          />
+          <Row
+            header={{ text: "Obecna wartość / Wartość maksymalna" }}
+            value={["currentValue", "maximumValue", "details"]}
+            statistics={this.state.statistics}
+            type="number"
+            step={this.state.step}
+          />
+        </tbody>
+      </table>
     );
   }
 }
@@ -111,14 +106,18 @@ const InputRow = ({
   step,
   changeStatisticValue
 }) => {
-  const currentValue = value;
+  const currentValue = value[0];
+  const isReadOnly = value[1];
 
   return (
     <tr>
-      <td>{header.text}</td>
+      <td className="feature-table__item feature-table__item--row-header">
+        {header.text}
+      </td>
       {statistics.map(item => {
+        console.log(item[isReadOnly]);
         return (
-          <td>
+          <td className="feature-table__item">
             <input
               type={type}
               name={item.name}
@@ -130,6 +129,7 @@ const InputRow = ({
                   : undefined
               }
               //onBlur={this.changeValue}
+              disabled={item[isReadOnly]}
             />
           </td>
         );
@@ -138,34 +138,25 @@ const InputRow = ({
   );
 };
 
-const Row = ({
-  header,
-  value,
-  statistics,
-  type,
-  step,
-  changeStatisticValue
-}) => {
-  const currentValue = value;
+const Row = ({ header, value, statistics }) => {
+  const currentValue = value[0];
+  const maximumValue = value[1];
+  const details = value[2];
 
   return (
     <tr>
-      <td>{header.text}</td>
+      <td className="feature-table__item feature-table__item--row-header">
+        {header.text}
+      </td>
       {statistics.map(item => {
         return (
-          <td>
-            <input
-              type={type}
-              name={item.name}
-              defaultValue={item[currentValue]}
-              step={step}
-              onChange={
-                changeStatisticValue
-                  ? event => changeStatisticValue(event, item.name)
-                  : undefined
-              }
-              //onBlur={this.changeValue}
-            />
+          <td className="feature-table__item">
+            <p>{item[currentValue] + " / " + item[maximumValue]}</p>
+            <span className="feature-table__details-description">
+              {item[details]}
+            </span>
+            <button>+</button>
+            <button>-</button>
           </td>
         );
       })}

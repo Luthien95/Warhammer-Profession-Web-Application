@@ -89,6 +89,8 @@
             transform: translateX(100%);
     &__links
         display: none
+    &__logout-button    
+        color: white
     &--open
         .navigation
             &__bar
@@ -110,6 +112,8 @@
                 &--open
                     opacity: 0
                     transition: transform 0.3s ease-in-out, opacity 0.15s ease-in-out 0.15s
+            &__container
+                height: 100vh
             &__content
                 z-index: 3
                 transition: z-index 0.01s ease-in-out 0.3s

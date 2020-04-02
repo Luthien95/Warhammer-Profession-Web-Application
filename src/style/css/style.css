@@ -2,7 +2,7 @@ body {
   font-family: Montserrat;
   width: 100vw;
   height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative; }
 
 .app,
@@ -26,6 +26,8 @@ button {
   padding: 0; }
   button:hover {
     cursor: pointer; }
+  button:focus {
+    outline: none; }
 
 .subpage {
   height: auto;
@@ -259,6 +261,8 @@ select {
       transform: translateX(100%); }
   .navigation__links {
     display: none; }
+  .navigation__logout-button {
+    color: white; }
   .navigation--open .navigation__bar {
     background: none; }
   .navigation--open .navigation__button-bar:nth-child(1) {
@@ -277,6 +281,8 @@ select {
   .navigation--open .navigation__button-bar--open {
     opacity: 0;
     transition: transform 0.3s ease-in-out, opacity 0.15s ease-in-out 0.15s; }
+  .navigation--open .navigation__container {
+    height: 100vh; }
   .navigation--open .navigation__content {
     z-index: 3;
     transition: z-index 0.01s ease-in-out 0.3s;
@@ -464,24 +470,24 @@ select {
   position: relative;
   overflow-y: scroll; }
 
-input {
+.user-panel input {
   background: none;
   border: none;
   color: white;
   font-family: Montserrat; }
-  input:hover {
+  .user-panel input:hover {
     cursor: pointer; }
 
-select {
+.user-panel select {
   background: none;
   border: none;
   color: white;
   font-family: Montserrat;
   margin-left: 0; }
-  select option {
+  .user-panel select option {
     color: black;
     background: white; }
-  select:hover {
+  .user-panel select:hover {
     cursor: pointer; }
 
 textarea {
@@ -508,15 +514,25 @@ input[type=number] {
   color: white;
   height: 100vh; }
   .user-panel__description {
-    width: 40%;
+    width: 30%;
     padding: 60px;
     background: #3d3850;
-    box-shadow: 2px 0px 10px 0px #212020; }
+    box-shadow: 2px 0px 10px 0px #212020;
+    overflow: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none; }
+    .user-panel__description::-webkit-scrollbar {
+      display: none; }
   .user-panel__statistics {
-    width: 60%;
+    width: 70%;
     height: 100vh;
     overflow: hidden;
-    overflow-y: scroll; }
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none; }
+    .user-panel__statistics::-webkit-scrollbar {
+      display: none; }
   .user-panel__login {
     font-weight: bold;
     font-size: 2.3rem;
@@ -553,9 +569,11 @@ input[type=number] {
   .user-panel__profession-options {
     opacity: .5;
     font-weight: 500; }
-  .user-panel__change-button {
+  .user-panel__remove-profession {
     color: white;
     margin-left: 50px; }
+    .user-panel__remove-profession:hover .user-panel__delete-span {
+      display: inline; }
   .user-panel__delete-span {
     display: none; }
   .user-panel__label {
@@ -566,18 +584,43 @@ input[type=number] {
     .user-panel__label .fas,
     .user-panel__label .far {
       margin-right: 10px; }
-  .user-panel__table-container {
+  .user-panel .feature-table {
     background: #3d3850;
     border-radius: 10px;
     padding: 20px;
     width: 90%;
-    margin: 20px 5%; }
-    .user-panel__table-container td {
+    margin: 20px 5%;
+    border-collapse: collapse; }
+    .user-panel .feature-table th, .user-panel .feature-table td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .user-panel .feature-table tbody tr:last-of-type th, .user-panel .feature-table tbody tr:last-of-type td {
+      border: none; }
+    .user-panel .feature-table__item {
       font-size: .8rem;
-      text-align: center; }
-    .user-panel__table-container input {
+      text-align: center;
+      position: relative;
+      padding: 15px 0; }
+      .user-panel .feature-table__item--row-header {
+        text-align: left;
+        padding: 15px; }
+      .user-panel .feature-table__item:hover .feature-table__details-description {
+        display: initial; }
+    .user-panel .feature-table__details-description {
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      background: #2c283a;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      padding: 10px;
+      width: 150px;
+      display: none; }
+    .user-panel .feature-table input {
       width: 50px;
       text-align: center; }
+    .user-panel .feature-table:first-of-type {
+      margin-top: 100px; }
   .user-panel .skill-panel,
   .user-panel .ability-panel {
     background: #3d3850;
@@ -589,7 +632,17 @@ input[type=number] {
     float: right;
     text-transform: uppercase;
     margin-top: 10px;
-    font-weight: bold; }
+    font-weight: bold;
+    position: relative; }
+    .user-panel__textarea-button:after {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      content: "\f00c";
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: calc(100% + 10px);
+      display: none; }
   .user-panel .user-abilities {
     display: flex;
     flex-direction: row;

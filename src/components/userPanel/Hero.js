@@ -25,7 +25,7 @@ class Hero extends React.Component {
     this.removeLastProfession = this.removeLastProfession.bind(this);
     this.changeName = this.changeName.bind(this);
     this.changeNameState = this.changeNameState.bind(this);
-
+    this.saveNote = this.saveNote.bind(this);
     this.changeCurrentRace = this.changeCurrentRace.bind(this);
     this.changeSumExperience = this.changeSumExperience.bind(this);
     this.changeExperience = this.changeExperience.bind(this);
@@ -211,10 +211,27 @@ class Hero extends React.Component {
     this.setState({
       heroInformations: {
         ...this.state.heroInformations,
-        note: event.target.value
+        notes: event.target.value
       }
     });
+    console.log(this.state.heroInformations.notes);
   };
+
+  saveNote() {
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeCharacterNotes",
+        //"http://localhost:5000/api/characters/changeCharacterNotes/",
+        JSON.stringify(this.state.heroInformations.notes),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .catch(error => console.log("Error" + error));
+  }
 
   changeName() {
     axios
@@ -352,7 +369,7 @@ class Hero extends React.Component {
           )}
           <button
             onClick={this.removeLastProfession}
-            className="user-panel__change-button"
+            className="user-panel__remove-profession"
           >
             <i className="far fa-trash-alt"></i>
             <span className="user-panel__delete-span">

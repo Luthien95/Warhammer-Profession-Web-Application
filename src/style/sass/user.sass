@@ -1,4 +1,4 @@
-input
+.user-panel input
     background: none
     border: none
     color: white
@@ -6,7 +6,8 @@ input
     &:hover
         cursor: pointer
 
-select
+
+.user-panel select
     background: none
     border: none
     color: white
@@ -43,15 +44,25 @@ input[type=number]
     color: white
     height: 100vh
     &__description
-        width: 40%
+        width: 30%
         padding: 60px
         background: #3d3850
         box-shadow: 2px 0px 10px 0px #212020
+        overflow: hidden
+        overflow-y: scroll
+        -ms-overflow-style: none
+        scrollbar-width: none
+        &::-webkit-scrollbar 
+            display: none
     &__statistics
-        width: 60%
+        width: 70%
         height: 100vh
         overflow: hidden
         overflow-y: scroll
+        -ms-overflow-style: none
+        scrollbar-width: none
+        &::-webkit-scrollbar 
+            display: none
     &__login
         font-weight: bold
         font-size: 2.3rem
@@ -88,9 +99,12 @@ input[type=number]
     &__profession-options
         opacity: .5
         font-weight: 500
-    &__change-button
+    &__remove-profession
         color: white
         margin-left: 50px
+        &:hover
+            .user-panel__delete-span
+                display: inline
     &__delete-span
         display: none
     &__label
@@ -101,18 +115,45 @@ input[type=number]
         .fas,
         .far
             margin-right: 10px
-    &__table-container
+    .feature-table
         background: #3d3850
         border-radius: 10px
         padding: 20px
         width: 90%
         margin: 20px 5%
-        td
+        border-collapse: collapse
+        th, td
+            border-bottom: 1px solid  rgba(255, 255, 255, .1)
+        tbody tr:last-of-type
+            th,td
+                border: none
+        &__item
             font-size: .8rem
             text-align: center
+            position: relative
+            padding: 15px 0
+            &--row-header
+                text-align: left
+                padding: 15px
+            &:hover
+                .feature-table__details-description
+                    display: initial
+        &__details-description
+            position: absolute
+            top: 80%
+            left: 50%
+            transform: translateX(-50%)
+            z-index: 1
+            background: #2c283a
+            border: 1px solid rgba(255, 255, 255, .5)
+            padding: 10px;
+            width: 150px
+            display: none
         input
             width: 50px
             text-align: center
+        &:first-of-type
+            margin-top: 100px
     .skill-panel,
     .ability-panel
         background: #3d3850
@@ -125,6 +166,16 @@ input[type=number]
         text-transform: uppercase
         margin-top: 10px
         font-weight: bold
+        position: relative
+        &:after
+            font-family: "Font Awesome 5 Free" 
+            font-weight: 900
+            content: "\f00c"
+            display: inline-block
+            position: absolute
+            top: 0 
+            left: calc(100% + 10px)
+            display: none
 
     .user-abilities
         display: flex

@@ -67,7 +67,7 @@ class UserPanel extends React.Component {
           basicInformations={this.state.basicInformations}
           changedSkill={this.state.changedSkill}
         />
-        <div class="user-panel__statistics">
+        <div className="user-panel__statistics">
           <Table statistics={this.state.basicStatistics} step="5" />
           <Table statistics={this.state.advancedStatistics} step="1" />
           <div className="user-abilities">

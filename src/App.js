@@ -5,6 +5,7 @@ import {
   Route,
   NavLink
 } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Home from "./components/Home";
 import Select from "./components/Select";
 import Register from "./components/Register";
@@ -72,9 +73,10 @@ class App extends React.Component {
     this.setState({ active: !this.state.active });
   }
 
-  logOut() {
+  logOut = () => {
     localStorage.clear();
-  }
+    return <Redirect to="/" />;
+  };
 
   render() {
     if (this.state.professionList && this.state.professionList.length > 0) {
