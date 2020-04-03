@@ -1,66 +1,69 @@
 import React from "react";
 import "./../../style/css/style.css";
+import axios from "axios";
 
 class Table extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      statistics: [],
-      step: ""
+      statistics: []
     };
 
     this.changeValue = this.changeValue.bind(this);
-    this.changeStatisticValue = this.changeStatisticValue.bind(this);
+    this.changeAdvancedValue = this.changeAdvancedValue.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.statistics !== this.props.statistics) {
       this.setState({
-        statistics: [...this.state.statistics, ...this.props.statistics],
-        step: [...this.state.step, ...this.props.step]
+        statistics: [...this.state.statistics, ...this.props.statistics]
       });
     }
   }
 
-  changeValue() {}
+  changeValue(event, type) {
+    const valueOfFeature = parseInt(event.target.value, 10);
+    const typeOfFeature = parseInt(type, 10);
 
-  changeStatisticValue = (event, name) => {
-    console.log(name);
-    /* this.setState({
-      heroInformations: {
-        ...this.state.heroInformations,
-        name: event.target.value
-      }
-    });*/
-
-    /* this.setState({
-      statistics: {
-        ...this.state.statistics
-      }
-    });*/
-
-    /*this.setState({
-      statistics: this.state.statistics.filter(function(stat) {
-        if(stat.name === name) {
-          ...this.state.statistics,
-
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeBaseStatisticValue",
+        //"http://localhost:5000/api/characters/changeBaseStatisticValue/",
+        {
+          value: valueOfFeature,
+          type: typeOfFeature
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
         }
-      })
-    });*/
-    /*
-    this.setState(prevState => ({
-      items: {
-        ...prevState.items,
-        [prevState.items[1].name]: e.target.value
-      }
-    }));*/
-    /*
-    this.setState(prevState => ({
-      statistics: this.state.statistics.filter()
+      )
+      .catch(error => console.log("Error" + error));
+  }
 
-    }))*/
-  };
+  changeAdvancedValue(type, value) {
+    const typeOfFeature = parseInt(type, 10);
+
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeStatisticValue",
+        //"http://localhost:5000/api/characters/changeBaseStatisticValue/",
+        {
+          incrementingValue: value,
+          type: typeOfFeature
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      )
+      .catch(error => console.log("Error" + error));
+  }
 
   render() {
     return (
@@ -78,19 +81,28 @@ class Table extends React.Component {
         <tbody>
           <InputRow
             header={{ text: "Podstawowa wartość" }}
-            value={["baseValue", "isReadOnly"]}
+            value={["baseValue", "isReadOnly", "type"]}
             statistics={this.state.statistics}
             type="number"
-            step={this.state.step}
-            changeStatisticValue={this.changeStatisticValue}
-            isDisabled="false"
+            changeValue={this.changeValue}
           />
           <Row
             header={{ text: "Obecna wartość / Wartość maksymalna" }}
-            value={["currentValue", "maximumValue", "details"]}
+            value={[
+              "currentValue",
+              "maximumValue",
+              "details",
+              "canBeDecreased",
+              "canBeIncreased",
+              "type"
+            ]}
             statistics={this.state.statistics}
             type="number"
-            step={this.state.step}
+          />
+          <Buttons
+            value={["canBeDecreased", "canBeIncreased", "type"]}
+            statistics={this.state.statistics}
+            changeValue={this.changeAdvancedValue}
           />
         </tbody>
       </table>
@@ -98,16 +110,10 @@ class Table extends React.Component {
   }
 }
 
-const InputRow = ({
-  header,
-  value,
-  statistics,
-  type,
-  step,
-  changeStatisticValue
-}) => {
+const InputRow = ({ header, value, statistics, type, changeValue }) => {
   const currentValue = value[0];
   const isReadOnly = value[1];
+  const inputType = value[2];
 
   return (
     <tr>
@@ -115,20 +121,13 @@ const InputRow = ({
         {header.text}
       </td>
       {statistics.map(item => {
-        console.log(item[isReadOnly]);
         return (
           <td className="feature-table__item">
             <input
               type={type}
               name={item.name}
               defaultValue={item[currentValue]}
-              step={step}
-              onChange={
-                changeStatisticValue
-                  ? event => changeStatisticValue(event, item.name)
-                  : undefined
-              }
-              //onBlur={this.changeValue}
+              onBlur={event => changeValue(event, item[inputType])}
               disabled={item[isReadOnly]}
             />
           </td>
@@ -155,8 +154,40 @@ const Row = ({ header, value, statistics }) => {
             <span className="feature-table__details-description">
               {item[details]}
             </span>
-            <button>+</button>
-            <button>-</button>
+          </td>
+        );
+      })}
+    </tr>
+  );
+};
+
+const Buttons = ({ value, statistics, changeValue }) => {
+  const canBeDecreased = value[0];
+  const canBeIncreased = value[1];
+  const inputType = value[2];
+
+  return (
+    <tr>
+      <td className="feature-table__item feature-table__item--row-header"></td>
+      {statistics.map(item => {
+        return (
+          <td className="feature-table__item">
+            <button
+              className={`feature-table__button ${
+                item[canBeIncreased] ? "" : "feature-table__button--not-active"
+              }`}
+              onClick={changeValue(item[inputType], true)}
+            >
+              +
+            </button>
+            <button
+              className={`feature-table__button ${
+                item[canBeDecreased] ? "" : "feature-table__button--not-active"
+              }`}
+              onClick={changeValue(item[inputType], false)}
+            >
+              -
+            </button>
           </td>
         );
       })}

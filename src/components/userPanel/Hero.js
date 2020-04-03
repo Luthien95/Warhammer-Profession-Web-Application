@@ -29,6 +29,7 @@ class Hero extends React.Component {
     this.changeCurrentRace = this.changeCurrentRace.bind(this);
     this.changeSumExperience = this.changeSumExperience.bind(this);
     this.changeExperience = this.changeExperience.bind(this);
+    this.changeProfessionActive = this.changeProfessionActive.bind(this);
   }
 
   componentWillMount() {
@@ -303,9 +304,15 @@ class Hero extends React.Component {
       .catch(error => console.log("Error" + error));
   }
 
+  changeProfessionActive() {
+    this.setState(prevState => ({
+      ifChangeProfessionActive: !prevState.ifChangeProfessionActive
+    }));
+  }
+
   render() {
     let currentRace = Object.assign({}, this.state.heroInformations.race);
-
+    console.log(this.state.filteredProfessions);
     return (
       <div className="user-panel__description">
         <select
@@ -365,7 +372,10 @@ class Hero extends React.Component {
               })}
             </select>
           ) : (
-            <i className="fas fa-ellipsis-h"></i>
+            <i
+              className="fas fa-ellipsis-h"
+              onClick={this.changeProfessionActive}
+            ></i>
           )}
           <button
             onClick={this.removeLastProfession}
