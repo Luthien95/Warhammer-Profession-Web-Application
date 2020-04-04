@@ -9,43 +9,16 @@ class Abilities extends React.Component {
 
     this.state = {
       abilitiesList: [],
-      activeAbilitiesList: []
+      activeAbilitiesList: [],
     };
 
-    this.getData = this.getData.bind(this);
+    this.getFilteredAbilities = this.getFilteredAbilities.bind(this);
     this.addSkillToList = this.addSkillToList.bind(this);
     this.deleteSkill = this.deleteSkill.bind(this);
   }
 
-  getData() {
-    axios
-      .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredAbilities",
-        //"http://localhost:5000/api/characters/getFilteredAbilities",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      )
-      .then(response =>
-        response.data.map(skill => ({
-          id: `${skill.id}`,
-          name: `${skill.name}`,
-          description: `${skill.description}`
-        }))
-      )
-      .then(abilitiesList => {
-        this.setState({
-          abilitiesList
-        });
-      })
-      .catch(error => console.log("Error" + error));
-  }
-
   componentWillMount() {
-    this.getData();
+    this.getFilteredAbilities();
   }
 
   componentDidUpdate(prevProps) {
@@ -53,17 +26,48 @@ class Abilities extends React.Component {
       this.setState({
         activeAbilitiesList: [
           ...this.state.activeAbilitiesList,
-          ...this.props.ownedAbilities
-        ]
+          ...this.props.ownedAbilities,
+        ],
       });
     }
+  }
+
+  sendInformationToParent(value) {
+    this.props.parentCallback(value);
+  }
+
+  getFilteredAbilities() {
+    axios
+      .get(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredAbilities",
+        //"http://localhost:5000/api/characters/getFilteredAbilities",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) =>
+        response.data.map((skill) => ({
+          id: `${skill.id}`,
+          name: `${skill.name}`,
+          description: `${skill.description}`,
+        }))
+      )
+      .then((abilitiesList) => {
+        this.setState({
+          abilitiesList,
+        });
+      })
+      .catch((error) => console.log("Error" + error));
   }
 
   addSkillToList(event) {
     let currentAbility = event.target.value;
     let currentId = event.target.options[
       event.target.selectedIndex
-    ].getAttribute("data-key");
+    ].getAttribute("data-number");
 
     let newAbility = [{ name: currentAbility, id: currentId }];
 
@@ -74,25 +78,25 @@ class Abilities extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .then(response => {
+      .then((response) => {
         this.setState({
           activeAbilitiesList: [
             ...this.state.activeAbilitiesList,
-            ...newAbility
-          ]
+            ...newAbility,
+          ],
         });
+        this.sendInformationToParent(1);
       })
-      .then(response => {})
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   deleteSkill(itemId, e) {
     const items = this.state.activeAbilitiesList.filter(
-      item => item.id !== itemId
+      (item) => item.id !== itemId
     );
 
     axios
@@ -101,28 +105,30 @@ class Abilities extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .then(response => {
+      .then((response) => {
         this.setState({ activeAbilitiesList: items });
+        this.sendInformationToParent(-1);
       })
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   render() {
     return (
       <div className="ability-panel">
         <p className="user-panel__label">Zdolności</p>
-        {this.state.activeAbilitiesList.map(item => (
+        {this.state.activeAbilitiesList.map((item) => (
           <p
             className="ability-panel__item"
             key={`Owned abilities - ${item.id}`}
+            data-number={item.id}
           >
             {item.name}
             <i
-              onClick={e => this.deleteSkill(item.id, e)}
+              onClick={(e) => this.deleteSkill(item.id, e)}
               className="fas fa-trash-alt"
             ></i>
           </p>
@@ -139,11 +145,12 @@ class Abilities extends React.Component {
             <option value="" selected disabled>
               Dodaj nową zdolność
             </option>
-            {this.state.abilitiesList.map(item => (
+            {this.state.abilitiesList.map((item) => (
               <option
                 value={item.name}
                 className="ability-panel__option"
                 key={`All abilities - ${item.id}`}
+                data-number={item.id}
               >
                 {item.name}
               </option>

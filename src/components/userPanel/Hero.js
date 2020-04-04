@@ -14,13 +14,12 @@ class Hero extends React.Component {
       filteredProfessions: [],
       previousProffesion: null,
       filteredRaces: [],
-      ifChangeProfessionActive: false
+      ifChangeProfessionActive: false,
     };
 
     this.handleBasicFromInputValue = this.handleBasicFromInputValue.bind(this);
     this.passData = this.passData.bind(this);
     this.getData = this.getData.bind(this);
-    this.getRaces = this.getRaces.bind(this);
     this.changeCurrentProfession = this.changeCurrentProfession.bind(this);
     this.removeLastProfession = this.removeLastProfession.bind(this);
     this.changeName = this.changeName.bind(this);
@@ -33,8 +32,8 @@ class Hero extends React.Component {
   }
 
   componentWillMount() {
-    this.getData();
-    this.getRaces();
+    this.getData("getFilteredProfessions", "filteredProfessions");
+    this.getData("getRaces", "filteredRaces");
   }
 
   componentDidUpdate(prevProps) {
@@ -44,72 +43,53 @@ class Hero extends React.Component {
     ) {
       this.setState({
         money: this.props.usersMoney,
-        heroInformations: this.props.basicInformations
+        heroInformations: this.props.basicInformations,
       });
     }
     if (prevProps.changedSkill !== this.props.changedSkill) {
       this.setState({
-        change: this.props.changedSkill
+        change: this.props.changedSkill,
       });
 
       if (this.props.changedSkill > this.state.change) {
         this.setState({
           heroInformations: {
             ...this.state.heroInformations,
-            experienceLeft: this.state.heroInformations.experienceLeft - 100
+            experienceLeft: this.state.heroInformations.experienceLeft - 100,
           },
-          change: this.props.changedSkill
+          change: this.props.changedSkill,
         });
       } else if (this.props.changedSkill < this.state.change) {
         this.setState({
           heroInformations: {
             ...this.state.heroInformations,
-            experienceLeft: this.state.heroInformations.experienceLeft + 100
+            experienceLeft: this.state.heroInformations.experienceLeft + 100,
           },
-          change: this.props.changedSkill
+          change: this.props.changedSkill,
         });
       }
     }
   }
 
-  getData() {
+  getData(url, arrayName) {
+    console.log(url);
     axios
       .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredProfessions",
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/${url}`,
         //"http://localhost:5000/api/characters/getFilteredProfessions/",
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         this.setState({
-          filteredProfessions: res.data
+          [arrayName]: res.data,
         });
       })
-      .catch(error => console.log("Error" + error));
-  }
-
-  getRaces() {
-    axios
-      .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getRaces",
-        //"http://localhost:5000/api/characters/getRaces/",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      )
-      .then(res => {
-        this.setState({
-          filteredRaces: res.data
-        });
-      })
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   passData(event) {
@@ -121,11 +101,11 @@ class Hero extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   changeCurrentProfession(e) {
@@ -139,8 +119,8 @@ class Hero extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
       .then(
@@ -148,12 +128,12 @@ class Hero extends React.Component {
           previousProffesion: this.state.heroInformations.actualProfessionName,
           heroInformations: {
             ...this.state.heroInformations,
-            actualProfessionName: newProfession.name
-          }
+            actualProfessionName: newProfession.name,
+          },
         })
       )
-      .then(this.getData())
-      .catch(error => console.log("Error" + error));
+      .then(this.getData("getFilteredProfessions", "filteredProfessions"))
+      .catch((error) => console.log("Error" + error));
   }
 
   removeLastProfession() {
@@ -165,37 +145,37 @@ class Hero extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
       .then(
         this.setState({
           heroInformations: {
             ...this.state.heroInformations,
-            actualProfessionName: this.state.previousProffesion
-          }
+            actualProfessionName: this.state.previousProffesion,
+          },
         })
       )
-      .then(this.getData())
-      .catch(error => console.log("Error" + error));
+      .then(this.getData("getFilteredProfessions", "filteredProfessions"))
+      .catch((error) => console.log("Error" + error));
   }
 
-  handleBasicFromInputValue = event => {
+  handleBasicFromInputValue = (event) => {
     this.setState({
       money: {
         ...this.state.money,
-        [event.target.name]: +event.target.value
-      }
+        [event.target.name]: +event.target.value,
+      },
     });
   };
 
-  changeNameState = event => {
+  changeNameState = (event) => {
     this.setState({
       heroInformations: {
         ...this.state.heroInformations,
-        name: event.target.value
-      }
+        name: event.target.value,
+      },
     });
   };
 
@@ -203,17 +183,17 @@ class Hero extends React.Component {
     this.setState({
       array: {
         ...this.state.array,
-        name: event.target.value
-      }
+        name: event.target.value,
+      },
     });
   };
 
-  changeNote = event => {
+  changeNote = (event) => {
     this.setState({
       heroInformations: {
         ...this.state.heroInformations,
-        notes: event.target.value
-      }
+        notes: event.target.value,
+      },
     });
     console.log(this.state.heroInformations.notes);
   };
@@ -227,11 +207,11 @@ class Hero extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   changeName() {
@@ -243,11 +223,11 @@ class Hero extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   changeCurrentRace(e) {
@@ -260,8 +240,8 @@ class Hero extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
       .then(
@@ -270,21 +250,21 @@ class Hero extends React.Component {
             ...this.state.heroInformations,
             race: {
               id: newRace.id,
-              name: newRace.name
-            }
-          }
+              name: newRace.name,
+            },
+          },
         })
       )
-      .then(this.getData())
-      .catch(error => console.log("Error" + error));
+      .then(this.getData("getFilteredProfessions", "filteredProfessions"))
+      .catch((error) => console.log("Error" + error));
   }
 
-  changeSumExperience = event => {
+  changeSumExperience = (event) => {
     this.setState({
       heroInformations: {
         ...this.state.heroInformations,
-        experienceSum: event.target.value
-      }
+        experienceSum: event.target.value,
+      },
     });
   };
 
@@ -297,16 +277,16 @@ class Hero extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   changeProfessionActive() {
-    this.setState(prevState => ({
-      ifChangeProfessionActive: !prevState.ifChangeProfessionActive
+    this.setState((prevState) => ({
+      ifChangeProfessionActive: !prevState.ifChangeProfessionActive,
     }));
   }
 

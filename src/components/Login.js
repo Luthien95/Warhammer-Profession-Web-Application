@@ -11,11 +11,11 @@ class Login extends React.Component {
     this.state = {
       login: "",
       password: "",
-      redirectToReferrer: false
+      redirectToReferrer: false,
     };
 
     this.sendData = this.sendData.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.changeInputData = this.changeInputData.bind(this);
   }
 
   sendData(e) {
@@ -25,34 +25,27 @@ class Login extends React.Component {
         //"http://localhost:5000/api/users/Authenticate",
         {
           login: this.state.login,
-          password: this.state.password
+          password: this.state.password,
         }
       )
-      /* .then(response => {
-        setCookie("token", response.data.token, {
-          path: "/",
-          httpOnly: true,
-          secure: true,
-          sameSite: true
-        });
-      })*/
-      .then(response => {
+      .then((response) => {
         localStorage.setItem("token", response.data.token);
+
         this.setState({
-          redirectToReferrer: true
+          redirectToReferrer: true,
         });
       })
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
 
     e.preventDefault();
   }
 
-  handleChange(event) {
+  changeInputData(event) {
     const target = event.target;
     const name = target.name;
 
     this.setState({
-      [name]: event.target.value
+      [name]: event.target.value,
     });
   }
 
@@ -69,7 +62,7 @@ class Login extends React.Component {
             name="login"
             placeholder="Login"
             value={this.state.login}
-            onChange={this.handleChange}
+            onChange={this.changeInputData}
             required
             className="login-form__input"
           />
@@ -79,7 +72,7 @@ class Login extends React.Component {
             name="password"
             placeholder="Password"
             value={this.state.password}
-            onChange={this.handleChange}
+            onChange={this.changeInputData}
             className="login-form__input"
           />
 

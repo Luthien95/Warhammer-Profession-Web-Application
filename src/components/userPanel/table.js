@@ -7,22 +7,22 @@ class Table extends React.Component {
     super(props);
 
     this.state = {
-      statistics: []
+      statistics: [],
     };
 
-    this.changeValue = this.changeValue.bind(this);
+    this.changeBaseValue = this.changeBaseValue.bind(this);
     this.changeAdvancedValue = this.changeAdvancedValue.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.statistics !== this.props.statistics) {
       this.setState({
-        statistics: [...this.state.statistics, ...this.props.statistics]
+        statistics: [...this.state.statistics, ...this.props.statistics],
       });
     }
   }
 
-  changeValue(event, type) {
+  changeBaseValue(event, type) {
     const valueOfFeature = parseInt(event.target.value, 10);
     const typeOfFeature = parseInt(type, 10);
 
@@ -32,16 +32,16 @@ class Table extends React.Component {
         //"http://localhost:5000/api/characters/changeBaseStatisticValue/",
         {
           value: valueOfFeature,
-          type: typeOfFeature
+          type: typeOfFeature,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   changeAdvancedValue(type, value) {
@@ -53,16 +53,16 @@ class Table extends React.Component {
         //"http://localhost:5000/api/characters/changeBaseStatisticValue/",
         {
           incrementingValue: value,
-          type: typeOfFeature
+          type: typeOfFeature,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   render() {
@@ -71,7 +71,7 @@ class Table extends React.Component {
         <thead>
           <tr>
             <td className="feature-table__item"></td>
-            {this.state.statistics.map(item => (
+            {this.state.statistics.map((item) => (
               <td key={item.name} className="feature-table__item">
                 {item.name}
               </td>
@@ -84,25 +84,18 @@ class Table extends React.Component {
             value={["baseValue", "isReadOnly", "type"]}
             statistics={this.state.statistics}
             type="number"
-            changeValue={this.changeValue}
+            changeBaseValue={this.changeBaseValue}
           />
           <Row
             header={{ text: "Obecna wartość / Wartość maksymalna" }}
-            value={[
-              "currentValue",
-              "maximumValue",
-              "details",
-              "canBeDecreased",
-              "canBeIncreased",
-              "type"
-            ]}
+            value={["currentValue", "maximumValue", "details"]}
             statistics={this.state.statistics}
             type="number"
           />
           <Buttons
             value={["canBeDecreased", "canBeIncreased", "type"]}
             statistics={this.state.statistics}
-            changeValue={this.changeAdvancedValue}
+            changeBaseValue={this.changeAdvancedValue}
           />
         </tbody>
       </table>
@@ -110,7 +103,7 @@ class Table extends React.Component {
   }
 }
 
-const InputRow = ({ header, value, statistics, type, changeValue }) => {
+const InputRow = ({ header, value, statistics, type, changeBaseValue }) => {
   const currentValue = value[0];
   const isReadOnly = value[1];
   const inputType = value[2];
@@ -120,14 +113,14 @@ const InputRow = ({ header, value, statistics, type, changeValue }) => {
       <td className="feature-table__item feature-table__item--row-header">
         {header.text}
       </td>
-      {statistics.map(item => {
+      {statistics.map((item) => {
         return (
           <td className="feature-table__item">
             <input
               type={type}
               name={item.name}
               defaultValue={item[currentValue]}
-              onBlur={event => changeValue(event, item[inputType])}
+              onBlur={(event) => changeBaseValue(event, item[inputType])}
               disabled={item[isReadOnly]}
             />
           </td>
@@ -147,7 +140,7 @@ const Row = ({ header, value, statistics }) => {
       <td className="feature-table__item feature-table__item--row-header">
         {header.text}
       </td>
-      {statistics.map(item => {
+      {statistics.map((item) => {
         return (
           <td className="feature-table__item">
             <p>{item[currentValue] + " / " + item[maximumValue]}</p>
@@ -161,7 +154,7 @@ const Row = ({ header, value, statistics }) => {
   );
 };
 
-const Buttons = ({ value, statistics, changeValue }) => {
+const Buttons = ({ value, statistics, changeBaseValue }) => {
   const canBeDecreased = value[0];
   const canBeIncreased = value[1];
   const inputType = value[2];
@@ -169,14 +162,16 @@ const Buttons = ({ value, statistics, changeValue }) => {
   return (
     <tr>
       <td className="feature-table__item feature-table__item--row-header"></td>
-      {statistics.map(item => {
+      {statistics.map((item) => {
         return (
           <td className="feature-table__item">
             <button
               className={`feature-table__button ${
                 item[canBeIncreased] ? "" : "feature-table__button--not-active"
               }`}
-              onClick={changeValue(item[inputType], true)}
+              onClick={() => {
+                changeBaseValue(item[inputType], true);
+              }}
             >
               +
             </button>
@@ -184,7 +179,9 @@ const Buttons = ({ value, statistics, changeValue }) => {
               className={`feature-table__button ${
                 item[canBeDecreased] ? "" : "feature-table__button--not-active"
               }`}
-              onClick={changeValue(item[inputType], false)}
+              onClick={() => {
+                changeBaseValue(item[inputType], false);
+              }}
             >
               -
             </button>

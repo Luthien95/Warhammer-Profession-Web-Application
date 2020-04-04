@@ -9,46 +9,17 @@ class Skills extends React.Component {
 
     this.state = {
       skillList: [],
-      activeSkillList: []
+      activeSkillList: [],
     };
 
-    this.getData = this.getData.bind(this);
+    this.getFilteredSkills = this.getFilteredSkills.bind(this);
     this.addSkillToList = this.addSkillToList.bind(this);
     this.deleteSkill = this.deleteSkill.bind(this);
     this.sendInformationToParent = this.sendInformationToParent.bind(this);
   }
 
-  getData() {
-    axios
-      .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredSkills",
-        //"http://localhost:5000/api/characters/getFilteredSkills/",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      )
-      .then(response =>
-        response.data.map(skill => ({
-          id: `${skill.id}`,
-          name: `${skill.name}`,
-          description: `${skill.description}`,
-          skillLevel: `${skill.skillLevel}`,
-          trait: `${skill.trait}`
-        }))
-      )
-      .then(skillList => {
-        this.setState({
-          skillList
-        });
-      })
-      .catch(error => console.log("Error" + error));
-  }
-
   componentWillMount() {
-    this.getData();
+    this.getFilteredSkills();
   }
 
   componentDidUpdate(prevProps) {
@@ -56,8 +27,8 @@ class Skills extends React.Component {
       this.setState({
         activeSkillList: [
           ...this.state.activeSkillList,
-          ...this.props.ownedSkills
-        ]
+          ...this.props.ownedSkills,
+        ],
       });
     }
   }
@@ -66,20 +37,49 @@ class Skills extends React.Component {
     this.props.parentCallback(value);
   }
 
+  getFilteredSkills() {
+    axios
+      .get(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredSkills",
+        //"http://localhost:5000/api/characters/getFilteredSkills/",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) =>
+        response.data.map((skill) => ({
+          id: `${skill.id}`,
+          name: `${skill.name}`,
+          description: `${skill.description}`,
+          skillLevel: `${skill.skillLevel}`,
+          trait: `${skill.trait}`,
+        }))
+      )
+      .then((skillList) => {
+        this.setState({
+          skillList,
+        });
+      })
+      .catch((error) => console.log("Error" + error));
+  }
+
   addSkillToList(event) {
     let currentTrait = event.target.options[
       event.target.selectedIndex
-    ].getAttribute("data");
+    ].getAttribute("data-trait");
     let currentSkill = event.target.value;
     let currentId = event.target.options[
       event.target.selectedIndex
-    ].getAttribute("data-key");
+    ].getAttribute("data-number");
 
     let newSkill = [
-      { id: +currentId, name: currentSkill, trait: currentTrait }
+      { id: +currentId, name: currentSkill, trait: currentTrait },
     ];
 
-    this.getData();
+    this.getFilteredSkills();
 
     axios
       .post(
@@ -89,22 +89,24 @@ class Skills extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .then(response => {
+      .then((response) => {
         this.setState({
-          activeSkillList: [...this.state.activeSkillList, ...newSkill]
+          activeSkillList: [...this.state.activeSkillList, ...newSkill],
         });
 
         this.sendInformationToParent(1);
       })
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   deleteSkill(itemId, e) {
-    const items = this.state.activeSkillList.filter(item => item.id !== itemId);
+    const items = this.state.activeSkillList.filter(
+      (item) => item.id !== itemId
+    );
 
     axios
       .delete(
@@ -113,29 +115,32 @@ class Skills extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .then(response => {
+      .then((response) => {
         this.setState({ activeSkillList: items });
       })
       .then(this.sendInformationToParent(-1))
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
 
-    this.getData();
+    this.getFilteredSkills();
   }
 
   render() {
-    console.log(this.state.activeSkillList);
     return (
       <div className="skill-panel">
         <p className="user-panel__label">Umiejętności</p>
-        {this.state.activeSkillList.map(item => (
-          <p className="skill-panel__item" key={`Owned skills - ${item.id}`}>
+        {this.state.activeSkillList.map((item) => (
+          <p
+            className="skill-panel__item"
+            key={`Owned skills - ${item.id}`}
+            data-number={item.id}
+          >
             {item.name} <span>| {item.trait}</span>
             <i
-              onClick={e => this.deleteSkill(item.id, e)}
+              onClick={(e) => this.deleteSkill(item.id, e)}
               className="fas fa-trash-alt"
             ></i>
           </p>
@@ -153,11 +158,12 @@ class Skills extends React.Component {
             <option value="" selected disabled>
               Dodaj nową umiejętność
             </option>
-            {this.state.skillList.map(item => (
+            {this.state.skillList.map((item) => (
               <option
                 value={item.name}
-                data={item.trait}
+                data-trait={item.trait}
                 key={`All skills - ${item.id}`}
+                data-number={item.id}
               >
                 {item.name}
               </option>
