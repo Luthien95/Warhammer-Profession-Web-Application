@@ -1,0 +1,16 @@
+@mixin absoluteCenter
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+
+@mixin flexCenter
+    display: flex
+    align-items: center
+    justify-content: center
+
+@keyframes animateBackground 
+    from 
+        background-color: transparent
+    to 
+        background-color: $navigation-color

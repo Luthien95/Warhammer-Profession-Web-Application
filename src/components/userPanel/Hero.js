@@ -17,24 +17,22 @@ class Hero extends React.Component {
       ifChangeProfessionActive: false,
     };
 
-    this.handleBasicFromInputValue = this.handleBasicFromInputValue.bind(this);
+    this.changeMoneyAssets = this.changeMoneyAssets.bind(this);
     this.passData = this.passData.bind(this);
     this.getData = this.getData.bind(this);
     this.changeCurrentProfession = this.changeCurrentProfession.bind(this);
     this.removeLastProfession = this.removeLastProfession.bind(this);
     this.changeName = this.changeName.bind(this);
-    this.changeNameState = this.changeNameState.bind(this);
+    //this.changeNameState = this.changeNameState.bind(this);
     this.saveNote = this.saveNote.bind(this);
     this.changeCurrentRace = this.changeCurrentRace.bind(this);
-    this.changeSumExperience = this.changeSumExperience.bind(this);
+    //this.changeSumExperience = this.changeSumExperience.bind(this);
     this.changeExperience = this.changeExperience.bind(this);
     this.changeProfessionActive = this.changeProfessionActive.bind(this);
+    this.changeCurrentState = this.changeCurrentState.bind(this);
   }
 
-  componentWillMount() {
-    this.getData("getFilteredProfessions", "filteredProfessions");
-    this.getData("getRaces", "filteredRaces");
-  }
+  componentWillMount() {}
 
   componentDidUpdate(prevProps) {
     if (
@@ -71,8 +69,13 @@ class Hero extends React.Component {
     }
   }
 
+  changeProfessionActive() {
+    this.setState((prevState) => ({
+      ifChangeProfessionActive: !prevState.ifChangeProfessionActive,
+    }));
+  }
+
   getData(url, arrayName) {
-    console.log(url);
     axios
       .get(
         `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/${url}`,
@@ -90,6 +93,8 @@ class Hero extends React.Component {
         });
       })
       .catch((error) => console.log("Error" + error));
+
+    //console.log(this.state.filteredProfessions);
   }
 
   passData(event) {
@@ -132,7 +137,6 @@ class Hero extends React.Component {
           },
         })
       )
-      .then(this.getData("getFilteredProfessions", "filteredProfessions"))
       .catch((error) => console.log("Error" + error));
   }
 
@@ -157,46 +161,8 @@ class Hero extends React.Component {
           },
         })
       )
-      .then(this.getData("getFilteredProfessions", "filteredProfessions"))
       .catch((error) => console.log("Error" + error));
   }
-
-  handleBasicFromInputValue = (event) => {
-    this.setState({
-      money: {
-        ...this.state.money,
-        [event.target.name]: +event.target.value,
-      },
-    });
-  };
-
-  changeNameState = (event) => {
-    this.setState({
-      heroInformations: {
-        ...this.state.heroInformations,
-        name: event.target.value,
-      },
-    });
-  };
-
-  changeCurrentState = (event, array, value) => {
-    this.setState({
-      array: {
-        ...this.state.array,
-        name: event.target.value,
-      },
-    });
-  };
-
-  changeNote = (event) => {
-    this.setState({
-      heroInformations: {
-        ...this.state.heroInformations,
-        notes: event.target.value,
-      },
-    });
-    console.log(this.state.heroInformations.notes);
-  };
 
   saveNote() {
     axios
@@ -255,18 +221,8 @@ class Hero extends React.Component {
           },
         })
       )
-      .then(this.getData("getFilteredProfessions", "filteredProfessions"))
       .catch((error) => console.log("Error" + error));
   }
-
-  changeSumExperience = (event) => {
-    this.setState({
-      heroInformations: {
-        ...this.state.heroInformations,
-        experienceSum: event.target.value,
-      },
-    });
-  };
 
   changeExperience() {
     axios
@@ -284,22 +240,65 @@ class Hero extends React.Component {
       .catch((error) => console.log("Error" + error));
   }
 
-  changeProfessionActive() {
-    this.setState((prevState) => ({
-      ifChangeProfessionActive: !prevState.ifChangeProfessionActive,
-    }));
-  }
+  changeMoneyAssets = (event) => {
+    this.setState({
+      money: {
+        ...this.state.money,
+        [event.target.name]: +event.target.value,
+      },
+    });
+  };
+
+  /*changeNameState = (event) => {
+    this.setState({
+      heroInformations: {
+        ...this.state.heroInformations,
+        name: event.target.value,
+      },
+    });
+  };*/
+
+  //changeCurrentState(event, "heroInformations", "experienceSum");
+
+  changeCurrentState = (event, array, name) => {
+    this.setState({
+      [array]: {
+        ...this.state[array],
+        [name]: event.target.value,
+      },
+    });
+  };
+
+  /*changeNote = (event) => {
+    this.setState({
+      heroInformations: {
+        ...this.state.heroInformations,
+        notes: event.target.value,
+      },
+    });
+  };*/
+  /*
+  changeSumExperience = (event) => {
+    this.setState({
+      heroInformations: {
+        ...this.state.heroInformations,
+        experienceSum: event.target.value,
+      },
+    });
+  };*/
 
   render() {
     let currentRace = Object.assign({}, this.state.heroInformations.race);
-    console.log(this.state.filteredProfessions);
+
     return (
       <div className="user-panel__description">
         <select
           name="changeRace"
           form="changeRace"
           className="user-panel__race"
+          value={this.value}
           defaultValue="Wybierz rasę"
+          onClick={this.getData("getRaces", "filteredRaces")}
           onChange={this.changeCurrentRace}
         >
           {this.state.filteredRaces.map((item, key) => {
@@ -323,7 +322,9 @@ class Hero extends React.Component {
           placeholder="Imię"
           className="user-panel__login"
           defaultValue={this.state.heroInformations.name}
-          onChange={this.changeNameState}
+          onChange={(event) =>
+            this.changeCurrentState(event, "heroInformations", "name")
+          }
           onBlur={this.changeName}
         />
         <p className="user-panel__profession-options">
@@ -389,7 +390,13 @@ class Hero extends React.Component {
             name="userExperience"
             className="user-panel__experience-input"
             defaultValue={this.state.heroInformations.experienceSum}
-            onChange={this.changeSumExperience}
+            onChange={(event) =>
+              this.changeCurrentState(
+                event,
+                "heroInformations",
+                "experienceSum"
+              )
+            }
             onBlur={this.changeExperience}
           />
           <label for="userExperience" className="user-panel__experience-label">
@@ -406,7 +413,7 @@ class Hero extends React.Component {
             name="gold"
             className="user-panel__input"
             defaultValue={this.state.money.gold}
-            onChange={this.handleBasicFromInputValue}
+            onChange={this.changeMoneyAssets}
             onBlur={this.passData}
           />
           <label for="userGoldCoins">Złotych Koron (ZK)</label>
@@ -417,7 +424,7 @@ class Hero extends React.Component {
             name="silver"
             className="user-panel__input"
             defaultValue={this.state.money.silver}
-            onChange={this.handleBasicFromInputValue}
+            onChange={this.changeMoneyAssets}
             onBlur={this.passData}
           />
           <label for="userSilverCoins">Srebrnych Szylingów (S)</label>
@@ -428,7 +435,7 @@ class Hero extends React.Component {
             name="bronze"
             className="user-panel__input"
             defaultValue={this.state.money.bronze}
-            onChange={this.handleBasicFromInputValue}
+            onChange={this.changeMoneyAssets}
             onBlur={this.passData}
           />
           <label for="userBonzeCoins">Miedzianych Pensów (P)</label>
@@ -444,7 +451,9 @@ class Hero extends React.Component {
               ? this.state.heroInformations.notes
               : "Tutaj możesz dodać własną notatkę ;)"
           }
-          onChange={this.changeNote}
+          onChange={(event) =>
+            this.changeCurrentState(event, "heroInformations", "notes")
+          }
         />
         <button className="user-panel__textarea-button" onClick={this.saveNote}>
           Zapisz notatkę
@@ -455,30 +464,3 @@ class Hero extends React.Component {
 }
 
 export default Hero;
-
-/*
- {this.state.filteredRaces.length > 0 ? (
-          /*<select
-            name="changeRace"
-            form="changeRace"
-            className="user-panel__select"
-            defaultValue="Wybierz rasę"
-            onChange={this.changeCurrentRace}
-          >
-            {this.state.filteredRaces.map((item, key) => {
-              return item.id === this.state.heroInformations.race.id ? (
-                <option key={key} value={[item.name, item.id]} selected>
-                  {item.name}
-                </option>
-              ) : (
-                <option
-                  key={key}
-                  value={JSON.stringify({ name: item.name, id: item.id })}
-                >
-                  {item.name}
-                </option>
-              );
-            })}{" "}
-          </select>
-          
-          ) : null}*/

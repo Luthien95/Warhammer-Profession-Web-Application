@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink
+  NavLink,
 } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import Home from "./components/Home";
@@ -13,7 +13,6 @@ import Login from "./components/Login";
 import Skills from "./components/Skills";
 import UserPanel from "./components/UserPanel";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "./App.css";
 import axios from "axios";
 
 class App extends React.Component {
@@ -23,36 +22,11 @@ class App extends React.Component {
     this.state = {
       professionList: [],
       menuActive: false,
-      isLogginIn: false
+      isLogginIn: false,
     };
 
     this.getData = this.getData.bind(this);
     this.toogleNavigation = this.toogleNavigation.bind(this);
-  }
-
-  getData() {
-    axios
-      .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
-        //"http://localhost:5000/api/professions/",
-        {
-          headers: { "Content-Type": "application/json" }
-        }
-      )
-      .then(response =>
-        response.data.map(professions => ({
-          description: `${professions.description}`,
-          name: `${professions.name}`,
-          id: `${professions.id}`,
-          imageId: `${professions.imageId}`
-        }))
-      )
-      .then(professionList => {
-        this.setState({
-          professionList
-        });
-      })
-      .catch(error => console.log("Error" + error));
   }
 
   componentWillMount() {
@@ -67,6 +41,31 @@ class App extends React.Component {
     } else {
       this.setState({ isLogginIn: false });
     }
+  }
+
+  getData() {
+    axios
+      .get(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
+        //"http://localhost:5000/api/professions/",
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((response) =>
+        response.data.map((professions) => ({
+          description: `${professions.description}`,
+          name: `${professions.name}`,
+          id: `${professions.id}`,
+          imageId: `${professions.imageId}`,
+        }))
+      )
+      .then((professionList) => {
+        this.setState({
+          professionList,
+        });
+      })
+      .catch((error) => console.log("Error" + error));
   }
 
   toogleNavigation() {
@@ -121,6 +120,7 @@ class App extends React.Component {
                         exact
                         className="navigation__link"
                         activeClassName="navigation__link--active"
+                        onClick={this.toogleNavigation}
                       >
                         {" "}
                         Home{" "}
@@ -131,6 +131,7 @@ class App extends React.Component {
                         to={"/userpanel"}
                         className="navigation__link"
                         activeClassName="navigation__link--active"
+                        onClick={this.toogleNavigation}
                       >
                         User panel
                       </NavLink>
@@ -140,6 +141,7 @@ class App extends React.Component {
                         to={"/select"}
                         className="navigation__link"
                         activeClassName="navigation__link--active"
+                        onClick={this.toogleNavigation}
                       >
                         Select
                       </NavLink>
@@ -149,6 +151,7 @@ class App extends React.Component {
                         to={"/skills"}
                         className="navigation__link"
                         activeClassName="navigation__link--active"
+                        onClick={this.toogleNavigation}
                       >
                         Skills
                       </NavLink>
@@ -161,6 +164,7 @@ class App extends React.Component {
                         to={"/register"}
                         className="navigation__link"
                         activeClassName="navigation__link--active"
+                        onClick={this.toogleNavigation}
                       >
                         Register
                       </NavLink>
@@ -171,6 +175,7 @@ class App extends React.Component {
                         exact
                         className="navigation__link"
                         activeClassName="navigation__link--active"
+                        onClick={this.toogleNavigation}
                       >
                         Login
                       </NavLink>
@@ -184,27 +189,27 @@ class App extends React.Component {
             <Route
               exact
               path="/"
-              render={props => (
+              render={(props) => (
                 <Home {...props} professionList={this.state.professionList} />
               )}
             />
             <Route
               path="/select"
-              render={props => (
+              render={(props) => (
                 <Select {...props} professionList={this.state.professionList} />
               )}
             />
-            <Route path="/register" render={props => <Register />} />
-            <Route path="/login" render={props => <Login />} />
+            <Route path="/register" render={(props) => <Register />} />
+            <Route path="/login" render={(props) => <Login />} />
             <Route
               path="/skills"
-              render={props => (
+              render={(props) => (
                 <Skills {...props} professionList={this.state.professionList} />
               )}
             />
             <Route
               path="/userpanel"
-              render={props => (
+              render={(props) => (
                 <UserPanel
                   {...props}
                   professionList={this.state.professionList}

@@ -1,3 +1,9 @@
+@keyframes animateBackground {
+  from {
+    background-color: transparent; }
+  to {
+    background-color: #171717; } }
+
 body {
   font-family: Montserrat;
   width: 100vw;
@@ -17,9 +23,6 @@ p {
   margin: 0;
   padding: 0; }
 
-h1 {
-  font-family: Montserrat; }
-
 button {
   border: none;
   background: none;
@@ -29,146 +32,18 @@ button {
   button:focus {
     outline: none; }
 
-.subpage {
-  height: auto;
-  overflow: hidden; }
-  .subpage p {
-    color: white; }
-
 input {
-  width: 120px;
-  border: 1px solid #efebeb;
+  background: none;
+  border: none;
+  color: white;
+  font-family: Montserrat;
   padding: 10px; }
-
-select {
-  border: 1px solid #efebeb;
-  padding: 10px;
-  padding-right: 50px;
-  margin: 10px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%), linear-gradient(to right, #ccc, #ccc);
-  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
-  background-size: 5px 5px, 5px 5px, 1px 1.5em;
-  background-repeat: no-repeat; }
-  select:focus {
-    background-image: linear-gradient(45deg, black 50%, transparent 50%), linear-gradient(135deg, transparent 50%, black 50%), linear-gradient(to right, #ccc, #ccc);
-    background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, calc(100% - 2.5em) 0.5em;
-    background-size: 5px 5px, 5px 5px, 1px 1.5em;
-    background-repeat: no-repeat;
-    border: 2px solid black;
-    outline: none; }
-  select:active {
-    border: 2px solid black;
-    outline: none; }
-
-.card-interface {
-  width: 100vw;
-  height: 100vh;
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.1) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.8) 100%), url("http://www.banktapet.pl/pictures/2012/0611/1/trees-forest-fantasy-art-mag-pics-684623.jpg");
-  background-size: cover;
-  outline-offset: -40px;
-  position: relative; }
-  .card-interface:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #030120;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 62%, rgba(0, 0, 0, 0.9) 100%);
-    transition: background .3s linear;
-    z-index: 0; }
-  .card-interface__text-container {
-    position: absolute;
-    bottom: 20%;
-    left: 15%; }
-  .card-interface__header {
-    font-weight: bold;
-    font-size: 80px;
-    text-transform: uppercase;
-    margin-bottom: 20px; }
-  .card-interface__description {
-    width: 35%;
-    line-height: 1.3;
-    opacity: .8;
-    font-size: .9rem; }
-  .card-interface__button {
-    color: white;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 1.3rem;
-    margin-top: 30px;
-    position: relative; }
-    .card-interface__button:after {
-      content: '';
-      right: -50px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: white;
-      width: 30px;
-      height: 4px;
-      position: absolute; }
-
-.name-list {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 40px;
-  overflow: hidden;
-  width: 200px;
-  scroll-behavior: smooth; }
-  .name-list__item {
-    color: white;
-    padding: 10px 0;
-    text-align: right;
-    opacity: .1;
-    font-size: .9rem; }
-    .name-list__item:focus {
-      outline: none; }
-  .name-list .slick-active .name-list__item {
-    opacity: .6; }
-  .name-list .slick-current .name-list__item {
-    opacity: 1;
-    position: relative;
-    right: 40px; }
-    .name-list .slick-current .name-list__item:after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: -40px;
-      transform: translateY(-50%);
-      width: 30px;
-      height: 4px;
-      background: white; }
-
-.profession-list .slick-slide {
-  width: 100vw;
-  height: 100vh; }
-
-.card-extended {
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  z-index: 9999999;
-  background: grey;
-  width: 80%;
-  height: 80%; }
-  .card-extended .header-icons {
-    margin: 10px 15px;
+  input::placeholder {
     color: white; }
-  .card-extended .card-description {
-    padding: 20px;
-    color: white; }
-
-.select {
-  position: absolute;
-  top: 0; }
+  input:hover {
+    cursor: pointer; }
+  input:focus {
+    outline: 1px solid rgba(255, 255, 255, 0.1); }
 
 .navigation {
   position: absolute; }
@@ -336,11 +211,145 @@ select {
         height: 4px;
         background: white; }
 
-@keyframes animateBackground {
-  from {
-    background-color: transparent; }
-  to {
-    background-color: #171717; } }
+.login-page {
+  background: #2c283a;
+  width: 100vw;
+  height: 100vh; }
+  .login-page .login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #3d3850;
+    box-shadow: 2px 0px 10px 0px #212020;
+    padding: 30px;
+    min-width: 350px; }
+    .login-page .login-form__input-container {
+      display: flex;
+      align-items: center; }
+      .login-page .login-form__input-container--user::before, .login-page .login-form__input-container--password::before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        display: inline-block;
+        color: white; }
+      .login-page .login-form__input-container--user::before {
+        content: "\f007"; }
+      .login-page .login-form__input-container--password::before {
+        content: "\f023"; }
+    .login-page .login-form__input {
+      margin: 10px;
+      width: calc(100% - 20px); }
+    .login-page .login-form__button {
+      float: right;
+      padding: 10px 20px;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase; }
+
+.card-interface {
+  width: 100vw;
+  height: 100vh;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.1) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.8) 100%), url("http://www.banktapet.pl/pictures/2012/0611/1/trees-forest-fantasy-art-mag-pics-684623.jpg");
+  background-size: cover;
+  outline-offset: -40px;
+  position: relative; }
+  .card-interface:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #030120;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 62%, rgba(0, 0, 0, 0.9) 100%);
+    transition: background .3s linear;
+    z-index: 0; }
+  .card-interface__text-container {
+    position: absolute;
+    bottom: 20%;
+    left: 15%; }
+  .card-interface__header {
+    font-weight: bold;
+    font-size: 80px;
+    text-transform: uppercase;
+    margin-bottom: 20px; }
+  .card-interface__description {
+    width: 35%;
+    line-height: 1.3;
+    opacity: .8;
+    font-size: .9rem; }
+  .card-interface__button {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-top: 30px;
+    position: relative; }
+    .card-interface__button:after {
+      content: '';
+      right: -50px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      width: 30px;
+      height: 4px;
+      position: absolute; }
+
+.name-list {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 40px;
+  overflow: hidden;
+  width: 200px;
+  scroll-behavior: smooth; }
+  .name-list__item {
+    color: white;
+    padding: 10px 0;
+    text-align: right;
+    opacity: .1;
+    font-size: .9rem; }
+    .name-list__item:focus {
+      outline: none; }
+  .name-list .slick-active .name-list__item {
+    opacity: .6; }
+  .name-list .slick-current .name-list__item {
+    opacity: 1;
+    position: relative;
+    right: 40px; }
+    .name-list .slick-current .name-list__item:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 4px;
+      background: white; }
+
+.profession-list .slick-slide {
+  width: 100vw;
+  height: 100vh; }
+
+.card-extended {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  z-index: 9999999;
+  background: grey;
+  width: 80%;
+  height: 80%; }
+  .card-extended .header-icons {
+    margin: 10px 15px;
+    color: white; }
+  .card-extended .card-description {
+    padding: 20px;
+    color: white; }
+
+.select {
+  position: absolute;
+  top: 0; }
 
 .select-subpage {
   background: white;
@@ -449,22 +458,6 @@ select {
   .select-subpage p {
     color: black; }
 
-.login-form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 300px; }
-  .login-form__input {
-    padding: 10px;
-    margin: 10px 0;
-    width: 100%;
-    border: 1px solid darkgray; }
-  .login-form__button {
-    padding: 10px;
-    width: 100%;
-    border: 1px solid darkgray; }
-
 .listOfSkills {
   top: 100px;
   position: relative;
@@ -477,6 +470,8 @@ select {
   font-family: Montserrat; }
   .user-panel input:hover {
     cursor: pointer; }
+  .user-panel input:focus {
+    outline: 1px solid rgba(255, 255, 255, 0.1); }
 
 .user-panel select {
   background: none;
@@ -489,6 +484,9 @@ select {
     background: white; }
   .user-panel select:hover {
     cursor: pointer; }
+  .user-panel select:focus {
+    background: none;
+    outline: 1px solid rgba(255, 255, 255, 0.1); }
 
 textarea {
   width: 100%;
@@ -498,7 +496,7 @@ textarea {
   font-family: Montserrat;
   color: white; }
   textarea:focus {
-    outline: 1px solid rgba(255, 255, 255, 0.2); }
+    outline: 1px solid rgba(255, 255, 255, 0.1); }
 
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -539,14 +537,14 @@ input[type=number] {
     width: 100%;
     padding: 10px 50px 10px 0; }
     .user-panel__login:focus {
-      outline: 1px solid rgba(255, 255, 255, 0.2); }
+      outline: 1px solid rgba(255, 255, 255, 0.1); }
   .user-panel__race {
     opacity: .5;
     padding: 10px 50px 10px 0;
     margin-top: 60px; }
     .user-panel__race:focus {
       background-image: linear-gradient(45deg, white 50%, transparent 50%), linear-gradient(135deg, transparent 50%, white 50%), linear-gradient(to right, #ccc, #ccc);
-      border: 1px solid rgba(255, 255, 255, 0.2); }
+      border: 1px solid rgba(255, 255, 255, 0.1); }
   .user-panel__experience-box {
     width: 48%;
     background-color: #0093E9;

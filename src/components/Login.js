@@ -56,30 +56,36 @@ class Login extends React.Component {
       return <Redirect to="/" />;
     } else {
       return (
-        <form className="login-form" onSubmit={this.sendData}>
-          <input
-            type="text"
-            name="login"
-            placeholder="Login"
-            value={this.state.login}
-            onChange={this.changeInputData}
-            required
-            className="login-form__input"
-          />
+        <div className="login-page">
+          <form className="login-form" onSubmit={this.sendData}>
+            <p>Zaloguj się!</p>
+            <div className="login-form__input-container login-form__input-container--user">
+              <input
+                type="text"
+                name="login"
+                placeholder="Login"
+                value={this.state.login}
+                onChange={this.changeInputData}
+                required
+                className="login-form__input"
+              />
+            </div>
+            <div className="login-form__input-container login-form__input-container--password">
+              <input
+                type="password"
+                name="password"
+                placeholder="Hasło"
+                value={this.state.password}
+                onChange={this.changeInputData}
+                className="login-form__input"
+              />
+            </div>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.changeInputData}
-            className="login-form__input"
-          />
-
-          <button type="submit" className="button button-block">
-            Zaloguj
-          </button>
-        </form>
+            <button type="submit" className="login-form__button">
+              Zaloguj
+            </button>
+          </form>
+        </div>
       );
     }
   }

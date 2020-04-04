@@ -1,0 +1,40 @@
+body
+    font-family: Montserrat
+    width: 100vw
+    height: 100vh
+    overflow: hidden
+    position: relative
+
+.app,
+#root
+    position: relative
+    height: 100%
+    
+h1,
+p
+    z-index: 1
+    color: white
+    margin: 0
+    padding: 0
+
+button
+    border: none
+    background: none
+    padding: 0
+    &:hover
+        cursor: pointer
+    &:focus
+        outline: none
+
+input
+    background: none
+    border: none
+    color: white
+    font-family: Montserrat
+    padding: 10px
+    &::placeholder
+        color: white
+    &:hover
+        cursor: pointer
+    &:focus
+        outline: 1px solid $border-color

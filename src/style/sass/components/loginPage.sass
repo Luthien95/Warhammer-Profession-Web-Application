@@ -1,0 +1,36 @@
+.login-page
+    background: $main-color
+    width: 100vw
+    height: 100vh
+    .login-form
+        @include absoluteCenter
+        background: $sub-color
+        box-shadow: 2px 0px 10px 0px #212020
+        padding: 30px
+        min-width: 350px
+        &__input-container
+            display: flex
+            align-items: center
+            &--user,
+            &--password
+                &::before
+                    font-family: "Font Awesome 5 Free" 
+                    font-weight: 900
+                    display: inline-block
+                    color: white
+            &--user
+                &::before
+                    content: "\f007"
+            &--password
+                &::before
+                    content: "\f023"
+            &--password
+        &__input
+            margin: 10px
+            width: calc(100% - 20px)
+        &__button
+            float: right
+            padding: 10px 20px
+            color: white
+            font-weight: bold
+            text-transform: uppercase
