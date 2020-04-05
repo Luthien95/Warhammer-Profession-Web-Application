@@ -140,9 +140,10 @@ class Abilities extends React.Component {
             form="skillList"
             onChange={this.addSkillToList}
             value={this.state.value}
+            defaultValue="Dodaj nową zdolność"
             className="ability-panel__select"
           >
-            <option value="" selected disabled>
+            <option value="Dodaj nową zdolność" disabled>
               Dodaj nową zdolność
             </option>
             {this.state.abilitiesList.map((item) => (

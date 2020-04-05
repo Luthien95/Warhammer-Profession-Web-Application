@@ -8,7 +8,7 @@ class Register extends React.Component {
 
     this.state = {
       login: "",
-      password: ""
+      password: "",
     };
 
     this.sendData = this.sendData.bind(this);
@@ -20,7 +20,7 @@ class Register extends React.Component {
       "http://192.168.0.52:8020/WarhammerProfessionsApp/api/users/Register",
       {
         login: this.state.login,
-        password: this.state.password
+        password: this.state.password,
       }
     );
   }
@@ -28,8 +28,9 @@ class Register extends React.Component {
   handleChange(event) {
     const target = event.target;
     const name = target.name;
+
     this.setState({
-      [name]: event.target.value
+      [name]: event.target.value,
     });
   }
 

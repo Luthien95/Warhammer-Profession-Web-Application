@@ -296,11 +296,19 @@ class Hero extends React.Component {
           name="changeRace"
           form="changeRace"
           className="user-panel__race"
-          value={this.value}
-          defaultValue="Wybierz rasę"
-          onClick={this.getData("getRaces", "filteredRaces")}
+          defaultValue={
+            this.state.heroInformations.race
+              ? this.state.heroInformations.race
+              : "Wybierz rasę"
+          }
+          onClick={() => {
+            this.getData("getRaces", "filteredRaces");
+          }}
           onChange={this.changeCurrentRace}
         >
+          <option value="Wybierz rasę" disabled>
+            Wybierz rasę
+          </option>
           {this.state.filteredRaces.map((item, key) => {
             return item.id === currentRace.id ? (
               <option key={key} value={[item.name, item.id]} selected>
@@ -328,12 +336,15 @@ class Hero extends React.Component {
           onBlur={this.changeName}
         />
         <p className="user-panel__profession-options">
-          {this.state.heroInformations.actualProfessionName}{" "}
+          {this.state.heroInformations.actualProfessionName
+            ? this.state.heroInformations.actualProfessionName
+            : "Profesja"}{" "}
           {this.state.ifChangeProfessionActive == true ? (
             <select
               name="changeProffesion"
               form="changeProffesion"
               className="user-panel__select"
+              value="Wybierz swoją profesję"
               onChange={this.changeCurrentProfession}
             >
               {this.state.filteredProfessions.map((item, key) => {
@@ -378,7 +389,7 @@ class Hero extends React.Component {
             defaultValue={this.state.heroInformations.experienceLeft}
           />
           <label
-            for="userLeftExperience"
+            htmlFor="userLeftExperience"
             className="user-panel__experience-label"
           >
             Pozostałe doświadczenie
@@ -399,7 +410,10 @@ class Hero extends React.Component {
             }
             onBlur={this.changeExperience}
           />
-          <label for="userExperience" className="user-panel__experience-label">
+          <label
+            htmlFor="userExperience"
+            className="user-panel__experience-label"
+          >
             Doświadczenie
           </label>
         </div>
@@ -416,7 +430,7 @@ class Hero extends React.Component {
             onChange={this.changeMoneyAssets}
             onBlur={this.passData}
           />
-          <label for="userGoldCoins">Złotych Koron (ZK)</label>
+          <label htmlFor="userGoldCoins">Złotych Koron (ZK)</label>
         </div>
         <div>
           <input
@@ -427,7 +441,7 @@ class Hero extends React.Component {
             onChange={this.changeMoneyAssets}
             onBlur={this.passData}
           />
-          <label for="userSilverCoins">Srebrnych Szylingów (S)</label>
+          <label htmlFor="userSilverCoins">Srebrnych Szylingów (S)</label>
         </div>
         <div>
           <input
@@ -438,7 +452,7 @@ class Hero extends React.Component {
             onChange={this.changeMoneyAssets}
             onBlur={this.passData}
           />
-          <label for="userBonzeCoins">Miedzianych Pensów (P)</label>
+          <label htmlFor="userBonzeCoins">Miedzianych Pensów (P)</label>
         </div>
 
         <p className="user-panel__label">
@@ -449,7 +463,7 @@ class Hero extends React.Component {
           defaultValue={
             this.state.heroInformations.notes
               ? this.state.heroInformations.notes
-              : "Tutaj możesz dodać własną notatkę ;)"
+              : ""
           }
           onChange={(event) =>
             this.changeCurrentState(event, "heroInformations", "notes")

@@ -51,7 +51,7 @@ input[type=number]
         width: 30%
         padding: 60px
         background: $sub-color
-        box-shadow: 2px 0px 10px 0px #212020
+        box-shadow: $shadow-color
         overflow: hidden
         overflow-y: scroll
         -ms-overflow-style: none
@@ -121,7 +121,7 @@ input[type=number]
         .far
             margin-right: 10px
     .feature-table
-        background: #3d3850
+        background: $sub-color
         border-radius: 10px
         padding: 20px
         width: 90%
@@ -171,7 +171,7 @@ input[type=number]
             margin-top: 100px
     .skill-panel,
     .ability-panel
-        background: #3d3850
+        background: $sub-color
         border-radius: 10px
         padding: 20px
         width: 43%
@@ -198,6 +198,23 @@ input[type=number]
         justify-content: space-between
         width: 90%
         margin: 20px 5%
+    .character-panel
+        background: $sub-color
+        border-radius: 10px
+        padding: 20px
+        margin: 20px 5%
+    .items-list
+        &__items
+            display: flex
+            margin: 15px 0
+            span
+                margin-left: 10px
+                font-size: .7rem
+                opacity: .7
+                display: flex
+                align-items: flex-end
+            .fas
+                margin-left: auto
     
 .skill-panel,
 .ability-panel

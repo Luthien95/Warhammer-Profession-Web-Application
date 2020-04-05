@@ -2,15 +2,15 @@
     position: absolute
     &__container
         width: calc(100vw - 80px)
-        padding: 20px 40px 0 40px
+        padding: 40px 40px 0 40px
         display: flex
+        align-items: flex-start
         justify-content: space-between
     &__bar
         display: flex
         flex-flow: row
         z-index: 4
         transition-delay: 0.2s
-        padding: 20px
         width: 40px
         height: 40px
     &__button
@@ -25,6 +25,8 @@
     &__logout-button
         font-weight: bold
         text-transform: uppercase
+        padding: 5px
+        color: white
         .fas
             margin-left: 10px
     &__button-bar
@@ -79,18 +81,16 @@
         bottom: 0
         transform-origin: center
         transform: rotate(45deg) scale(1.2)
-    &__background-part
-        background: #171717
-        flex: 1 1 100%
-        transition: transform 0.5s ease-in-out
-        &:nth-child(odd)
-            transform: translateX(-100%)
-        &:nth-child(even)
-            transform: translateX(100%);
+        &-part
+            background: #171717
+            flex: 1 1 100%
+            transition: transform 0.5s ease-in-out
+            &:nth-child(odd)
+                transform: translateX(-100%)
+            &:nth-child(even)
+                transform: translateX(100%);
     &__links
         display: none
-    &__logout-button    
-        color: white
     &--open
         .navigation
             &__bar
@@ -134,7 +134,7 @@
                 list-style: none
                 text-align: center
             &__item
-                margin: 10px 0
+                margin: 20px 0
             &__link
                 text-decoration: none
                 color: white
@@ -148,7 +148,7 @@
                         content: ''
                         position: absolute
                         top: 50%
-                        right: -40px 
+                        right: -50px 
                         transform: translateY(-50%)
                         width: 30px 
                         height: 4px

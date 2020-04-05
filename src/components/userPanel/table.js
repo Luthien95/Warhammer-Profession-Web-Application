@@ -115,7 +115,7 @@ const InputRow = ({ header, value, statistics, type, changeBaseValue }) => {
       </td>
       {statistics.map((item) => {
         return (
-          <td className="feature-table__item">
+          <td className="feature-table__item" key={item.name}>
             <input
               type={type}
               name={item.name}
@@ -142,7 +142,7 @@ const Row = ({ header, value, statistics }) => {
       </td>
       {statistics.map((item) => {
         return (
-          <td className="feature-table__item">
+          <td className="feature-table__item" key={item.name}>
             <p>{item[currentValue] + " / " + item[maximumValue]}</p>
             <span className="feature-table__details-description">
               {item[details]}
@@ -164,7 +164,7 @@ const Buttons = ({ value, statistics, changeBaseValue }) => {
       <td className="feature-table__item feature-table__item--row-header"></td>
       {statistics.map((item) => {
         return (
-          <td className="feature-table__item">
+          <td className="feature-table__item" key={item.name}>
             <button
               className={`feature-table__button ${
                 item[canBeIncreased] ? "" : "feature-table__button--not-active"

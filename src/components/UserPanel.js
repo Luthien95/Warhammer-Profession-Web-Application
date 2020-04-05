@@ -6,6 +6,8 @@ import Hero from "./userPanel/Hero";
 import Table from "./userPanel/Table";
 import Skills from "./userPanel/Skills";
 import Abilities from "./userPanel/Abilities";
+import Items from "./userPanel/Items";
+import * as signalR from "@aspnet/signalr";
 
 class UserPanel extends React.Component {
   constructor(props) {
@@ -19,11 +21,37 @@ class UserPanel extends React.Component {
       advancedStatistics: [],
       basicInformations: {},
       changedSkill: 0,
+      hubConnection: null,
     };
   }
 
   componentWillMount() {
     this.getCharacterData();
+  }
+
+  componentDidMount() {
+    let hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl("http://192.168.0.52:8020/WarhammerProfessionsApp/characterhub")
+      .build();
+    /*
+    this.setState({ hubConnection }, () => {
+      this.state.hubConnection
+        .start()
+        .then(() => console.log("Connection started!"))
+        .catch((err) => console.log("Error while establishing connection :("));
+
+      this.state.hubConnection.on("sendMessage", (nick, receivedMessage) => {
+        const text = `${nick}: ${receivedMessage}`;
+        //const messages = concat([text]);
+        console.log(text);
+      });
+    });*/
+
+    hubConnection.on("sendMessage", (data) => {
+      console.log(data);
+    });
+
+    hubConnection.start();
   }
 
   callbackFunction = (childData) => {
@@ -58,6 +86,7 @@ class UserPanel extends React.Component {
   }
 
   render() {
+    console.log(this.state.character);
     return (
       <div className="subpage user-panel">
         <Hero
@@ -79,6 +108,10 @@ class UserPanel extends React.Component {
               parentCallback={this.callbackFunction}
             />
           </div>
+          <Items
+            ownedItems={this.state.character.items}
+            additionalItems={this.state.character.additionalValues}
+          />
         </div>
       </div>
     );

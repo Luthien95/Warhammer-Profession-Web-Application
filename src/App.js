@@ -123,7 +123,7 @@ class App extends React.Component {
                         onClick={this.toogleNavigation}
                       >
                         {" "}
-                        Home{" "}
+                        Strona domowa{" "}
                       </NavLink>
                     </li>
                     <li className="navigation__item">
@@ -133,7 +133,7 @@ class App extends React.Component {
                         activeClassName="navigation__link--active"
                         onClick={this.toogleNavigation}
                       >
-                        User panel
+                        Panel użytkownika
                       </NavLink>
                     </li>
                     <li className="navigation__item">
@@ -153,7 +153,7 @@ class App extends React.Component {
                         activeClassName="navigation__link--active"
                         onClick={this.toogleNavigation}
                       >
-                        Skills
+                        Umiejętności
                       </NavLink>
                     </li>
                   </ul>
@@ -166,7 +166,7 @@ class App extends React.Component {
                         activeClassName="navigation__link--active"
                         onClick={this.toogleNavigation}
                       >
-                        Register
+                        Rejestracja
                       </NavLink>
                     </li>
                     <li className="navigation__item">
@@ -177,7 +177,7 @@ class App extends React.Component {
                         activeClassName="navigation__link--active"
                         onClick={this.toogleNavigation}
                       >
-                        Login
+                        Logowanie
                       </NavLink>
                     </li>
                   </ul>

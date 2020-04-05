@@ -155,7 +155,7 @@ class Skills extends React.Component {
             defaultValue="Dodaj nową umiejętność"
             className="skill-panel__select-skill"
           >
-            <option value="" selected disabled>
+            <option value="Dodaj nową umiejętność" disabled>
               Dodaj nową umiejętność
             </option>
             {this.state.skillList.map((item) => (
