@@ -55,30 +55,38 @@ class Items extends React.Component {
   render() {
     return (
       <div className="character-panel items-list">
-        <p className="user-panel__label">Posiadane przedmioty</p>
+        <p className="user-panel__label">
+          <i class="fas fa-th-large"></i> Posiadane przedmioty
+        </p>
         {this.state.ownedItems.map((item) => (
           <p key={item.id} className="items-list__items">
             {item.name} <span>({item.quantity})</span>
-            <i
-              //onClick={(e) => this.deleteSkill(item.id, e)}
-              className="fas fa-trash-alt"
-            ></i>
+            <div className="items-list__buttons">
+              <i className="fas fa-pencil-alt"></i>
+              <i
+                //onClick={(e) => this.deleteSkill(item.id, e)}
+                className="fas fa-trash-alt"
+              ></i>
+            </div>
           </p>
         ))}
         {this.state.additionalItems.map((item) => (
           <p key={item.id} className="items-list__items">
             {item.name} <span>({item.quantity})</span>
-            <i
-              //onClick={(e) => this.deleteSkill(item.id, e)}
-              className="fas fa-trash-alt"
-            ></i>
+            <div className="items-list__buttons">
+              <i className="fas fa-pencil-alt"></i>
+              <i
+                //onClick={(e) => this.deleteSkill(item.id, e)}
+                className="fas fa-trash-alt"
+              ></i>
+            </div>
           </p>
         ))}
         <p className="user-panel__label">
           <i className="fas fa-pencil-alt"></i> Dodaj nowy porzedmiot
         </p>
         <input
-          defaultValue="Wpisz nazwę przedmiotu"
+          defaultValue="Wpisz nazwę przedmiotu..."
           onChange={(event) => this.inputChange(event)}
         ></input>
         <button onClick={this.addAdditionalItem}>

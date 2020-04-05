@@ -131,7 +131,9 @@ class Skills extends React.Component {
   render() {
     return (
       <div className="skill-panel">
-        <p className="user-panel__label">Umiejętności</p>
+        <p className="user-panel__label">
+          <i class="fas fa-book-open"></i> Umiejętności
+        </p>
         {this.state.activeSkillList.map((item) => (
           <p
             className="skill-panel__item"

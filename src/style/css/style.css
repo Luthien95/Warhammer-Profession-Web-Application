@@ -687,15 +687,18 @@ input[type=number] {
     margin: 20px 5%; }
   .user-panel .items-list__items {
     display: flex;
-    margin: 15px 0; }
+    margin: 15px 0;
+    font-size: .9rem; }
     .user-panel .items-list__items span {
       margin-left: 10px;
       font-size: .7rem;
       opacity: .7;
       display: flex;
       align-items: flex-end; }
-    .user-panel .items-list__items .fas {
-      margin-left: auto; }
+  .user-panel .items-list__buttons {
+    margin-left: auto; }
+    .user-panel .items-list__buttons .fas {
+      margin: 0 10px; }
 
 .skill-panel__select-container,
 .ability-panel__select-container {
