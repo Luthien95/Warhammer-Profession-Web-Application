@@ -120,7 +120,7 @@ class Abilities extends React.Component {
     return (
       <div className="ability-panel">
         <p className="user-panel__label">
-          <i class="fas fa-magic"></i> Zdolności
+          <i className="fas fa-magic"></i> Zdolności
         </p>
         {this.state.activeAbilitiesList.map((item) => (
           <p

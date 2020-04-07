@@ -25,6 +25,8 @@ class Items extends React.Component {
           [item]: [...this.state[item], ...this.props[item]],
         });
       }
+
+      return [item];
     });
   }
 
@@ -56,7 +58,7 @@ class Items extends React.Component {
     return (
       <div className="character-panel items-list">
         <p className="user-panel__label">
-          <i class="fas fa-th-large"></i> Posiadane przedmioty
+          <i className="fas fa-th-large"></i> Posiadane przedmioty
         </p>
         {this.state.ownedItems.map((item) => (
           <p key={item.id} className="items-list__items">

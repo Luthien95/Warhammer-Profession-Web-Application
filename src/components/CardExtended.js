@@ -9,7 +9,7 @@ class CardExtended extends React.Component {
 
     this.state = {
       profession: {},
-      id: 3
+      id: 3,
     };
 
     this.getData = this.getData.bind(this);
@@ -18,8 +18,8 @@ class CardExtended extends React.Component {
 
   changeState() {
     this.setState(
-      prevState => ({ active: false }),
-      function() {
+      (prevState) => ({ active: false }),
+      function () {
         this.props.parentCallback(this.state.active);
       }
     );
@@ -36,10 +36,10 @@ class CardExtended extends React.Component {
         "http://localhost:5000/api/Professions/" + this.state.id,
         {
           params: { id: this.state.id },
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
         }
       )
-      .then(res => {
+      .then((res) => {
         var data = res.data;
 
         var profession = {
@@ -65,19 +65,17 @@ class CardExtended extends React.Component {
           shooting: data.shooting,
           speed: data.speed,
           stamina: data.stamina,
-          willpower: data.willpower
+          willpower: data.willpower,
         };
 
         this.setState({
-          profession: profession
+          profession: profession,
         });
       })
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   render() {
-    const { profession } = this.state;
-
     return (
       <div className="card-extended">
         <div className="header-icons">

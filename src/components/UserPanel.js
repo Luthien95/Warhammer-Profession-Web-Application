@@ -23,35 +23,12 @@ class UserPanel extends React.Component {
       changedSkill: 0,
       hubConnection: null,
     };
+
+    this.hubConnection = this.hubConnection.bind(this);
   }
 
   componentWillMount() {
     this.getCharacterData();
-  }
-
-  componentDidMount() {
-    let hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://192.168.0.52:8020/WarhammerProfessionsApp/characterhub")
-      .build();
-    /*
-    this.setState({ hubConnection }, () => {
-      this.state.hubConnection
-        .start()
-        .then(() => console.log("Connection started!"))
-        .catch((err) => console.log("Error while establishing connection :("));
-
-      this.state.hubConnection.on("sendMessage", (nick, receivedMessage) => {
-        const text = `${nick}: ${receivedMessage}`;
-        //const messages = concat([text]);
-        console.log(text);
-      });
-    });*/
-
-    hubConnection.on("sendMessage", (data) => {
-      console.log(data);
-    });
-
-    hubConnection.start();
   }
 
   callbackFunction = (childData) => {
@@ -59,6 +36,72 @@ class UserPanel extends React.Component {
       return { changedSkill: prevState.changedSkill + childData };
     });
   };
+
+  hubConnection() {
+    let hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl(
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/characterhub?characterId=${this.state.basicInformations.id}`
+      )
+      .build();
+
+    hubConnection.on("receiveMessage", (data) => {
+      console.log(data);
+    });
+
+    hubConnection.on("changeMoney", (gold, silver, bronze) => {
+      this.setState({
+        character: {
+          ...this.state.character,
+          money: {
+            ...this.state.money,
+            gold: +gold,
+            silver: +silver,
+            bronze: +bronze,
+          },
+        },
+      });
+    });
+
+    hubConnection.on("changeExperience", (value) => {
+      this.setState({
+        basicInformations: {
+          ...this.state.basicInformations,
+          experienceSum: value,
+        },
+      });
+    });
+
+    hubConnection.on("changeStatisticValue", (type, currentValue, maxValue) => {
+      const basicStatistics = this.state.basicStatistics.filter((item) =>
+        item.type === type
+          ? this.setState({
+              basicInformations: {
+                ...this.state.basicInformations,
+                [item]: {
+                  ...this.state[item],
+                  currentValue: currentValue,
+                  maxValue: maxValue,
+                },
+              },
+            })
+          : null
+      );
+    });
+
+    hubConnection.on("removeSkill", (skillId) => {
+      const items = this.state.ownedSkills.filter(
+        (item) => item.id !== skillId
+      );
+    });
+
+    hubConnection.on("removeAbility", (abilityId) => {
+      const items = this.state.ownedAbilities.filter(
+        (item) => item.id !== abilityId
+      );
+    });
+
+    hubConnection.start();
+  }
 
   getCharacterData() {
     axios
@@ -81,12 +124,16 @@ class UserPanel extends React.Component {
           advancedStatistics: res.data.advancedStatistics,
           basicInformations: res.data.basicValues,
         });
+
+        console.log(res);
+      })
+      .then(() => {
+        this.hubConnection();
       })
       .catch((error) => console.log("Error" + error));
   }
 
   render() {
-    console.log(this.state.character);
     return (
       <div className="subpage user-panel">
         <Hero

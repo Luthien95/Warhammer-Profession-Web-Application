@@ -3,7 +3,6 @@ import "./../style/css/style.css";
 import axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import SelectDetails from "./selectDetails/SelectDetails";
-import { withCookies, useCookies } from "react-cookie";
 
 class Select extends React.Component {
   constructor(props) {
@@ -15,7 +14,7 @@ class Select extends React.Component {
       id: 0,
       professionList: [],
       changePaths: [],
-      activeId: 0
+      activeId: 0,
     };
 
     this.getData = this.getData.bind(this);
@@ -25,12 +24,12 @@ class Select extends React.Component {
   componentDidMount() {
     this.setState({
       id: this.props.id,
-      professionList: this.props.professionList
+      professionList: this.props.professionList,
     });
   }
 
   activeProfessionPath(e) {
-    this.setState({ activeId: e.target.dataset.index }, function() {
+    this.setState({ activeId: e.target.dataset.index }, function () {
       console.log(this.state.activeId);
     });
   }
@@ -51,21 +50,21 @@ class Select extends React.Component {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       )
-      .then(response =>
-        response.data.paths.map(path => ({
-          path: path.summary
+      .then((response) =>
+        response.data.paths.map((path) => ({
+          path: path.summary,
         }))
       )
-      .then(path => {
+      .then((path) => {
         this.setState({
-          changePaths: path
+          changePaths: path,
         });
       })
-      .catch(error => console.log("Error" + error));
+      .catch((error) => console.log("Error" + error));
   }
 
   render() {
@@ -83,7 +82,9 @@ class Select extends React.Component {
         </p>
         <div className="select-subpage__search">
           <select
-            onChange={e => this.setState({ startProfessionId: e.target.value })}
+            onChange={(e) =>
+              this.setState({ startProfessionId: e.target.value })
+            }
             className="select-subpage__start-professions"
           >
             {professionList.map((item, key) => (
@@ -93,7 +94,7 @@ class Select extends React.Component {
             ))}
           </select>
           <select
-            onChange={e => this.setState({ endProfessionId: e.target.value })}
+            onChange={(e) => this.setState({ endProfessionId: e.target.value })}
             className="select-subpage__end-professions"
           >
             {professionList.map((item, key) => (
@@ -116,7 +117,7 @@ class Select extends React.Component {
               <li
                 key={key}
                 className={
-                  this.state.activeId == key
+                  this.state.activeId === key
                     ? "select-subpage__item select-subpage__item--active"
                     : "select-subpage__item"
                 }
@@ -131,13 +132,13 @@ class Select extends React.Component {
                   data-index={key}
                   onClick={this.activeProfessionPath}
                 >
-                  {this.state.activeId == key ? (
+                  {this.state.activeId === key ? (
                     <i className="fas fa-times-circle"></i>
                   ) : (
                     <i className="fas fa-plus-circle"></i>
                   )}
                 </button>
-                {this.state.activeId == key ? (
+                {this.state.activeId === key ? (
                   <SelectDetails
                     path={this.state.changePaths[this.state.activeId]}
                     activeId={this.state.activeId}

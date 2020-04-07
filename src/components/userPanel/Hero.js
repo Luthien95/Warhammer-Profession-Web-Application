@@ -339,7 +339,7 @@ class Hero extends React.Component {
           {this.state.heroInformations.actualProfessionName
             ? this.state.heroInformations.actualProfessionName
             : "Profesja"}{" "}
-          {this.state.ifChangeProfessionActive == true ? (
+          {this.state.ifChangeProfessionActive === true ? (
             <select
               name="changeProffesion"
               form="changeProffesion"
