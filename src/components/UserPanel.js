@@ -20,7 +20,6 @@ class UserPanel extends React.Component {
       basicStatistics: [],
       advancedStatistics: [],
       basicInformations: {},
-      changedSkill: 0,
       hubConnection: null,
     };
 
@@ -30,12 +29,6 @@ class UserPanel extends React.Component {
   componentWillMount() {
     this.getCharacterData();
   }
-
-  callbackFunction = (childData) => {
-    this.setState((prevState) => {
-      return { changedSkill: prevState.changedSkill + childData };
-    });
-  };
 
   hubConnection() {
     let hubConnection = new signalR.HubConnectionBuilder()
@@ -66,17 +59,32 @@ class UserPanel extends React.Component {
       this.setState({
         basicInformations: {
           ...this.state.basicInformations,
-          experienceSum: value,
+          experienceLeft: value,
         },
       });
     });
 
     hubConnection.on("changeStatisticValue", (type, currentValue, maxValue) => {
-      const basicStatistics = this.state.basicStatistics.filter((item) =>
+      this.state.basicStatistics.filter((item) =>
         item.type === type
           ? this.setState({
-              basicInformations: {
-                ...this.state.basicInformations,
+              basicStatistics: {
+                ...this.state.basicStatistics,
+                [item]: {
+                  ...this.state[item],
+                  currentValue: currentValue,
+                  maxValue: maxValue,
+                },
+              },
+            })
+          : null
+      );
+
+      this.state.advancedStatistics.filter((item) =>
+        item.type === type
+          ? this.setState({
+              advancedStatistics: {
+                ...this.state.advancedStatistics,
                 [item]: {
                   ...this.state[item],
                   currentValue: currentValue,
@@ -92,12 +100,16 @@ class UserPanel extends React.Component {
       const items = this.state.ownedSkills.filter(
         (item) => item.id !== skillId
       );
+
+      return items;
     });
 
     hubConnection.on("removeAbility", (abilityId) => {
       const items = this.state.ownedAbilities.filter(
         (item) => item.id !== abilityId
       );
+
+      return items;
     });
 
     hubConnection.start();
@@ -140,24 +152,17 @@ class UserPanel extends React.Component {
           professionList={this.props.professionList}
           usersMoney={this.state.character.money}
           basicInformations={this.state.basicInformations}
-          changedSkill={this.state.changedSkill}
         />
         <div className="user-panel__statistics">
           <Table statistics={this.state.basicStatistics} />
           <Table statistics={this.state.advancedStatistics} />
           <div className="user-abilities">
-            <Skills
-              ownedSkills={this.state.ownedSkills}
-              parentCallback={this.callbackFunction}
-            />
-            <Abilities
-              ownedAbilities={this.state.ownedAbilities}
-              parentCallback={this.callbackFunction}
-            />
+            <Skills ownedSkills={this.state.ownedSkills} />
+            <Abilities ownedAbilities={this.state.ownedAbilities} />
           </div>
           <Items
             ownedItems={this.state.character.items}
-            additionalItems={this.state.character.additionalValues}
+            additionalItems={this.state.character.additionalItems}
           />
         </div>
       </div>

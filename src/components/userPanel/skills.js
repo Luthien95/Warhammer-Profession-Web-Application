@@ -15,7 +15,6 @@ class Skills extends React.Component {
     this.getFilteredSkills = this.getFilteredSkills.bind(this);
     this.addSkillToList = this.addSkillToList.bind(this);
     this.deleteSkill = this.deleteSkill.bind(this);
-    this.sendInformationToParent = this.sendInformationToParent.bind(this);
   }
 
   componentWillMount() {
@@ -31,10 +30,6 @@ class Skills extends React.Component {
         ],
       });
     }
-  }
-
-  sendInformationToParent(value) {
-    this.props.parentCallback(value);
   }
 
   getFilteredSkills() {
@@ -97,8 +92,6 @@ class Skills extends React.Component {
         this.setState({
           activeSkillList: [...this.state.activeSkillList, ...newSkill],
         });
-
-        this.sendInformationToParent(1);
       })
       .catch((error) => console.log("Error" + error));
   }
@@ -122,7 +115,6 @@ class Skills extends React.Component {
       .then((response) => {
         this.setState({ activeSkillList: items });
       })
-      .then(this.sendInformationToParent(-1))
       .catch((error) => console.log("Error" + error));
 
     this.getFilteredSkills();

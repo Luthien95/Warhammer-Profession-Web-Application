@@ -44,29 +44,6 @@ class Hero extends React.Component {
         heroInformations: this.props.basicInformations,
       });
     }
-    if (prevProps.changedSkill !== this.props.changedSkill) {
-      this.setState({
-        change: this.props.changedSkill,
-      });
-
-      if (this.props.changedSkill > this.state.change) {
-        this.setState({
-          heroInformations: {
-            ...this.state.heroInformations,
-            experienceLeft: this.state.heroInformations.experienceLeft - 100,
-          },
-          change: this.props.changedSkill,
-        });
-      } else if (this.props.changedSkill < this.state.change) {
-        this.setState({
-          heroInformations: {
-            ...this.state.heroInformations,
-            experienceLeft: this.state.heroInformations.experienceLeft + 100,
-          },
-          change: this.props.changedSkill,
-        });
-      }
-    }
   }
 
   changeProfessionActive() {

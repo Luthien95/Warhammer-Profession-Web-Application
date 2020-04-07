@@ -11,7 +11,7 @@ class Table extends React.Component {
     };
 
     this.changeBaseValue = this.changeBaseValue.bind(this);
-    this.changeAdvancedValue = this.changeAdvancedValue.bind(this);
+    this.changeValue = this.changeValue.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -44,7 +44,7 @@ class Table extends React.Component {
       .catch((error) => console.log("Error" + error));
   }
 
-  changeAdvancedValue(type, value) {
+  changeValue(type, value) {
     const typeOfFeature = parseInt(type, 10);
 
     axios
@@ -95,7 +95,7 @@ class Table extends React.Component {
           <Buttons
             value={["canBeDecreased", "canBeIncreased", "type"]}
             statistics={this.state.statistics}
-            changeBaseValue={this.changeAdvancedValue}
+            changeValue={this.changeValue}
           />
         </tbody>
       </table>
@@ -154,7 +154,7 @@ const Row = ({ header, value, statistics }) => {
   );
 };
 
-const Buttons = ({ value, statistics, changeBaseValue }) => {
+const Buttons = ({ value, statistics, changeValue }) => {
   const canBeDecreased = value[0];
   const canBeIncreased = value[1];
   const inputType = value[2];
@@ -170,7 +170,7 @@ const Buttons = ({ value, statistics, changeBaseValue }) => {
                 item[canBeIncreased] ? "" : "feature-table__button--not-active"
               }`}
               onClick={() => {
-                changeBaseValue(item[inputType], true);
+                changeValue(item[inputType], true);
               }}
             >
               +
@@ -180,7 +180,7 @@ const Buttons = ({ value, statistics, changeBaseValue }) => {
                 item[canBeDecreased] ? "" : "feature-table__button--not-active"
               }`}
               onClick={() => {
-                changeBaseValue(item[inputType], false);
+                changeValue(item[inputType], false);
               }}
             >
               -

@@ -32,10 +32,6 @@ class Abilities extends React.Component {
     }
   }
 
-  sendInformationToParent(value) {
-    this.props.parentCallback(value);
-  }
-
   getFilteredAbilities() {
     axios
       .get(
@@ -89,7 +85,6 @@ class Abilities extends React.Component {
             ...newAbility,
           ],
         });
-        this.sendInformationToParent(1);
       })
       .catch((error) => console.log("Error" + error));
   }
@@ -111,7 +106,6 @@ class Abilities extends React.Component {
       )
       .then((response) => {
         this.setState({ activeAbilitiesList: items });
-        this.sendInformationToParent(-1);
       })
       .catch((error) => console.log("Error" + error));
   }
