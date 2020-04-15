@@ -78,8 +78,8 @@ class Skills extends React.Component {
 
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addCharacterSkill",
-        //"http://localhost:5000/api/characters/addCharacterSkill/",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addSkill",
+        //"http://localhost:5000/api/characters/addSkill/",
         currentId,
         {
           headers: {
@@ -103,8 +103,8 @@ class Skills extends React.Component {
 
     axios
       .delete(
-        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeCharacterSkill?id=${itemId}`,
-        //`http://localhost:5000/api/characters/removeCharacterSkill?id=${itemId}`,
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeSkill?id=${itemId}`,
+        //`http://localhost:5000/api/removeSkill?id=${itemId}`,
         {
           headers: {
             "Content-Type": "application/json",

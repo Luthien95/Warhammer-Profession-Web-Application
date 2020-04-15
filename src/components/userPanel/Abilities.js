@@ -69,7 +69,7 @@ class Abilities extends React.Component {
 
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addCharacterAbility",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addAbility",
         currentId,
         {
           headers: {
@@ -96,7 +96,7 @@ class Abilities extends React.Component {
 
     axios
       .delete(
-        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeCharacterAbility?id=${itemId}`,
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeAbility?id=${itemId}`,
         {
           headers: {
             "Content-Type": "application/json",

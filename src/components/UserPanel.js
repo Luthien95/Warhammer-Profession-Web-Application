@@ -8,6 +8,7 @@ import Skills from "./userPanel/Skills";
 import Abilities from "./userPanel/Abilities";
 import Items from "./userPanel/Items";
 import * as signalR from "@aspnet/signalr";
+import update from "immutability-helper";
 
 class UserPanel extends React.Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class UserPanel extends React.Component {
     let hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(
         `http://192.168.0.52:8020/WarhammerProfessionsApp/characterhub?characterId=${this.state.basicInformations.id}`
+        //`http://localhost:5000/characterhub?characterId=${this.state.basicInformations.id}`
       )
       .build();
 
@@ -65,33 +67,17 @@ class UserPanel extends React.Component {
     });
 
     hubConnection.on("changeStatisticValue", (type, currentValue, maxValue) => {
-      this.state.basicStatistics.filter((item) =>
+      this.state.basicStatistics.filter((item, id) =>
         item.type === type
-          ? this.setState({
-              basicStatistics: {
-                ...this.state.basicStatistics,
-                [item]: {
-                  ...this.state[item],
-                  currentValue: currentValue,
-                  maxValue: maxValue,
-                },
-              },
-            })
+          ? (this.state.basicStatistics[id].currentValue = currentValue) &&
+            (this.state.basicStatistics[id].maximumValue = maxValue)
           : null
       );
 
-      this.state.advancedStatistics.filter((item) =>
+      this.state.advancedStatistics.filter((item, id) =>
         item.type === type
-          ? this.setState({
-              advancedStatistics: {
-                ...this.state.advancedStatistics,
-                [item]: {
-                  ...this.state[item],
-                  currentValue: currentValue,
-                  maxValue: maxValue,
-                },
-              },
-            })
+          ? (this.state.advancedStatistics[id].currentValue = currentValue) &&
+            (this.state.advancedStatistics[id].maximumValue = maxValue)
           : null
       );
     });
@@ -119,7 +105,7 @@ class UserPanel extends React.Component {
     axios
       .get(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters",
-        //"http://localhost:5000/api/characters/",
+        //"http://localhost:5000/api/characters",
         {
           headers: {
             "Content-Type": "application/json",

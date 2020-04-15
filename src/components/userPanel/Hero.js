@@ -56,7 +56,7 @@ class Hero extends React.Component {
     axios
       .get(
         `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/${url}`,
-        //"http://localhost:5000/api/characters/getFilteredProfessions/",
+        //`http://localhost:5000/api/characters/${url}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -70,8 +70,6 @@ class Hero extends React.Component {
         });
       })
       .catch((error) => console.log("Error" + error));
-
-    //console.log(this.state.filteredProfessions);
   }
 
   passData(event) {

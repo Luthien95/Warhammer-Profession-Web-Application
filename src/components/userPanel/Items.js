@@ -41,7 +41,7 @@ class Items extends React.Component {
   removeItem(id) {
     axios
       .post(
-        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeCharacterItem`,
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeItem`,
         {
           id: id,
           changeMoney: true,
@@ -64,8 +64,8 @@ class Items extends React.Component {
   addAdditionalItem() {
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addCharacterAdditionalItem",
-        //"http://localhost:5000/api/characters/addCharacterAdditionalItem/",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addAdditionalItem",
+        //"http://localhost:5000/api/characters/addAdditionalItem/",
         {
           name: this.state.additionalItemName,
         },
@@ -87,7 +87,7 @@ class Items extends React.Component {
   removeAdditionalItem(id) {
     axios
       .delete(
-        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeCharacterAdditionalItem?id=${id}`,
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeAdditionalItem?id=${id}`,
         {
           headers: {
             "Content-Type": "application/json",
