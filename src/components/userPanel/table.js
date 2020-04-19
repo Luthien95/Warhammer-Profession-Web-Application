@@ -10,8 +10,8 @@ class Table extends React.Component {
       statistics: [],
     };
 
-    this.changeBaseValue = this.changeBaseValue.bind(this);
-    this.changeValue = this.changeValue.bind(this);
+    this.changeBaseStatisticValue = this.changeBaseStatisticValue.bind(this);
+    this.changeStatisticValue = this.changeStatisticValue.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -22,7 +22,7 @@ class Table extends React.Component {
     }
   }
 
-  changeBaseValue(event, type) {
+  changeBaseStatisticValue(event, type) {
     const valueOfFeature = parseInt(event.target.value, 10);
     const typeOfFeature = parseInt(type, 10);
 
@@ -44,7 +44,7 @@ class Table extends React.Component {
       .catch((error) => console.log("Error" + error));
   }
 
-  changeValue(type, value) {
+  changeStatisticValue(type, value) {
     const typeOfFeature = parseInt(type, 10);
 
     axios
@@ -84,7 +84,7 @@ class Table extends React.Component {
             value={["baseValue", "isReadOnly", "type"]}
             statistics={this.state.statistics}
             type="number"
-            changeBaseValue={this.changeBaseValue}
+            changeBaseStatisticValue={this.changeBaseStatisticValue}
           />
           <Row
             header={{ text: "Obecna wartość / Wartość maksymalna" }}
@@ -95,7 +95,7 @@ class Table extends React.Component {
           <Buttons
             value={["canBeDecreased", "canBeIncreased", "type"]}
             statistics={this.state.statistics}
-            changeValue={this.changeValue}
+            changeStatisticValue={this.changeStatisticValue}
           />
         </tbody>
       </table>
@@ -103,7 +103,13 @@ class Table extends React.Component {
   }
 }
 
-const InputRow = ({ header, value, statistics, type, changeBaseValue }) => {
+const InputRow = ({
+  header,
+  value,
+  statistics,
+  type,
+  changeBaseStatisticValue,
+}) => {
   const currentValue = value[0];
   const isReadOnly = value[1];
   const inputType = value[2];
@@ -120,7 +126,9 @@ const InputRow = ({ header, value, statistics, type, changeBaseValue }) => {
               type={type}
               name={item.name}
               defaultValue={item[currentValue]}
-              onBlur={(event) => changeBaseValue(event, item[inputType])}
+              onBlur={(event) =>
+                changeBaseStatisticValue(event, item[inputType])
+              }
               disabled={item[isReadOnly]}
             />
           </td>
@@ -154,7 +162,7 @@ const Row = ({ header, value, statistics }) => {
   );
 };
 
-const Buttons = ({ value, statistics, changeValue }) => {
+const Buttons = ({ value, statistics, changeStatisticValue }) => {
   const canBeDecreased = value[0];
   const canBeIncreased = value[1];
   const inputType = value[2];
@@ -170,7 +178,7 @@ const Buttons = ({ value, statistics, changeValue }) => {
                 item[canBeIncreased] ? "" : "feature-table__button--not-active"
               }`}
               onClick={() => {
-                changeValue(item[inputType], true);
+                changeStatisticValue(item[inputType], true);
               }}
             >
               +
@@ -180,7 +188,7 @@ const Buttons = ({ value, statistics, changeValue }) => {
                 item[canBeDecreased] ? "" : "feature-table__button--not-active"
               }`}
               onClick={() => {
-                changeValue(item[inputType], false);
+                changeStatisticValue(item[inputType], false);
               }}
             >
               -

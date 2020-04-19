@@ -32,8 +32,6 @@ class Hero extends React.Component {
     this.changeCurrentState = this.changeCurrentState.bind(this);
   }
 
-  componentWillMount() {}
-
   componentDidUpdate(prevProps) {
     if (
       prevProps.usersMoney !== this.props.usersMoney ||
@@ -75,8 +73,8 @@ class Hero extends React.Component {
   passData(event) {
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeCharacterMoney",
-        //"http://localhost:5000/api/characters/changeCharacterMoney/",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeMoney",
+        //"http://localhost:5000/api/characters/changeMoney/",
         this.state.money,
         {
           headers: {
@@ -90,11 +88,12 @@ class Hero extends React.Component {
 
   changeCurrentProfession(e) {
     let newProfession = JSON.parse(e.target.value);
+    console.log(e.target.value);
 
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/setNextCharacterProfession",
-        //"http://localhost:5000/api/characters/setNextCharacterProfession/",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/setNextProfession",
+        //"http://localhost:5000/api/characters/setNextProfession/",
         newProfession.id,
         {
           headers: {
@@ -105,21 +104,25 @@ class Hero extends React.Component {
       )
       .then(
         this.setState({
-          previousProffesion: this.state.heroInformations.actualProfessionName,
+          //previousProffesion: this.state.heroInformations
+          //  .actualProfessionName,
           heroInformations: {
             ...this.state.heroInformations,
             actualProfessionName: newProfession.name,
           },
-        })
+        }),
+        console.log(this.state.heroInformations.actualProfessionName)
       )
       .catch((error) => console.log("Error" + error));
+
+    console.log("dfdf");
   }
 
   removeLastProfession() {
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeLastCharacterProfession",
-        //"http://localhost:5000/api/characters/removeLastCharacterProfession/",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeLastProfession",
+        //"http://localhost:5000/api/characters/removeLastProfession/",
         {},
         {
           headers: {
@@ -128,22 +131,39 @@ class Hero extends React.Component {
           },
         }
       )
-      .then(
+      /*.then(
         this.setState({
           heroInformations: {
             ...this.state.heroInformations,
             actualProfessionName: this.state.previousProffesion,
           },
         })
-      )
+      )*/
+      .then((res) => {
+        if (res.data === 0) {
+          this.setState({
+            heroInformations: {
+              ...this.state.heroInformations,
+              actualProfessionName: null,
+            },
+          });
+        } else {
+          this.setState({
+            heroInformations: {
+              ...this.state.heroInformations,
+              actualProfessionName: this.state.previousProffesion,
+            },
+          });
+        }
+      })
       .catch((error) => console.log("Error" + error));
   }
 
   saveNote() {
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeCharacterNotes",
-        //"http://localhost:5000/api/characters/changeCharacterNotes/",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeNotes",
+        //"http://localhost:5000/api/characters/changeNotes/",
         JSON.stringify(this.state.heroInformations.notes),
         {
           headers: {
@@ -158,8 +178,8 @@ class Hero extends React.Component {
   changeName() {
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeCharacterName",
-        //"http://localhost:5000/api/characters/changeCharacterName/",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeName",
+        //"http://localhost:5000/api/characters/changeName/",
         JSON.stringify(this.state.heroInformations.name),
         {
           headers: {
@@ -175,8 +195,8 @@ class Hero extends React.Component {
     let newRace = JSON.parse(e.target.value);
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/setCharacterRace",
-        //"http://localhost:5000/api/characters/setCharacterRace",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/setRace",
+        //"http://localhost:5000/api/characters/setRace",
         newRace.id,
         {
           headers: {
@@ -202,8 +222,8 @@ class Hero extends React.Component {
   changeExperience() {
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeCharacterMaximumExperience",
-        //"http://localhost:5000/api/characters/changeCharacterMaximumExperience/",
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/changeMaximumExperience",
+        //"http://localhost:5000/api/characters/changeMaximumExperience/",
         this.state.heroInformations.experienceSum,
         {
           headers: {
@@ -224,17 +244,6 @@ class Hero extends React.Component {
     });
   };
 
-  /*changeNameState = (event) => {
-    this.setState({
-      heroInformations: {
-        ...this.state.heroInformations,
-        name: event.target.value,
-      },
-    });
-  };*/
-
-  //changeCurrentState(event, "heroInformations", "experienceSum");
-
   changeCurrentState = (event, array, name) => {
     this.setState({
       [array]: {
@@ -244,36 +253,21 @@ class Hero extends React.Component {
     });
   };
 
-  /*changeNote = (event) => {
-    this.setState({
-      heroInformations: {
-        ...this.state.heroInformations,
-        notes: event.target.value,
-      },
-    });
-  };*/
-  /*
-  changeSumExperience = (event) => {
-    this.setState({
-      heroInformations: {
-        ...this.state.heroInformations,
-        experienceSum: event.target.value,
-      },
-    });
-  };*/
-
   render() {
-    let currentRace = Object.assign({}, this.state.heroInformations.race);
-
+    //let currentRace = Object.assign({}, this.state.heroInformations.race);
+    console.log(this.state.heroInformations.actualProfessionName);
     return (
       <div className="user-panel__description">
+        {this.state.heroInformations.race ? (
+          <p>{this.state.heroInformations.race.name}</p>
+        ) : null}
         <select
           name="changeRace"
           form="changeRace"
           className="user-panel__race"
           defaultValue={
             this.state.heroInformations.race
-              ? this.state.heroInformations.race
+              ? this.state.heroInformations.race.name
               : "Wybierz rasę"
           }
           onClick={() => {
@@ -284,20 +278,14 @@ class Hero extends React.Component {
           <option value="Wybierz rasę" disabled>
             Wybierz rasę
           </option>
-          {this.state.filteredRaces.map((item, key) => {
-            return item.id === currentRace.id ? (
-              <option key={key} value={[item.name, item.id]} selected>
-                {item.name}
-              </option>
-            ) : (
-              <option
-                key={key}
-                value={JSON.stringify({ name: item.name, id: item.id })}
-              >
-                {item.name}
-              </option>
-            );
-          })}{" "}
+          {this.state.filteredRaces.map((item, key) => (
+            <option
+              key={key}
+              value={JSON.stringify({ name: item.name, id: item.id })}
+            >
+              {item.name}
+            </option>
+          ))}{" "}
         </select>
         <input
           type="text"
@@ -313,30 +301,29 @@ class Hero extends React.Component {
         <p className="user-panel__profession-options">
           {this.state.heroInformations.actualProfessionName
             ? this.state.heroInformations.actualProfessionName
-            : "Profesja"}{" "}
+            : "Profesja"}
           {this.state.ifChangeProfessionActive === true ? (
             <select
               name="changeProffesion"
               form="changeProffesion"
               className="user-panel__select"
-              value="Wybierz swoją profesję"
+              defaultValue="Wybierz profesję"
               onChange={this.changeCurrentProfession}
+              onClick={() => {
+                this.getData("getFilteredProfessions", "filteredProfessions");
+              }}
             >
-              {this.state.filteredProfessions.map((item, key) => {
-                return item.name ===
-                  this.state.heroInformations.actualProfessionName ? (
-                  <option key={key} value={[item.name, item.id]} selected>
-                    {item.name}
-                  </option>
-                ) : (
-                  <option
-                    key={key}
-                    value={JSON.stringify({ name: item.name, id: item.id })}
-                  >
-                    {item.name}
-                  </option>
-                );
-              })}
+              <option value="Wybierz profesję" disabled>
+                Wybierz profesję
+              </option>
+              {this.state.filteredProfessions.map((item, key) => (
+                <option
+                  key={key}
+                  value={JSON.stringify({ name: item.name, id: item.id })}
+                >
+                  {item.name}
+                </option>
+              ))}
             </select>
           ) : (
             <i

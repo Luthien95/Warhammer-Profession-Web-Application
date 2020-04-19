@@ -8,7 +8,6 @@ import Skills from "./userPanel/Skills";
 import Abilities from "./userPanel/Abilities";
 import Items from "./userPanel/Items";
 import * as signalR from "@aspnet/signalr";
-import update from "immutability-helper";
 
 class UserPanel extends React.Component {
   constructor(props) {
@@ -66,21 +65,47 @@ class UserPanel extends React.Component {
       });
     });
 
-    hubConnection.on("changeStatisticValue", (type, currentValue, maxValue) => {
-      this.state.basicStatistics.filter((item, id) =>
-        item.type === type
-          ? (this.state.basicStatistics[id].currentValue = currentValue) &&
-            (this.state.basicStatistics[id].maximumValue = maxValue)
-          : null
-      );
-
-      this.state.advancedStatistics.filter((item, id) =>
-        item.type === type
-          ? (this.state.advancedStatistics[id].currentValue = currentValue) &&
-            (this.state.advancedStatistics[id].maximumValue = maxValue)
-          : null
-      );
+    hubConnection.on("changeExperienceSummary", (value) => {
+      this.setState({
+        basicInformations: {
+          ...this.state.basicInformations,
+          experienceSum: value,
+        },
+      });
     });
+
+    hubConnection.on(
+      "changeStatisticValue",
+      (type, currentValue, maxValue, canBeDecreased, canBeIncreased) => {
+        this.state.basicStatistics.filter((item, id) =>
+          item.type === type
+            ? this.setState((prevState) => {
+                let statistic = Object.assign({}, prevState.basicStatistics);
+                statistic[id].currentValue = currentValue;
+                statistic[id].maximumValue = maxValue;
+                statistic[id].canBeDecreased = canBeDecreased;
+                statistic[id].canBeIncreased = canBeIncreased;
+
+                return { statistic };
+              })
+            : null
+        );
+
+        this.state.advancedStatistics.filter((item, id) =>
+          item.type === type
+            ? this.setState((prevState) => {
+                let statistic = Object.assign({}, prevState.advancedStatistics);
+                statistic[id].currentValue = currentValue;
+                statistic[id].maximumValue = maxValue;
+                statistic[id].canBeDecreased = canBeDecreased;
+                statistic[id].canBeIncreased = canBeIncreased;
+
+                return { statistic };
+              })
+            : null
+        );
+      }
+    );
 
     hubConnection.on("removeSkill", (skillId) => {
       const items = this.state.ownedSkills.filter(
