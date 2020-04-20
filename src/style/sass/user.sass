@@ -8,6 +8,9 @@
     &:focus
         outline: 1px solid $border-color
 
+.input-number
+    max-width: 50px
+
 .user-panel select
     background: none
     border: none
@@ -204,21 +207,29 @@ input[type=number]
         padding: 20px
         margin: 20px 5%
     .items-list
-        &__items
+        &__label
             display: flex
-            margin: 15px 0
+            margin: 15px 0 5px 0
             font-size: .9rem
             span
-                margin-left: 10px
                 font-size: .7rem
                 opacity: .7
                 display: flex
                 align-items: flex-end
+        &__description 
+            font-size: .8rem
+            opacity: .2
         &__buttons
             margin-left: auto
             .fas
                 margin: 0 10px
-    
+                &:hover
+                    cursor: pointer
+        &__quantity
+            margin-left: 10px
+        &__input
+            margin-left: 10px
+            border: 1px solid rgba(255, 255, 255, .1)
 .skill-panel,
 .ability-panel
     &__select-container

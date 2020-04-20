@@ -8,13 +8,13 @@ class Skills extends React.Component {
     super(props);
 
     this.state = {
-      skillList: [],
+      availableSkillList: [],
       activeSkillList: [],
     };
 
     this.getFilteredSkills = this.getFilteredSkills.bind(this);
     this.addSkillToList = this.addSkillToList.bind(this);
-    this.deleteSkill = this.deleteSkill.bind(this);
+    this.deleteSkillFromList = this.deleteSkillFromList.bind(this);
   }
 
   componentWillMount() {
@@ -53,9 +53,9 @@ class Skills extends React.Component {
           trait: `${skill.trait}`,
         }))
       )
-      .then((skillList) => {
+      .then((availableSkillList) => {
         this.setState({
-          skillList,
+          availableSkillList,
         });
       })
       .catch((error) => console.log("Error" + error));
@@ -96,7 +96,7 @@ class Skills extends React.Component {
       .catch((error) => console.log("Error" + error));
   }
 
-  deleteSkill(itemId, e) {
+  deleteSkillFromList(e, itemId) {
     const items = this.state.activeSkillList.filter(
       (item) => item.id !== itemId
     );
@@ -127,23 +127,13 @@ class Skills extends React.Component {
           <i className="fas fa-book-open"></i> Umiejętności
         </p>
         {this.state.activeSkillList.map((item) => (
-          <p
-            className="skill-panel__item"
-            key={`Owned skills - ${item.id}`}
-            data-number={item.id}
-          >
-            {item.name} <span>| {item.trait}</span>
-            <i
-              onClick={(e) => this.deleteSkill(item.id, e)}
-              className="fas fa-trash-alt"
-            ></i>
-          </p>
+          <Skill item={item} deleteSkillFromList={this.deleteSkillFromList} />
         ))}
         <div className="skill-panel__select-container">
           <select
-            id="skillList"
-            name="skillList"
-            form="skillList"
+            id="availableSkillList"
+            name="availableSkillList"
+            form="availableSkillList"
             onChange={this.addSkillToList}
             value={this.state.value}
             defaultValue="Dodaj nową umiejętność"
@@ -152,7 +142,7 @@ class Skills extends React.Component {
             <option value="Dodaj nową umiejętność" disabled>
               Dodaj nową umiejętność
             </option>
-            {this.state.skillList.map((item) => (
+            {this.state.availableSkillList.map((item) => (
               <option
                 value={item.name}
                 data-trait={item.trait}
@@ -168,5 +158,39 @@ class Skills extends React.Component {
     );
   }
 }
+
+const Skill = ({ item, deleteSkillFromList }) => {
+  const itemName = item.name;
+  const itemId = item.id;
+  const itemDescription = item.description;
+  const itemTrait = item.trait;
+  const itemLevel = item.level;
+
+  return (
+    <div key={`Owned skills - ${itemId}`}>
+      <p className="skill-panel__item" data-number={itemId}>
+        {itemName}{" "}
+        {(() => {
+          switch (itemLevel) {
+            case 1:
+              return "null";
+            case 2:
+              return "+10%";
+            case 3:
+              return "+20%";
+          }
+        })()}
+        <span> | {itemTrait}</span>
+        <i
+          onClick={() => {
+            deleteSkillFromList(itemId);
+          }}
+          className="fas fa-trash-alt"
+        ></i>
+      </p>
+      <p>{itemDescription}</p>
+    </div>
+  );
+};
 
 export default Skills;

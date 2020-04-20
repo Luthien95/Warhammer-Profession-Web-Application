@@ -495,6 +495,9 @@ select {
   .user-panel input:focus {
     outline: 1px solid rgba(255, 255, 255, 0.1); }
 
+.input-number {
+  max-width: 50px; }
+
 .user-panel select {
   background: none;
   border: none;
@@ -685,20 +688,29 @@ input[type=number] {
     border-radius: 10px;
     padding: 20px;
     margin: 20px 5%; }
-  .user-panel .items-list__items {
+  .user-panel .items-list__label {
     display: flex;
-    margin: 15px 0;
+    margin: 15px 0 5px 0;
     font-size: .9rem; }
-    .user-panel .items-list__items span {
-      margin-left: 10px;
+    .user-panel .items-list__label span {
       font-size: .7rem;
       opacity: .7;
       display: flex;
       align-items: flex-end; }
+  .user-panel .items-list__description {
+    font-size: .8rem;
+    opacity: .2; }
   .user-panel .items-list__buttons {
     margin-left: auto; }
     .user-panel .items-list__buttons .fas {
       margin: 0 10px; }
+      .user-panel .items-list__buttons .fas:hover {
+        cursor: pointer; }
+  .user-panel .items-list__quantity {
+    margin-left: 10px; }
+  .user-panel .items-list__input {
+    margin-left: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1); }
 
 .skill-panel__select-container,
 .ability-panel__select-container {

@@ -74,7 +74,7 @@ class App extends React.Component {
 
   logOut = () => {
     localStorage.clear();
-    return <Redirect to="/" />;
+    return <Redirect to="/login" />;
   };
 
   render() {

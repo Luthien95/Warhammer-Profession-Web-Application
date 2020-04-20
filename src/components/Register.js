@@ -12,7 +12,7 @@ class Register extends React.Component {
     };
 
     this.sendData = this.sendData.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.changeInputData = this.changeInputData.bind(this);
   }
 
   sendData() {
@@ -25,7 +25,7 @@ class Register extends React.Component {
     );
   }
 
-  handleChange(event) {
+  changeInputData(event) {
     const target = event.target;
     const name = target.name;
 
@@ -36,35 +36,42 @@ class Register extends React.Component {
 
   render() {
     return (
-      <form method="post" className="login-form">
-        <input
-          type="text"
-          name="login"
-          placeholder="Login"
-          value={this.state.login}
-          onChange={this.handleChange}
-          required
-          className="login-form__input"
-        />
+      <div className="login-page">
+        <form method="post" className="login-form">
+          <p>Zarejestruj się!</p>
+          <div className="login-form__input-container login-form__input-container--user">
+            <input
+              type="text"
+              name="login"
+              placeholder="Login"
+              value={this.state.login}
+              onChange={this.changeInputData}
+              required
+              className="login-form__input"
+            />
+          </div>
+          <div className="login-form__input-container login-form__input-container--user">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.changeInputData}
+              className="login-form__input"
+            />
+          </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={this.state.password}
-          onChange={this.handleChange}
-          className="login-form__input"
-        />
-
-        <button
-          type="submit"
-          className="login-form__button"
-          onClick={this.sendData}
-        >
-          Get Started
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="login-form__button"
+            onClick={this.sendData}
+          >
+            Zarejestruj
+          </button>
+        </form>
+      </div>
     );
   }
 }
+
 export default Register;
