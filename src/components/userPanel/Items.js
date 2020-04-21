@@ -2,6 +2,14 @@ import React from "react";
 import "./../../style/css/style.css";
 import axios from "axios";
 import ReactTooltip from "react-tooltip";
+import Select from "react-select";
+import AsyncSelect from "react-select/async";
+
+const options = [
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
+];
 
 class Items extends React.Component {
   constructor(props) {
@@ -10,6 +18,7 @@ class Items extends React.Component {
     this.state = {
       ownedItems: [],
       additionalItems: [],
+      filteredItems: [],
       editMode: false,
       editedItem: null,
       changedValue: null,
@@ -19,6 +28,7 @@ class Items extends React.Component {
         description: null,
         quantity: null,
       },
+      inputValue: "",
     };
 
     this.inputChange = this.inputChange.bind(this);
@@ -29,6 +39,11 @@ class Items extends React.Component {
     this.changeInputData = this.changeInputData.bind(this);
     this.saveChangedItem = this.saveChangedItem.bind(this);
     this.changeAdditionalItemInput = this.changeAdditionalItemInput.bind(this);
+    this.saveChangedAdditionalItem = this.saveChangedAdditionalItem.bind(this);
+    this.getFilteredItems = this.getFilteredItems.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.loadOptions = this.loadOptions.bind(this);
+    this.filterItems = this.filterItems.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -105,12 +120,9 @@ class Items extends React.Component {
           },
         }
       )
-      .then((res) => {
+      .then((response) => {
         this.setState((previousState) => ({
-          additionalItems: [
-            ...previousState.additionalItems,
-            this.state.newAdditionalItem,
-          ],
+          additionalItems: [...previousState.additionalItems, response.data],
         }));
       })
       .catch((error) => console.log("Error" + error));
@@ -138,26 +150,6 @@ class Items extends React.Component {
   }
 
   changeItem(itemId) {
-    /* axios
-      .post(
-        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/removeItem`,
-        {
-          id: id,
-          changeMoney: true,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        const items = this.state.ownedItems.filter((item) => item.id !== id);
-
-        this.setState({ ownedItems: items });
-      })
-      .catch((error) => console.log("Error" + error));*/
     this.setState({
       editMode: true,
       editedItem: itemId,
@@ -166,6 +158,7 @@ class Items extends React.Component {
 
   saveChangedItem(itemId, quantity) {
     let itemQuantity = JSON.parse(quantity);
+
     axios
       .post(
         `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/modifyItem`,
@@ -182,16 +175,13 @@ class Items extends React.Component {
         }
       )
       .then((res) => {
-        this.state.ownedItems.filter((item, id) =>
-          item.id === itemId
-            ? this.setState((prevState) => {
-                let ownedItems = Object.assign({}, prevState.ownedItems);
-                ownedItems[id].quantity = itemQuantity;
+        const index = this.state.ownedItems.findIndex((m) => m.id === itemId);
 
-                return { ownedItems };
-              })
-            : null
-        );
+        this.setState((prevState) => {
+          const items = [...prevState.ownedItems];
+          items[index].quantity = itemQuantity;
+          return { ownedItems: items };
+        });
       })
       .catch((error) => console.log("Error" + error));
 
@@ -201,16 +191,11 @@ class Items extends React.Component {
     });
   }
 
-  saveChangedAdditionalItem(itemId, quantity) {
-    let itemQuantity = JSON.parse(quantity);
+  saveChangedAdditionalItem(item) {
     axios
       .post(
         `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/modifyAdditionalItem`,
-        {
-          id: itemId,
-          quantity: itemQuantity,
-          changeMoney: true,
-        },
+        item,
         {
           headers: {
             "Content-Type": "application/json",
@@ -218,18 +203,7 @@ class Items extends React.Component {
           },
         }
       )
-      .then((res) => {
-        this.state.ownedItems.filter((item, id) =>
-          item.id === itemId
-            ? this.setState((prevState) => {
-                let ownedItems = Object.assign({}, prevState.ownedItems);
-                ownedItems[id].quantity = itemQuantity;
-
-                return { ownedItems };
-              })
-            : null
-        );
-      })
+      .then((res) => {})
       .catch((error) => console.log("Error" + error));
 
     this.setState({
@@ -245,18 +219,85 @@ class Items extends React.Component {
     this.setState({
       changedValue: event.target.value,
     });
-
-    console.log(this.state.changedValue);
   }
 
   changeAdditionalItemInput(event) {
-    console.log(event.target.name);
+    let value;
+    let targetName = event.target.name;
 
-    this.setState({
-      editedItem: {
-        [event.target.name]: event.target.value,
-      },
-    });
+    if (event.target.type === "number") {
+      value = JSON.parse(event.target.value);
+    } else {
+      value = event.target.value;
+    }
+
+    this.state.additionalItems.filter((item, id) =>
+      item.id === this.state.editedItem
+        ? this.setState((prevState) => {
+            const items = [...prevState.additionalItems];
+            items[id][targetName] = value;
+            return { additionalItems: items };
+          })
+        : null
+    );
+  }
+
+  getFilteredItems(event) {
+    axios
+      .get(
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredItems?filter='${event}'`,
+        //`http://localhost:5000/api/characters/getFilteredItems?filter='${nazwa}'`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        /*this.setState((previousState) => ({
+          additionalItems: [...previousState.additionalItems, response.data],
+        }));*/
+      })
+      .catch((error) => console.log("Error" + error));
+
+    console.log(event.target.value);
+  }
+
+  handleInputChange(newValue) {
+    const inputValue = newValue.replace(/\W/g, "");
+    this.setState({ inputValue });
+    return inputValue;
+  }
+
+  filterItems() {
+    return options.filter((i) => i.value);
+  }
+
+  loadOptions(inputValue) {
+    /* axios
+      .get(
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredItems?filter='${inputValue}'`,
+        //`http://localhost:5000/api/characters/getFilteredItems?filter='${nazwa}'`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          filteredItems: response.data,
+        });
+
+        this.filterItems();
+      })
+      .catch((error) => console.log("Error" + error));
+
+    console.log(inputValue);*/
+    this.filterItems(inputValue);
   }
 
   render() {
@@ -321,6 +362,12 @@ class Items extends React.Component {
         <p className="user-panel__label">
           <i className="fas fa-pencil-alt"></i> Dodaj nowy przedmiot z listy
         </p>
+        <AsyncSelect
+          cacheOptions
+          loadOptions={this.loadOptions}
+          defaultOptions
+          onInputChange={this.handleInputChange}
+        />
       </div>
     );
   }
@@ -361,7 +408,6 @@ const Item = ({
                 saveChangedItem(item.id, changedValue);
               }}
               data-tip="Zapisz zmiany"
-              data-for="main"
             ></i>
           ) : (
             <i
@@ -377,6 +423,7 @@ const Item = ({
               removeItem(item.id);
             }}
             className="fas fa-trash-alt"
+            data-tip="Usuń przedmiot"
           ></i>
         </span>
       </p>
@@ -430,10 +477,9 @@ const AdditionalItem = ({
             <i
               className="fas fa-check"
               onClick={() => {
-                saveChangedItem(item.id, changedValue);
+                saveChangedItem(item);
               }}
               data-tip="Zapisz zmiany"
-              data-for="main"
             ></i>
           ) : (
             <i
@@ -449,6 +495,7 @@ const AdditionalItem = ({
               removeItem(item.id);
             }}
             className="fas fa-trash-alt"
+            data-tip="Usuń przedmiot"
           ></i>
         </span>
       </p>
@@ -472,7 +519,7 @@ const AdditionalItem = ({
             name="description"
             placeholder={item.description}
             onChange={changeInputData}
-            className="items-list__input"
+            className="items-list__input input-number"
           />
         ) : (
           item.description

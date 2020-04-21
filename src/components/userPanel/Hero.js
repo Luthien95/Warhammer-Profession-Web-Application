@@ -387,7 +387,7 @@ class Hero extends React.Component {
           <input
             type="number"
             name="gold"
-            className="user-panel__input"
+            className="user-panel__input input-number"
             defaultValue={this.state.money.gold}
             onChange={this.changeMoneyAssets}
             onBlur={this.passData}
@@ -398,7 +398,7 @@ class Hero extends React.Component {
           <input
             type="number"
             name="silver"
-            className="user-panel__input"
+            className="user-panel__input input-number"
             defaultValue={this.state.money.silver}
             onChange={this.changeMoneyAssets}
             onBlur={this.passData}
@@ -409,7 +409,7 @@ class Hero extends React.Component {
           <input
             type="number"
             name="bronze"
-            className="user-panel__input"
+            className="user-panel__input input-number"
             defaultValue={this.state.money.bronze}
             onChange={this.changeMoneyAssets}
             onBlur={this.passData}
