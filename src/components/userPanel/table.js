@@ -172,7 +172,10 @@ const Buttons = ({ value, statistics, changeStatisticValue }) => {
       <td className="feature-table__item feature-table__item--row-header"></td>
       {statistics.map((item) => {
         return (
-          <td className="feature-table__item" key={item.name}>
+          <td
+            className="feature-table__item feature-table__item"
+            key={item.name}
+          >
             <button
               className={`feature-table__button ${
                 item[canBeIncreased] ? "" : "feature-table__button--not-active"

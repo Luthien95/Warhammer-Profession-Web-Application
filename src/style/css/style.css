@@ -544,7 +544,10 @@ input[type=number] {
     overflow: hidden;
     overflow-y: scroll;
     -ms-overflow-style: none;
-    scrollbar-width: none; }
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
     .user-panel__description::-webkit-scrollbar {
       display: none; }
   .user-panel__statistics {
@@ -565,8 +568,7 @@ input[type=number] {
       outline: 1px solid rgba(255, 255, 255, 0.1); }
   .user-panel__race {
     opacity: .5;
-    padding: 10px 50px 10px 0;
-    margin-top: 60px; }
+    padding: 10px 50px 10px 0; }
     .user-panel__race:focus {
       background-image: linear-gradient(45deg, white 50%, transparent 50%), linear-gradient(135deg, transparent 50%, white 50%), linear-gradient(to right, #ccc, #ccc);
       border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -627,6 +629,9 @@ input[type=number] {
       .user-panel .feature-table__item--row-header {
         text-align: left;
         padding: 15px; }
+      .user-panel .feature-table__item--buttons {
+        display: flex;
+        flex-direction: column; }
       .user-panel .feature-table__item:hover .feature-table__details-description {
         display: initial; }
     .user-panel .feature-table__details-description {
@@ -642,7 +647,7 @@ input[type=number] {
       display: none; }
     .user-panel .feature-table__button {
       padding: 5px;
-      margin: 5px;
+      margin: 5px 10px;
       background: white;
       width: 50px;
       font-size: 1rem; }
@@ -663,7 +668,8 @@ input[type=number] {
     width: 43%; }
   .user-panel__textarea-button {
     color: white;
-    float: right;
+    width: fit-content;
+    margin-left: auto;
     text-transform: uppercase;
     margin-top: 10px;
     font-weight: bold;
@@ -727,7 +733,7 @@ input[type=number] {
 .ability-panel__item {
   width: 100%;
   display: flex;
-  margin: 10px 0;
+  margin: 15px 0;
   font-size: .9rem; }
   .skill-panel__item span,
   .ability-panel__item span {

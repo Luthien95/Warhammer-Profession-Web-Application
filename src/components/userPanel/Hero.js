@@ -342,42 +342,44 @@ class Hero extends React.Component {
           </button>
         </p>
 
-        <div className="user-panel__experience-box">
-          <input
-            type="text"
-            name="userLeftExperience"
-            className="user-panel__experience-input"
-            disabled
-            defaultValue={this.state.heroInformations.experienceLeft}
-          />
-          <label
-            htmlFor="userLeftExperience"
-            className="user-panel__experience-label"
-          >
-            Pozostałe doświadczenie
-          </label>
-        </div>
-        <div className="user-panel__experience-box">
-          <input
-            type="text"
-            name="userExperience"
-            className="user-panel__experience-input"
-            defaultValue={this.state.heroInformations.experienceSum}
-            onChange={(event) =>
-              this.changeCurrentState(
-                event,
-                "heroInformations",
-                "experienceSum"
-              )
-            }
-            onBlur={this.changeExperience}
-          />
-          <label
-            htmlFor="userExperience"
-            className="user-panel__experience-label"
-          >
-            Doświadczenie
-          </label>
+        <div>
+          <div className="user-panel__experience-box">
+            <input
+              type="text"
+              name="userLeftExperience"
+              className="user-panel__experience-input"
+              disabled
+              defaultValue={this.state.heroInformations.experienceLeft}
+            />
+            <label
+              htmlFor="userLeftExperience"
+              className="user-panel__experience-label"
+            >
+              Pozostałe doświadczenie
+            </label>
+          </div>
+          <div className="user-panel__experience-box">
+            <input
+              type="text"
+              name="userExperience"
+              className="user-panel__experience-input"
+              defaultValue={this.state.heroInformations.experienceSum}
+              onChange={(event) =>
+                this.changeCurrentState(
+                  event,
+                  "heroInformations",
+                  "experienceSum"
+                )
+              }
+              onBlur={this.changeExperience}
+            />
+            <label
+              htmlFor="userExperience"
+              className="user-panel__experience-label"
+            >
+              Doświadczenie
+            </label>
+          </div>
         </div>
 
         <p className="user-panel__label">

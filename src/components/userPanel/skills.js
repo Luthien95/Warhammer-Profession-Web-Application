@@ -127,7 +127,11 @@ class Skills extends React.Component {
           <i className="fas fa-book-open"></i> Umiejętności
         </p>
         {this.state.activeSkillList.map((item) => (
-          <Skill item={item} deleteSkillFromList={this.deleteSkillFromList} />
+          <Skill
+            key={`Owned skills - ${item.id}`}
+            item={item}
+            deleteSkillFromList={this.deleteSkillFromList}
+          />
         ))}
         <div className="skill-panel__select-container">
           <select
@@ -167,7 +171,7 @@ const Skill = ({ item, deleteSkillFromList }) => {
   const itemLevel = item.level;
 
   return (
-    <div key={`Owned skills - ${itemId}`}>
+    <div>
       <p className="skill-panel__item" data-number={itemId}>
         {itemName}{" "}
         {(() => {

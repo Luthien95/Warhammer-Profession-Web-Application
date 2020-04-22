@@ -2,14 +2,52 @@ import React from "react";
 import "./../../style/css/style.css";
 import axios from "axios";
 import ReactTooltip from "react-tooltip";
-import Select from "react-select";
 import AsyncSelect from "react-select/async";
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
+const colourStyles = {
+  container: (base, state) => ({
+    ...base,
+    border: state.isFocused ? null : null,
+    transition:
+      "border-color 0.2s ease, box-shadow 0.2s ease, padding 0.2s ease",
+    "&:hover": {
+      boxShadow: "0 2px 4px 0 rgba(41, 56, 78, 0.1)",
+    },
+  }),
+  control: (base, state) => ({
+    ...base,
+    background: "none",
+    border: "1px solid rgba(255, 255, 255, .1)",
+    borderRadius: "none",
+  }),
+  valueContainer: (base, state) => ({
+    ...base,
+    background: "none",
+    color: "white",
+  }),
+  menuList: (base, state) => ({
+    ...base,
+    background: "#3d3850",
+    color: "white",
+  }),
+  placeholder: (base, state) => ({
+    ...base,
+    color: "white",
+  }),
+  input: (base, state) => ({
+    ...base,
+    color: "white",
+  }),
+  singleValue: (base, state) => ({
+    ...base,
+    color: "white",
+    background: "green",
+  }),
+  option: (base, state) => ({
+    ...base,
+    background: "#3d3850",
+  }),
+};
 
 class Items extends React.Component {
   constructor(props) {
@@ -43,7 +81,7 @@ class Items extends React.Component {
     this.getFilteredItems = this.getFilteredItems.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.loadOptions = this.loadOptions.bind(this);
-    this.filterItems = this.filterItems.bind(this);
+    this.addAdditionalItem = this.addAdditionalItem.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -264,21 +302,15 @@ class Items extends React.Component {
     console.log(event.target.value);
   }
 
-  handleInputChange(newValue) {
-    const inputValue = newValue.replace(/\W/g, "");
-    this.setState({ inputValue });
-    return inputValue;
-  }
-
-  filterItems() {
-    return options.filter((i) => i.value);
-  }
-
-  loadOptions(inputValue) {
-    /* axios
-      .get(
-        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredItems?filter='${inputValue}'`,
-        //`http://localhost:5000/api/characters/getFilteredItems?filter='${nazwa}'`,
+  addNewItemFromList(item) {
+    axios
+      .post(
+        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/addItem",
+        //"http://localhost:5000/api/characters/addItem",
+        {
+          id: item.value,
+          changeMoney: true,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -287,18 +319,52 @@ class Items extends React.Component {
         }
       )
       .then((response) => {
-        console.log(response);
-        this.setState({
-          filteredItems: response.data,
-        });
-
-        this.filterItems();
+        this.setState((previousState) => ({
+          ownedItems: [...previousState.ownedItems, response.data],
+        }));
       })
       .catch((error) => console.log("Error" + error));
-
-    console.log(inputValue);*/
-    this.filterItems(inputValue);
   }
+
+  handleInputChange = (selectedOption) => {
+    if (selectedOption) {
+      this.setState({
+        selectedOption,
+      });
+      this.addNewItemFromList(selectedOption);
+    }
+  };
+
+  loadOptions = (inputValue, callback) => {
+    if (!inputValue) {
+      callback([]);
+    } else {
+      setTimeout(() => {
+        axios
+          .get(
+            `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getFilteredItems?filter=${inputValue}`,
+            //`http://localhost:5000/api/characters/getFilteredItems?filter='${nazwa}'`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((response) => {
+            const tempArray = [];
+            response.data.forEach((element) => {
+              tempArray.push({
+                label: `${element.name} | Cena: ${element.gold} Złotych koron ${element.silver} Srebrnych Szylingów ${element.bronze} Miedzuanych Pensów`,
+                value: element.id,
+              });
+            });
+            callback(tempArray);
+          })
+          .catch((error) => console.log("Error" + error));
+      });
+    }
+  };
 
   render() {
     return (
@@ -316,6 +382,9 @@ class Items extends React.Component {
           saveChangedItem={this.saveChangedItem}
           changedValue={this.state.changedValue}
         />
+        <p className="user-panel__label">
+          <i className="fas fa-th-large"></i> Dodatkowe przedmioty
+        </p>
         <AdditionalItem
           ownedItems={this.state.additionalItems}
           removeItem={this.removeAdditionalItem}
@@ -363,10 +432,14 @@ class Items extends React.Component {
           <i className="fas fa-pencil-alt"></i> Dodaj nowy przedmiot z listy
         </p>
         <AsyncSelect
-          cacheOptions
+          defaultOptions={false}
+          value={this.state.selectedOption}
           loadOptions={this.loadOptions}
-          defaultOptions
-          onInputChange={this.handleInputChange}
+          placeholder="Wpisz nazwę przedmiotu..."
+          onChange={(e) => {
+            this.handleInputChange(e);
+          }}
+          styles={colourStyles}
         />
       </div>
     );
@@ -448,8 +521,8 @@ const AdditionalItem = ({
   const items = ownedItems;
 
   return items.map((item) => (
-    <div>
-      <p key={item.id} className="items-list__label">
+    <div key={item.id}>
+      <p className="items-list__label">
         {editMode && item.id === editedItem ? (
           <input
             type="text"

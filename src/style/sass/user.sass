@@ -59,6 +59,9 @@ input[type=number]
         overflow-y: scroll
         -ms-overflow-style: none
         scrollbar-width: none
+        display: flex
+        flex-direction: column
+        justify-content: center
         &::-webkit-scrollbar 
             display: none
     &__statistics
@@ -80,7 +83,6 @@ input[type=number]
     &__race
         opacity: .5
         padding: 10px 50px 10px 0
-        margin-top: 60px
         &:focus
             background-image: linear-gradient(45deg, white 50%, transparent 50%), linear-gradient(135deg, transparent 50%, white 50%), linear-gradient(to right, #ccc, #ccc)
             border: 1px solid $border-color
@@ -143,6 +145,9 @@ input[type=number]
             &--row-header
                 text-align: left
                 padding: 15px
+            &--buttons
+                display: flex
+                flex-direction: column
             &:hover
                 .feature-table__details-description
                     display: initial
@@ -159,7 +164,7 @@ input[type=number]
             display: none
         &__button
             padding: 5px 
-            margin: 5px 
+            margin: 5px 10px
             background: white
             width: 50px
             font-size: 1rem
@@ -180,7 +185,8 @@ input[type=number]
         width: 43%
     &__textarea-button
         color: white
-        float: right
+        width: fit-content
+        margin-left: auto
         text-transform: uppercase
         margin-top: 10px
         font-weight: bold
@@ -243,7 +249,7 @@ input[type=number]
     &__item
         width: 100%
         display: flex
-        margin: 10px 0
+        margin: 15px 0
         font-size: .9rem
         span
             margin-left: 10px
