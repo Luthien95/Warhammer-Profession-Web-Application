@@ -2,7 +2,7 @@ import React from "react";
 import "./../../style/css/style.css";
 import axios from "axios";
 import AsyncSelect from "react-select/async";
-import Select from "react-select";
+import ReactTooltip from "react-tooltip";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import selectStyles from "./../../libraryStyles/selectStyles";
 
@@ -296,7 +296,6 @@ class Hero extends React.Component {
   };*/
 
   render() {
-    //let currentRace = Object.assign({}, this.state.heroInformations.race);
     return (
       <div className="user-panel__description">
         {this.state.heroInformations.race ? (
@@ -356,16 +355,15 @@ class Hero extends React.Component {
               promiseOptions("getFilteredProfessions", "filteredProfessions")
             }
             onChange={this.changeCurrentProfession}
-            menuIsOpen={true}
+            //menuIsOpen={true}
+            className="user-panel__profession-select"
           />
           <button
             onClick={this.removeLastProfession}
             className="user-panel__remove-profession"
+            data-tip="Usuń ostatnią profesję"
           >
             <i className="far fa-trash-alt"></i>
-            <span className="user-panel__delete-span">
-              Usuń ostatnią profesję
-            </span>
           </button>
         </p>
 
@@ -412,39 +410,27 @@ class Hero extends React.Component {
         <p className="user-panel__label">
           <i className="fas fa-coins"></i> Pieniądze
         </p>
-        <div>
-          <input
-            type="number"
-            name="gold"
-            className="user-panel__input input-number"
-            defaultValue={this.state.money.gold}
-            onChange={this.changeMoneyAssets}
-            onBlur={this.passData}
-          />
-          <label>Złotych Koron (ZK)</label>
-        </div>
-        <div>
-          <input
-            type="number"
-            name="silver"
-            className="user-panel__input input-number"
-            defaultValue={this.state.money.silver}
-            onChange={this.changeMoneyAssets}
-            onBlur={this.passData}
-          />
-          <label>Srebrnych Szylingów (S)</label>
-        </div>
-        <div>
-          <input
-            type="number"
-            name="bronze"
-            className="user-panel__input input-number"
-            defaultValue={this.state.money.bronze}
-            onChange={this.changeMoneyAssets}
-            onBlur={this.passData}
-          />
-          <label>Miedzianych Pensów (P)</label>
-        </div>
+        <Money
+          name="gold"
+          money={this.state.money.gold}
+          onChange={this.changeMoneyAssets}
+          onBlur={this.passData}
+          label="Złotych Koron (ZK)"
+        />
+        <Money
+          name="silver"
+          money={this.state.money.silver}
+          onChange={this.changeMoneyAssets}
+          onBlur={this.passData}
+          label="Srebrnych Szylingów (S)"
+        />
+        <Money
+          name="bronze"
+          money={this.state.money.bronze}
+          onChange={this.changeMoneyAssets}
+          onBlur={this.passData}
+          label="Miedzianych Pensów (P)"
+        />
 
         <p className="user-panel__label">
           <i className="far fa-sticky-note"></i> Notatki
@@ -463,9 +449,26 @@ class Hero extends React.Component {
         <button className="user-panel__textarea-button" onClick={this.saveNote}>
           Zapisz notatkę
         </button>
+        <ReactTooltip />
       </div>
     );
   }
 }
+
+const Money = ({ name, money, onChange, onBlur, label }) => {
+  return (
+    <div>
+      <input
+        type="number"
+        name={name}
+        className="user-panel__input input-number"
+        defaultValue={money}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+      <label>{label}</label>
+    </div>
+  );
+};
 
 export default Hero;
