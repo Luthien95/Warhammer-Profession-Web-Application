@@ -592,7 +592,6 @@ input[type=number] {
   .user-panel__experience-label {
     font-size: .8rem; }
   .user-panel__profession-options {
-    opacity: .5;
     font-weight: 500; }
   .user-panel__remove-profession {
     color: white;

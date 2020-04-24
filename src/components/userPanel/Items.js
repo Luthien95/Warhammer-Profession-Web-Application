@@ -3,51 +3,7 @@ import "./../../style/css/style.css";
 import axios from "axios";
 import ReactTooltip from "react-tooltip";
 import AsyncSelect from "react-select/async";
-
-const colourStyles = {
-  container: (base, state) => ({
-    ...base,
-    border: state.isFocused ? null : null,
-    transition:
-      "border-color 0.2s ease, box-shadow 0.2s ease, padding 0.2s ease",
-    "&:hover": {
-      boxShadow: "0 2px 4px 0 rgba(41, 56, 78, 0.1)",
-    },
-  }),
-  control: (base, state) => ({
-    ...base,
-    background: "none",
-    border: "1px solid rgba(255, 255, 255, .1)",
-    borderRadius: "none",
-  }),
-  valueContainer: (base, state) => ({
-    ...base,
-    background: "none",
-    color: "white",
-  }),
-  menuList: (base, state) => ({
-    ...base,
-    background: "#3d3850",
-    color: "white",
-  }),
-  placeholder: (base, state) => ({
-    ...base,
-    color: "white",
-  }),
-  input: (base, state) => ({
-    ...base,
-    color: "white",
-  }),
-  singleValue: (base, state) => ({
-    ...base,
-    color: "white",
-    background: "green",
-  }),
-  option: (base, state) => ({
-    ...base,
-    background: "#3d3850",
-  }),
-};
+import selectStyles from "./../../libraryStyles/selectStyles";
 
 class Items extends React.Component {
   constructor(props) {
@@ -439,7 +395,7 @@ class Items extends React.Component {
           onChange={(e) => {
             this.handleInputChange(e);
           }}
-          styles={colourStyles}
+          styles={selectStyles}
         />
       </div>
     );

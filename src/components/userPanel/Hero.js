@@ -1,7 +1,43 @@
 import React from "react";
 import "./../../style/css/style.css";
 import axios from "axios";
+import AsyncSelect from "react-select/async";
+import Select from "react-select";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import selectStyles from "./../../libraryStyles/selectStyles";
+
+const filterColors = (src, arrayName) => {
+  return axios
+    .get(
+      `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/${src}`,
+      //`http://localhost:5000/api/characters/${url}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+    .then((response) => {
+      const tempArray = [];
+      response.data.forEach((element) => {
+        tempArray.push({
+          label: `${element.name}`,
+          value: element.id,
+        });
+      });
+
+      return tempArray;
+    })
+    .catch((error) => console.log("Error" + error));
+};
+
+const promiseOptions = (src, arrayName) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(filterColors(src, arrayName));
+    }, 1000);
+  });
 
 class Hero extends React.Component {
   constructor(props) {
@@ -23,13 +59,13 @@ class Hero extends React.Component {
     this.changeCurrentProfession = this.changeCurrentProfession.bind(this);
     this.removeLastProfession = this.removeLastProfession.bind(this);
     this.changeName = this.changeName.bind(this);
-    //this.changeNameState = this.changeNameState.bind(this);
     this.saveNote = this.saveNote.bind(this);
     this.changeCurrentRace = this.changeCurrentRace.bind(this);
-    //this.changeSumExperience = this.changeSumExperience.bind(this);
     this.changeExperience = this.changeExperience.bind(this);
     this.changeProfessionActive = this.changeProfessionActive.bind(this);
     this.changeCurrentState = this.changeCurrentState.bind(this);
+    //this.loadOptions = this.loadOptions.bind(this);
+    //this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -86,15 +122,15 @@ class Hero extends React.Component {
       .catch((error) => console.log("Error" + error));
   }
 
-  changeCurrentProfession(e) {
-    let newProfession = JSON.parse(e.target.value);
-    console.log(e.target.value);
+  changeCurrentProfession(optionSelected) {
+    const value = optionSelected.value;
+    const label = optionSelected.label;
 
     axios
       .post(
         "http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/setNextProfession",
         //"http://localhost:5000/api/characters/setNextProfession/",
-        newProfession.id,
+        value,
         {
           headers: {
             "Content-Type": "application/json",
@@ -108,14 +144,12 @@ class Hero extends React.Component {
           //  .actualProfessionName,
           heroInformations: {
             ...this.state.heroInformations,
-            actualProfessionName: newProfession.name,
+            actualProfessionName: label,
           },
         }),
         console.log(this.state.heroInformations.actualProfessionName)
       )
       .catch((error) => console.log("Error" + error));
-
-    console.log("dfdf");
   }
 
   removeLastProfession() {
@@ -253,9 +287,16 @@ class Hero extends React.Component {
     });
   };
 
+  /*handleInputChange = (selectedOption) => {
+    if (selectedOption) {
+      this.setState({
+        selectedOption,
+      });
+    }
+  };*/
+
   render() {
     //let currentRace = Object.assign({}, this.state.heroInformations.race);
-    console.log(this.state.heroInformations.actualProfessionName);
     return (
       <div className="user-panel__description">
         {this.state.heroInformations.race ? (
@@ -287,6 +328,7 @@ class Hero extends React.Component {
             </option>
           ))}{" "}
         </select>
+
         <input
           type="text"
           name="userName"
@@ -299,38 +341,23 @@ class Hero extends React.Component {
           onBlur={this.changeName}
         />
         <p className="user-panel__profession-options">
-          {this.state.heroInformations.actualProfessionName
-            ? this.state.heroInformations.actualProfessionName
-            : "Profesja"}
-          {this.state.ifChangeProfessionActive === true ? (
-            <select
-              name="changeProffesion"
-              form="changeProffesion"
-              className="user-panel__select"
-              defaultValue="Wybierz profesję"
-              onChange={this.changeCurrentProfession}
-              onClick={() => {
-                this.getData("getFilteredProfessions", "filteredProfessions");
-              }}
-            >
-              <option value="Wybierz profesję" disabled>
-                Wybierz profesję
-              </option>
-              {this.state.filteredProfessions.map((item, key) => (
-                <option
-                  key={key}
-                  value={JSON.stringify({ name: item.name, id: item.id })}
-                >
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <i
-              className="fas fa-ellipsis-h"
-              onClick={this.changeProfessionActive}
-            ></i>
-          )}
+          <AsyncSelect
+            placeholder={
+              this.state.heroInformations.actualProfessionName
+                ? this.state.heroInformations.actualProfessionName
+                : "Wybierz profesję"
+            }
+            defaultValue={true}
+            defaultOptions={true}
+            styles={selectStyles}
+            key="dd"
+            date="date"
+            loadOptions={(value) =>
+              promiseOptions("getFilteredProfessions", "filteredProfessions")
+            }
+            onChange={this.changeCurrentProfession}
+            menuIsOpen={true}
+          />
           <button
             onClick={this.removeLastProfession}
             className="user-panel__remove-profession"
@@ -394,7 +421,7 @@ class Hero extends React.Component {
             onChange={this.changeMoneyAssets}
             onBlur={this.passData}
           />
-          <label htmlFor="userGoldCoins">Złotych Koron (ZK)</label>
+          <label>Złotych Koron (ZK)</label>
         </div>
         <div>
           <input
@@ -405,7 +432,7 @@ class Hero extends React.Component {
             onChange={this.changeMoneyAssets}
             onBlur={this.passData}
           />
-          <label htmlFor="userSilverCoins">Srebrnych Szylingów (S)</label>
+          <label>Srebrnych Szylingów (S)</label>
         </div>
         <div>
           <input
@@ -416,7 +443,7 @@ class Hero extends React.Component {
             onChange={this.changeMoneyAssets}
             onBlur={this.passData}
           />
-          <label htmlFor="userBonzeCoins">Miedzianych Pensów (P)</label>
+          <label>Miedzianych Pensów (P)</label>
         </div>
 
         <p className="user-panel__label">
