@@ -7,22 +7,22 @@ class Table extends React.Component {
     super(props);
 
     this.state = {
-      statistics: [],
+      heroStatistic: [],
     };
 
-    this.changeBaseStatisticValue = this.changeBaseStatisticValue.bind(this);
+    //this.changeBaseStatisticValue = this.changeBaseStatisticValue.bind(this);
     this.changeStatisticValue = this.changeStatisticValue.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.statistics !== this.props.statistics) {
       this.setState({
-        statistics: [...this.state.statistics, ...this.props.statistics],
+        heroStatistic: [...this.state.heroStatistic, ...this.props.statistics],
       });
     }
   }
 
-  changeBaseStatisticValue(event, type) {
+  /*changeBaseStatisticValue(event, type) {
     const valueOfFeature = parseInt(event.target.value, 10);
     const typeOfFeature = parseInt(type, 10);
 
@@ -42,7 +42,7 @@ class Table extends React.Component {
         }
       )
       .catch((error) => console.log("Error" + error));
-  }
+  }*/
 
   changeStatisticValue(type, value) {
     const typeOfFeature = parseInt(type, 10);
@@ -71,7 +71,7 @@ class Table extends React.Component {
         <thead>
           <tr>
             <td className="feature-table__item"></td>
-            {this.state.statistics.map((item) => (
+            {this.state.heroStatistic.map((item) => (
               <td key={item.name} className="feature-table__item">
                 {item.name}
               </td>
@@ -81,20 +81,18 @@ class Table extends React.Component {
         <tbody>
           <InputRow
             header={{ text: "Podstawowa wartość" }}
-            value={["baseValue", "isReadOnly", "type"]}
-            statistics={this.state.statistics}
-            type="number"
-            changeBaseStatisticValue={this.changeBaseStatisticValue}
+            value="baseValue"
+            statistics={this.state.heroStatistic}
           />
           <Row
             header={{ text: "Obecna wartość / Wartość maksymalna" }}
             value={["currentValue", "maximumValue", "details"]}
-            statistics={this.state.statistics}
+            statistics={this.state.heroStatistic}
             type="number"
           />
           <Buttons
             value={["canBeDecreased", "canBeIncreased", "type"]}
-            statistics={this.state.statistics}
+            statistics={this.state.heroStatistic}
             changeStatisticValue={this.changeStatisticValue}
           />
         </tbody>
@@ -103,16 +101,8 @@ class Table extends React.Component {
   }
 }
 
-const InputRow = ({
-  header,
-  value,
-  statistics,
-  type,
-  changeBaseStatisticValue,
-}) => {
-  const currentValue = value[0];
-  const isReadOnly = value[1];
-  const inputType = value[2];
+const InputRow = ({ header, value, statistics }) => {
+  const currentValue = value;
 
   return (
     <tr>
@@ -122,15 +112,7 @@ const InputRow = ({
       {statistics.map((item) => {
         return (
           <td className="feature-table__item" key={item.name}>
-            <input
-              type={type}
-              name={item.name}
-              defaultValue={item[currentValue]}
-              onBlur={(event) =>
-                changeBaseStatisticValue(event, item[inputType])
-              }
-              disabled={item[isReadOnly]}
-            />
+            <p>{item[currentValue]}</p>
           </td>
         );
       })}

@@ -95,12 +95,10 @@ class Items extends React.Component {
   }
 
   addAdditionalItem() {
-    {
-      Object.keys(this.state.newAdditionalItem).filter((item) =>
-        //item === null ? console.log("wara") : console.log("moszna")
-        console.log(item === null)
-      );
-    }
+    /* Object.keys(this.state.newAdditionalItem).filter((item) =>
+      //item === null ? console.log("wara") : console.log("moszna")
+      console.log(item === null)
+    );*/
 
     axios
       .post(
@@ -207,9 +205,6 @@ class Items extends React.Component {
   }
 
   changeInputData(event) {
-    const target = event.target;
-    const name = target.name;
-
     this.setState({
       changedValue: event.target.value,
     });
@@ -325,7 +320,7 @@ class Items extends React.Component {
   render() {
     return (
       <div className="character-panel items-list">
-        <p className="user-panel__label">
+        <p className="main-label">
           <i className="fas fa-th-large"></i> Posiadane przedmioty
         </p>
         <Item
@@ -414,54 +409,63 @@ const Item = ({
 }) => {
   const items = ownedItems;
 
-  return items.map((item) => (
-    <div key={item.id}>
-      <p className="items-list__label">
-        {item.name}{" "}
-        {editMode && item.id === editedItem ? (
-          <input
-            type="number"
-            name="quantity"
-            placeholder={item.quantity}
-            onChange={changeInputData}
-            className="items-list__input input-number"
-          />
-        ) : (
-          <span className="items-list__quantity">({item.quantity})</span>
-        )}
-        <span className="items-list__buttons">
-          {editMode && item.id === editedItem ? (
-            <i
-              className="fas fa-check"
-              onClick={() => {
-                saveChangedItem(item.id, changedValue);
-              }}
-              data-tip="Zapisz zmiany"
-            ></i>
-          ) : (
-            <i
-              className="fas fa-pencil-alt"
-              onClick={() => {
-                changeItem(item.id);
-              }}
-              data-tip="Edutuj przedmiot"
-            ></i>
-          )}
-          <i
-            onClick={() => {
-              removeItem(item.id);
-            }}
-            className="fas fa-trash-alt"
-            data-tip="Usuń przedmiot"
-          ></i>
-        </span>
-      </p>
-      <p className="items-list__description">
-        Waga: {item.weight} | Opis: {item.description}
-      </p>
-      <ReactTooltip />
-    </div>
-  ));
+  return (
+    <React.Fragment>
+      {items.map((item) => (
+        <div key={item.id}>
+          <p className="items-list__label">
+            {item.name}{" "}
+            {editMode && item.id === editedItem ? (
+              <input
+                type="number"
+                name="quantity"
+                placeholder={item.quantity}
+                onChange={changeInputData}
+                className="items-list__input input-number"
+              />
+            ) : (
+              <span className="items-list__quantity">({item.quantity})</span>
+            )}
+            <span className="items-list__buttons">
+              {editMode && item.id === editedItem ? (
+                <i
+                  className="fas fa-check"
+                  onClick={() => {
+                    saveChangedItem(item.id, changedValue);
+                  }}
+                  data-tip="Zapisz zmiany"
+                ></i>
+              ) : (
+                <i
+                  className="fas fa-pencil-alt"
+                  onClick={() => {
+                    changeItem(item.id);
+                  }}
+                  data-tip="Edutuj przedmiot"
+                ></i>
+              )}
+              <i
+                onClick={() => {
+                  removeItem(item.id);
+                }}
+                className="fas fa-trash-alt"
+                data-tip="Usuń przedmiot"
+              ></i>
+            </span>
+          </p>
+          <p className="items-list__description">
+            Waga: {item.weight} | Opis: {item.description}
+          </p>
+          <ReactTooltip />
+        </div>
+      ))}
+      <input
+        type="checkbox"
+        className="default-checkbox"
+        data-tip="Zapisz zmiany"
+      />
+    </React.Fragment>
+  );
 };
 
 const AdditionalItem = ({

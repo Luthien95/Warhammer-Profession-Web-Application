@@ -8,9 +8,6 @@
     &:focus
         outline: 1px solid $border-color
 
-.input-number
-    max-width: 50px
-
 .user-panel select
     background: none
     border: none
@@ -50,20 +47,7 @@ input[type=number]
     flex-direction: row
     color: white
     height: 100vh
-    &__description
-        width: 30%
-        padding: 60px
-        background: $sub-color
-        box-shadow: $shadow-color
-        overflow: hidden
-        overflow-y: scroll
-        -ms-overflow-style: none
-        scrollbar-width: none
-        display: flex
-        flex-direction: column
-        justify-content: center
-        &::-webkit-scrollbar 
-            display: none
+    margin-top: -80px
     &__statistics
         width: 70%
         height: 100vh
@@ -86,25 +70,6 @@ input[type=number]
         &:focus
             background-image: linear-gradient(45deg, white 50%, transparent 50%), linear-gradient(135deg, transparent 50%, white 50%), linear-gradient(to right, #ccc, #ccc)
             border: 1px solid $border-color
-    &__experience-box
-        width: 48%
-        background-color: #0093E9   
-        background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)
-        display: inline-flex
-        height: 80px
-        text-align: center
-        border-radius: 10px
-        flex-direction: column
-        align-items: center
-        justify-content: center
-        margin: 20px 2% 20px 0
-    &__experience-input
-        width: inherit
-        padding: 0
-        text-align: center
-        font-size: 1.4rem
-    &__experience-label
-        font-size: .8rem
     &__profession-options
         font-weight: 500
         display: flex
@@ -133,8 +98,8 @@ input[type=number]
         background: $sub-color
         border-radius: 10px
         padding: 20px
-        width: 90%
-        margin: 20px 5%
+        width: 96%
+        margin: 20px 2%
         border-collapse: collapse
         th, td
             border-bottom: 1px solid $border-color
@@ -179,14 +144,12 @@ input[type=number]
         input
             width: 50px
             text-align: center
-        &:first-of-type
-            margin-top: 100px
     .skill-panel,
     .ability-panel
         background: $sub-color
         border-radius: 10px
         padding: 20px
-        width: 43%
+        width: 44%
     &__textarea-button
         color: white
         width: fit-content
@@ -209,13 +172,13 @@ input[type=number]
         display: flex
         flex-direction: row
         justify-content: space-between
-        width: 90%
-        margin: 20px 5%
+        width: 96%
+        margin: 20px 2%
     .character-panel
         background: $sub-color
         border-radius: 10px
         padding: 20px
-        margin: 20px 5%
+        margin: 20px 2%
     .items-list
         &__label
             display: flex
@@ -225,7 +188,7 @@ input[type=number]
                 font-size: .7rem
                 opacity: .7
                 display: flex
-                align-items: flex-end
+                align-items: center
         &__description 
             font-size: .8rem
             opacity: .2
@@ -264,3 +227,25 @@ input[type=number]
         .fas
             margin-left: auto
     
+
+.character-list 
+    &__item
+        padding: 30px
+        border: 1px solid $border-color
+        .fas
+            margin-right: 20px
+    &__link
+        color: white
+        text-decoration: none
+
+.content
+    padding: 40px
+
+ 
+.new-character
+    &__button
+        border: 1px solid $border-color
+        padding: 10px 20px
+        float: right
+        margin-top: 20px
+        color: white

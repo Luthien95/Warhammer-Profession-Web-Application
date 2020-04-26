@@ -1,0 +1,62 @@
+.default-table
+    table-layout: fixed
+    width: 100%
+    margin-top: 20px
+    border-spacing: 0
+    border-collapse: collapse
+    &__header-item
+        border: 1px solid $border-color
+        font-size: .9rem
+        font-weight: 400
+        color: white
+        padding: 10px 5px
+        @include breakpoint(desktop)
+            font-size: .7rem
+        @include breakpoint(laptop)
+            display: block
+    &__item
+        border: 1px solid $border-color
+        @include breakpoint(laptop)
+            display: flex
+            align-items: center
+            &::before
+                content: attr(data-label)
+                float: left
+                margin-left: 20px
+                color: white
+                text-align: left
+    &__item,
+    &__header-item
+        @include breakpoint(laptop)
+            font-size: .8em
+            text-align: right
+    &__input
+        padding: 10px
+        width: calc(100% - 20px)
+        @include breakpoint(laptop)
+            margin-left: auto
+            text-align: right
+            width: 100px
+            padding: 20px
+    &__thead
+        @include breakpoint(laptop)
+            border: none
+            clip: rect(0 0 0 0)
+            height: 1px
+            margin: -1px
+            overflow: hidden
+            padding: 0
+            position: absolute
+            width: 1px
+    &__row
+        @include breakpoint(laptop)
+            display: block
+
+
+.default-input
+    border: 1px solid $border-color
+    &--number-type
+        max-width: 50px
+
+.default-select
+    margin: 10px 0

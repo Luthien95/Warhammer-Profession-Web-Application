@@ -12,6 +12,8 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Skills from "./components/Skills";
 import UserPanel from "./components/UserPanel";
+import NewCharacter from "./components/NewCharacter";
+import CharacterList from "./components/CharactersList";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import axios from "axios";
 
@@ -96,14 +98,6 @@ class App extends React.Component {
                   <div className="navigation__button-bar navigation__button-bar--close"></div>
                 </div>
               </div>
-              {localStorage.getItem("token") != null ? (
-                <button
-                  onClick={this.logOut}
-                  className="navigation__logout-button"
-                >
-                  Wyloguj się <i className="fas fa-lock-open"></i>
-                </button>
-              ) : null}
             </nav>
             <div className="navigation__content">
               <div className="navigation__background">
@@ -128,7 +122,7 @@ class App extends React.Component {
                     </li>
                     <li className="navigation__item">
                       <NavLink
-                        to={"/userpanel"}
+                        to={"/characterlist"}
                         className="navigation__link"
                         activeClassName="navigation__link--active"
                         onClick={this.toogleNavigation}
@@ -155,6 +149,14 @@ class App extends React.Component {
                       >
                         Umiejętności
                       </NavLink>
+                    </li>
+                    <li className="navigation__item">
+                      <button
+                        onClick={this.logOut}
+                        className="navigation__logout-button"
+                      >
+                        Wyloguj się
+                      </button>
                     </li>
                   </ul>
                 ) : (
@@ -185,38 +187,64 @@ class App extends React.Component {
               </div>
             </div>
           </div>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={(props) => (
-                <Home {...props} professionList={this.state.professionList} />
-              )}
-            />
-            <Route
-              path="/select"
-              render={(props) => (
-                <Select {...props} professionList={this.state.professionList} />
-              )}
-            />
-            <Route path="/register" render={(props) => <Register />} />
-            <Route path="/login" render={(props) => <Login />} />
-            <Route
-              path="/skills"
-              render={(props) => (
-                <Skills {...props} professionList={this.state.professionList} />
-              )}
-            />
-            <Route
-              path="/userpanel"
-              render={(props) => (
-                <UserPanel
-                  {...props}
-                  professionList={this.state.professionList}
-                />
-              )}
-            />
-          </Switch>
+          <div className="content">
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={(props) => (
+                  <Home {...props} professionList={this.state.professionList} />
+                )}
+              />
+              <Route
+                path="/select"
+                render={(props) => (
+                  <Select
+                    {...props}
+                    professionList={this.state.professionList}
+                  />
+                )}
+              />
+              <Route path="/register" render={(props) => <Register />} />
+              <Route path="/login" render={(props) => <Login />} />
+              <Route
+                path="/skills"
+                render={(props) => (
+                  <Skills
+                    {...props}
+                    professionList={this.state.professionList}
+                  />
+                )}
+              />
+              <Route
+                path="/userpanel"
+                render={(props) => (
+                  <UserPanel
+                    {...props}
+                    professionList={this.state.professionList}
+                  />
+                )}
+              />
+              <Route
+                path="/characterlist"
+                render={(props) => (
+                  <CharacterList
+                    {...props}
+                    professionList={this.state.professionList}
+                  />
+                )}
+              />
+              <Route
+                path="/newcharacter"
+                render={(props) => (
+                  <NewCharacter
+                    {...props}
+                    professionList={this.state.professionList}
+                  />
+                )}
+              />
+            </Switch>
+          </div>
         </Router>
       );
     } else {

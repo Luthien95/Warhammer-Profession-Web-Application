@@ -182,6 +182,8 @@ const Skill = ({ item, deleteSkillFromList }) => {
               return "+10%";
             case 3:
               return "+20%";
+            default:
+              return "null";
           }
         })()}
         <span> | {itemTrait}</span>

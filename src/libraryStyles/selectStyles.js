@@ -10,13 +10,13 @@ const colourStyles = {
   }),
   control: (base, state) => ({
     ...base,
-    background: "#3d3850",
+    background: "none",
     border: "1px solid rgba(255, 255, 255, .1)",
     borderRadius: "none",
   }),
   valueContainer: (base, state) => ({
     ...base,
-    background: "#3d3850",
+    background: "none",
     color: "white",
   }),
   menu: (base, state) => ({
@@ -32,6 +32,7 @@ const colourStyles = {
   placeholder: (base, state) => ({
     ...base,
     color: "white",
+    opacity: ".5",
   }),
   input: (base, state) => ({
     ...base,
