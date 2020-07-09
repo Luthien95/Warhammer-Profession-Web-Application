@@ -137,7 +137,7 @@ class App extends React.Component {
                         activeClassName="navigation__link--active"
                         onClick={this.toogleNavigation}
                       >
-                        Select
+                        Ścieżki rozwoju
                       </NavLink>
                     </li>
                     <li className="navigation__item">
@@ -147,7 +147,7 @@ class App extends React.Component {
                         activeClassName="navigation__link--active"
                         onClick={this.toogleNavigation}
                       >
-                        Umiejętności
+                        Lista umiejętności
                       </NavLink>
                     </li>
                     <li className="navigation__item">

@@ -7,19 +7,20 @@ class Table extends React.Component {
 
     this.state = {
       heroStatistic: [],
+      baseStatistics: [],
     };
 
     this.addStatisticValue = this.addStatisticValue.bind(this);
     this.checkIfAllFilled = this.checkIfAllFilled.bind(this);
   }
 
-  /*componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (prevProps.statistics !== this.props.statistics) {
       this.setState({
-        statistics: [...this.state.statistics, ...this.props.statistics],
+        baseStatistics: this.props.statistics,
       });
     }
-  }*/
+  }
 
   addStatisticValue(event, type) {
     const statisticValue = event.target.value;
@@ -61,18 +62,21 @@ class Table extends React.Component {
           "Punkty przeznaczenia",
         ]}
         type={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
-        value={["baseValue", "type"]}
         statistics={this.state.statistics}
+        baseStatistics={this.state.baseStatistics}
         addStatisticValue={this.addStatisticValue}
       />
     );
   }
 }
 
-const InputRow = ({ header, type, value, statistics, addStatisticValue }) => {
-  const currentValue = value[0];
-  const inputType = value[1];
-
+const InputRow = ({
+  header,
+  type,
+  statistics,
+  baseStatistics,
+  addStatisticValue,
+}) => {
   return (
     <table className="default-table">
       <thead className="default-table__thead">
@@ -94,7 +98,9 @@ const InputRow = ({ header, type, value, statistics, addStatisticValue }) => {
                 <input
                   type="number"
                   name={item.name}
-                  placeholder="0"
+                  placeholder={
+                    baseStatistics.length > 0 ? baseStatistics[id].value : "0"
+                  }
                   onBlur={(event) => addStatisticValue(event, type[id])}
                   className="default-table__input default-imput--number-type"
                 />
