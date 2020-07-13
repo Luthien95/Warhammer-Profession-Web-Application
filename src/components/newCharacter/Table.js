@@ -38,6 +38,8 @@ class Table extends React.Component {
       },
       this.checkIfAllFilled
     );
+
+    this.props.changeStatistics(statisticType, statisticValue);
   }
 
   checkIfAllFilled() {
@@ -61,7 +63,7 @@ class Table extends React.Component {
           "Punkty życia",
           "Punkty przeznaczenia",
         ]}
-        type={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
+        //type={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
         statistics={this.state.statistics}
         baseStatistics={this.state.baseStatistics}
         addStatisticValue={this.addStatisticValue}
@@ -101,7 +103,9 @@ const InputRow = ({
                   placeholder={
                     baseStatistics.length > 0 ? baseStatistics[id].value : "0"
                   }
-                  onBlur={(event) => addStatisticValue(event, type[id])}
+                  onBlur={(event) =>
+                    addStatisticValue(event, baseStatistics[id].type)
+                  }
                   className="default-table__input default-imput--number-type"
                 />
               </td>

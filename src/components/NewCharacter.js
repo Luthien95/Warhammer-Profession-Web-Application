@@ -71,6 +71,7 @@ class NewCharacter extends React.Component {
     //this.maybeLoadOptions = this.maybeLoadOptions.bind(this);
     //this.simulateClick = this.simulateClick.bind(this);
     this.getBasicStatistics = this.getBasicStatistics.bind(this);
+    this.changeStatistics = this.changeStatistics.bind(this);
   }
 
   addDataToCharacter(dataName, dataValue) {
@@ -85,20 +86,19 @@ class NewCharacter extends React.Component {
   addSelectOptionToCharacter(dataName, optionSelected) {
     const value = optionSelected.value;
 
-    this.setState(
-      {
-        newCharacter: {
-          ...this.state.newCharacter,
-          [dataName]: value,
-        },
+    this.setState({
+      newCharacter: {
+        ...this.state.newCharacter,
         [dataName]: value,
       },
-      console.log(this.state.race)
-    );
+      [dataName]: value,
+    });
 
     if (dataName === "race") {
       this.getBasicStatistics(value);
     }
+
+    console.log(this.state.newCharacter);
   }
 
   getBasicStatistics(classId) {
@@ -120,13 +120,54 @@ class NewCharacter extends React.Component {
               basicStatistics: element.statistics,
               baseSkills: element.skillsSet,
               baseAbilities: element.abilitiesSet,
+              newCharacter: {
+                ...this.state.newCharacter,
+                statistics: element.statistics,
+              },
             });
           }
         });
-
-        console.log(response);
       })
       .catch((error) => console.log("Error" + error));
+  }
+
+  changeStatistics(statisticName, statisticValue) {
+    /*this.setState({
+      newCharacter: {
+        ...this.state.newCharacter,
+        statistics: [
+          {
+            ...this.state.statistics,
+            [statisticName]: statisticValue,
+          },
+        ],
+      },
+    });*/
+
+    {
+      this.state.newCharacter.statistics.map((statistic) => {
+        console.log(typeof statistic.type);
+        console.log(typeof statisticName);
+        if (statistic.type === statisticName) {
+          console.log(statisticValue);
+
+          this.setState({
+            newCharacter: {
+              ...this.state.newCharacter,
+              statistics: [
+                {
+                  ...this.state.statistics,
+                  value: statisticValue,
+                },
+              ],
+            },
+          });
+        }
+      });
+    }
+
+    console.log(statisticName, statisticValue);
+    console.log(this.state.newCharacter);
   }
 
   addNewCharacter() {}
@@ -166,8 +207,8 @@ class NewCharacter extends React.Component {
   };
 
   render() {
-    console.log(this.state.newCharacter);
     const { inputValue, defaultOptions } = this.state;
+
     return (
       <div className="new-character">
         <p>Stwórz nową postać</p>
@@ -198,7 +239,9 @@ class NewCharacter extends React.Component {
           defaultOptions={defaultOptions}
           inputValue={inputValue}
           defaultValue={inputValue}
-          onChange={(value) => this.addSelectOptionToCharacter("class", value)}
+          onChange={(value) =>
+            this.addSelectOptionToCharacter("proffesionId", value)
+          }
           styles={selectStyles}
           className="default-select"
         />
@@ -206,6 +249,7 @@ class NewCharacter extends React.Component {
         <Table
           addDataToCharacter={this.addDataToCharacter}
           statistics={this.state.basicStatistics}
+          changeStatistics={this.changeStatistics}
         />
         <p className="user-panel__label">Początkowe umiejętności</p>
         <BaseSkills baseSkills={this.state.baseSkills} />
@@ -223,6 +267,23 @@ class NewCharacter extends React.Component {
 }
 
 export default NewCharacter;
+
+/*
+
+{
+  name: ,
+  proffesionId,
+  race,
+  statistics: [{type, value}],
+  raceSkills: [{id, dictionaryValueId}],
+  raceAbilites: [],
+  professionSkils[];
+  professionAbilities: []
+}
+
+postFinishedCharacter
+
+*/
 
 /*
 <AsyncSelect

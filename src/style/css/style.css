@@ -154,7 +154,8 @@ select {
   margin: 10px 0; }
 
 .navigation {
-  position: absolute; }
+  position: absolute;
+  background: #2c283a; }
   .navigation__container {
     width: calc(100vw - 80px);
     padding: 20px 40px;
@@ -873,7 +874,9 @@ input[type=number] {
 
 .content {
   padding: 40px 60px;
-  padding-top: 120px; }
+  padding-top: 120px;
+  height: calc(100% - 80px);
+  overflow: scroll; }
 
 .new-character__button {
   border: 1px solid rgba(255, 255, 255, 0.1);
