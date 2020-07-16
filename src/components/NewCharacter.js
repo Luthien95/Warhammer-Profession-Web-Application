@@ -132,42 +132,23 @@ class NewCharacter extends React.Component {
   }
 
   changeStatistics(statisticName, statisticValue) {
-    /*this.setState({
-      newCharacter: {
-        ...this.state.newCharacter,
-        statistics: [
-          {
-            ...this.state.statistics,
-            [statisticName]: statisticValue,
-          },
-        ],
-      },
-    });*/
-
     {
-      this.state.newCharacter.statistics.map((statistic) => {
-        console.log(typeof statistic.type);
-        console.log(typeof statisticName);
+      this.state.newCharacter.statistics.map((statistic, i) => {
         if (statistic.type === statisticName) {
-          console.log(statisticValue);
+          let statisticsCopy = JSON.parse(
+            JSON.stringify(this.state.newCharacter.statistics)
+          );
 
+          statisticsCopy[i].value = parseInt(statisticValue, 10);
           this.setState({
             newCharacter: {
               ...this.state.newCharacter,
-              statistics: [
-                {
-                  ...this.state.statistics,
-                  value: statisticValue,
-                },
-              ],
+              statistics: statisticsCopy,
             },
           });
         }
       });
     }
-
-    console.log(statisticName, statisticValue);
-    console.log(this.state.newCharacter);
   }
 
   addNewCharacter() {}

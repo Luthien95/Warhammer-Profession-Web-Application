@@ -863,12 +863,13 @@ input[type=number] {
     margin-left: auto; }
 
 .character-list__item {
-  padding: 30px;
   border: 1px solid rgba(255, 255, 255, 0.1); }
   .character-list__item .fas {
     margin-right: 20px; }
 
 .character-list__link {
+  display: block;
+  padding: 30px;
   color: white;
   text-decoration: none; }
 
