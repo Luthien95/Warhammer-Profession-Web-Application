@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import AsyncSelect from "react-select/async";
+import { Multiselect } from "multiselect-react-dropdown";
 import Table from "./newCharacter/Table.js";
 import BaseSkills from "./newCharacter/BaseSkills.js";
 import selectStyles from "./../libraryStyles/selectStyles";
@@ -45,18 +46,16 @@ class NewCharacter extends React.Component {
 
     this.state = {
       newCharacter: {},
-      emptyFields: [],
-      profession: null,
-      optionsLoaded: false,
-      options: null,
-      isLoading: false,
-      selectedOption: {},
       race: null,
       inputValue: "",
       defaultOptions: [],
       basicStatistics: [],
       baseSkills: [],
       baseAbilities: [],
+      baseProfessionSkills: [],
+      optionalProfessionSkills: [],
+      baseProfessionAbilities: [],
+      optionalProfessionAbilities: [],
     };
 
     this.addDataToCharacter = this.addDataToCharacter.bind(this);
@@ -64,13 +63,8 @@ class NewCharacter extends React.Component {
       this
     );
     this.addNewCharacter = this.addNewCharacter.bind(this);
-    //this.filterData = this.filterData.bind(this);
-    //this.handleInputChange = this.handleInputChange.bind(this);
-    // this.getAsyncOptions = this.getAsyncOptions.bind(this);
-    // this.handleLoadOptions = this.handleLoadOptions.bind(this);
-    //this.maybeLoadOptions = this.maybeLoadOptions.bind(this);
-    //this.simulateClick = this.simulateClick.bind(this);
     this.getBasicStatistics = this.getBasicStatistics.bind(this);
+    this.getProfessionData = this.getProfessionData.bind(this);
     this.changeStatistics = this.changeStatistics.bind(this);
   }
 
@@ -98,6 +92,10 @@ class NewCharacter extends React.Component {
       this.getBasicStatistics(value);
     }
 
+    if (dataName === "proffesionId") {
+      this.getProfessionData(value);
+    }
+
     console.log(this.state.newCharacter);
   }
 
@@ -114,6 +112,7 @@ class NewCharacter extends React.Component {
         }
       )
       .then((response) => {
+        console.log(response);
         response.data.forEach((element) => {
           if (element.race === classId) {
             this.setState({
@@ -126,6 +125,31 @@ class NewCharacter extends React.Component {
               },
             });
           }
+        });
+      })
+      .catch((error) => console.log("Error" + error));
+  }
+
+  getProfessionData(professionId) {
+    return axios
+      .get(
+        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/charactercreator/GetProfessionData?id=${professionId}`,
+        //`http://localhost:5000/api/characters/${src}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+
+        this.setState({
+          baseProfessionSkills: response.data.skillsSet,
+          optionalProfessionSkills: response.data.skillChoice,
+          baseProfessionAbilities: response.data.abilitiesSet,
+          optionalProfessionAbilities: response.data.abilitiesChoice,
         });
       })
       .catch((error) => console.log("Error" + error));
@@ -190,6 +214,8 @@ class NewCharacter extends React.Component {
   render() {
     const { inputValue, defaultOptions } = this.state;
 
+    console.log(this.state.newCharacter);
+
     return (
       <div className="new-character">
         <p>Stwórz nową postać</p>
@@ -234,8 +260,16 @@ class NewCharacter extends React.Component {
         />
         <p className="user-panel__label">Początkowe umiejętności</p>
         <BaseSkills baseSkills={this.state.baseSkills} />
+        <BaseSkills baseSkills={this.state.baseProfessionSkills} />
+        <Multiselect
+          options={this.state.optionalProfessionSkills} // Options to display in the dropdown
+          onSelect={this.onSelect} // Function will trigger on select event
+          onRemove={this.onRemove} // Function will trigger on remove event
+          displayValue="name" // Property name to display in the dropdown options
+        />
         <p className="user-panel__label">Początkowe zdolności</p>
         <BaseSkills baseSkills={this.state.baseAbilities} />
+        <BaseSkills baseSkills={this.state.baseProfessionAbilities} />
         <button
           className="new-character__button"
           onClick={this.addNewCharacter}
