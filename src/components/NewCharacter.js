@@ -66,6 +66,8 @@ class NewCharacter extends React.Component {
     this.getBasicStatistics = this.getBasicStatistics.bind(this);
     this.getProfessionData = this.getProfessionData.bind(this);
     this.changeStatistics = this.changeStatistics.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onSelect = this.onSelect.bind(this);
   }
 
   addDataToCharacter(dataName, dataValue) {
@@ -147,7 +149,7 @@ class NewCharacter extends React.Component {
 
         this.setState({
           baseProfessionSkills: response.data.skillsSet,
-          optionalProfessionSkills: response.data.skillChoice,
+          optionalProfessionSkills: response.data.skillsChoice,
           baseProfessionAbilities: response.data.abilitiesSet,
           optionalProfessionAbilities: response.data.abilitiesChoice,
         });
@@ -211,10 +213,36 @@ class NewCharacter extends React.Component {
     return new Promise((resolve) => resolve(this.filterOptions(inputValue)));
   };
 
+  handleChange = (event) => {
+    console.log(event.target.value);
+  };
+
+  onSelect(selectedList, selectedItem) {
+    var list = selectedList;
+    console.log(list);
+
+    /*this.setState({
+      //array: [...prevState.array, newElement]
+      newCharacter: {
+        ...this.state.newCharacter,
+        skillsChoice: [...this.state.newCharacter.skillsChoice, selectedItem],
+      },
+    });*/
+    this.setState((prevState) => ({
+      ...prevState,
+      newCharacter: {
+        ...prevState.newCharacter,
+        skillsChoice: [...prevState.newCharacter.skillsChoice, list],
+      },
+    }));
+  }
+
   render() {
     const { inputValue, defaultOptions } = this.state;
 
     console.log(this.state.newCharacter);
+
+    console.log(this.state.optionalProfessionSkills);
 
     return (
       <div className="new-character">
@@ -261,12 +289,18 @@ class NewCharacter extends React.Component {
         <p className="user-panel__label">Początkowe umiejętności</p>
         <BaseSkills baseSkills={this.state.baseSkills} />
         <BaseSkills baseSkills={this.state.baseProfessionSkills} />
-        <Multiselect
-          options={this.state.optionalProfessionSkills} // Options to display in the dropdown
-          onSelect={this.onSelect} // Function will trigger on select event
-          onRemove={this.onRemove} // Function will trigger on remove event
-          displayValue="name" // Property name to display in the dropdown options
-        />
+        {this.state.optionalProfessionSkills.map((list) => (
+          <Multiselect
+            options={list.values} // Options to display in the dropdown
+            onSelect={this.onSelect} // Function will trigger on select event
+            onRemove={this.onRemove} // Function will trigger on remove event
+            displayValue="name" // Property name to display in the dropdown options
+            selectionLimit={list.quantity}
+            value={list.values.name}
+            onChange={this.handleChange}
+            onSelect={this.onSelect}
+          />
+        ))}
         <p className="user-panel__label">Początkowe zdolności</p>
         <BaseSkills baseSkills={this.state.baseAbilities} />
         <BaseSkills baseSkills={this.state.baseProfessionAbilities} />
