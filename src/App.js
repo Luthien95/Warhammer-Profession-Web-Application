@@ -48,8 +48,8 @@ class App extends React.Component {
   getData() {
     axios
       .get(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
-        //"http://localhost:5000/api/professions/",
+        //"http://192.168.0.52:8020/WarhammerProfessionsApp/api/professions/",
+        "http://localhost:5000/api/professions/",
         {
           headers: { "Content-Type": "application/json" },
         }

@@ -21,8 +21,8 @@ class Login extends React.Component {
   sendData(e) {
     axios
       .post(
-        "http://192.168.0.52:8020/WarhammerProfessionsApp/api/users/Authenticate",
-        //"http://localhost:5000/api/users/Authenticate",
+        //"http://192.168.0.52:8020/WarhammerProfessionsApp/api/users/Authenticate",
+        "http://localhost:5000/api/users/Authenticate",
         {
           login: this.state.login,
           password: this.state.password,
@@ -41,8 +41,7 @@ class Login extends React.Component {
   }
 
   changeInputData(event) {
-    const target = event.target;
-    const name = target.name;
+    const name = event.target.name;
 
     this.setState({
       [name]: event.target.value,

@@ -10,8 +10,8 @@ import "./../style/css/style.css";
 const filterData = (src, arrayName) => {
   return axios
     .get(
-      `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/${src}`,
-      //`http://localhost:5000/api/characters/${src}`,
+      //`http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/${src}`,
+      `http://localhost:5000/api/characters/${src}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -50,8 +50,8 @@ class NewCharacter extends React.Component {
       inputValue: "",
       defaultOptions: [],
       basicStatistics: [],
-      baseSkills: [],
-      baseAbilities: [],
+      baseRaceSkills: [],
+      baseRaceAbilities: [],
       baseProfessionSkills: [],
       optionalProfessionSkills: [],
       baseProfessionAbilities: [],
@@ -104,8 +104,8 @@ class NewCharacter extends React.Component {
   getBasicStatistics(classId) {
     return axios
       .get(
-        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/charactercreator/GetNewCharacterData`,
-        //`http://localhost:5000/api/characters/${src}`,
+        //`http://192.168.0.52:8020/WarhammerProfessionsApp/api/charactercreator/GetNewCharacterData`,
+        `http://localhost:5000/api/charactercreator/GetNewCharacterData`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -119,8 +119,8 @@ class NewCharacter extends React.Component {
           if (element.race === classId) {
             this.setState({
               basicStatistics: element.statistics,
-              baseSkills: element.skillsSet,
-              baseAbilities: element.abilitiesSet,
+              baseRaceSkills: element.skillsSet,
+              baseRaceAbilities: element.abilitiesSet,
               newCharacter: {
                 ...this.state.newCharacter,
                 statistics: element.statistics,
@@ -135,8 +135,8 @@ class NewCharacter extends React.Component {
   getProfessionData(professionId) {
     return axios
       .get(
-        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/charactercreator/GetProfessionData?id=${professionId}`,
-        //`http://localhost:5000/api/characters/${src}`,
+        // `http://192.168.0.52:8020/WarhammerProfessionsApp/api/charactercreator/GetProfessionData?id=${professionId}`,
+        `http://localhost:5000/api/charactercreator/GetProfessionData?id=${professionId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -145,8 +145,6 @@ class NewCharacter extends React.Component {
         }
       )
       .then((response) => {
-        console.log(response);
-
         this.setState({
           baseProfessionSkills: response.data.skillsSet,
           optionalProfessionSkills: response.data.skillsChoice,
@@ -184,8 +182,8 @@ class NewCharacter extends React.Component {
 
     return axios
       .get(
-        `http://192.168.0.52:8020/WarhammerProfessionsApp/api/charactercreator/GetAvailableProfessions?race=${this.state.race}`,
-        //`http://localhost:5000/api/characters/${src}`,
+        //`http://192.168.0.52:8020/WarhammerProfessionsApp/api/charactercreator/GetAvailableProfessions?race=${this.state.race}`,
+        `http://localhost:5000/api/charactercreator/GetAvailableProfessions?race=${this.state.race}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -202,8 +200,6 @@ class NewCharacter extends React.Component {
           });
         });
 
-        console.log(response);
-
         return tempArray;
       })
       .catch((error) => console.log("Error" + error));
@@ -218,23 +214,24 @@ class NewCharacter extends React.Component {
   };
 
   onSelect(selectedList, selectedItem) {
-    var list = selectedList;
-    console.log(list);
+    if (this.state.newCharacter.professionSkils) {
+      let arrayClone = this.state.newCharacter.professionSkils.slice();
+      arrayClone[arrayClone.length] = selectedItem;
 
-    /*this.setState({
-      //array: [...prevState.array, newElement]
-      newCharacter: {
-        ...this.state.newCharacter,
-        skillsChoice: [...this.state.newCharacter.skillsChoice, selectedItem],
-      },
-    });*/
-    this.setState((prevState) => ({
-      ...prevState,
-      newCharacter: {
-        ...prevState.newCharacter,
-        skillsChoice: [...prevState.newCharacter.skillsChoice, list],
-      },
-    }));
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          professionSkils: arrayClone,
+        },
+      });
+    } else {
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          professionSkils: selectedList,
+        },
+      });
+    }
   }
 
   render() {
@@ -287,8 +284,8 @@ class NewCharacter extends React.Component {
           changeStatistics={this.changeStatistics}
         />
         <p className="user-panel__label">Początkowe umiejętności</p>
-        <BaseSkills baseSkills={this.state.baseSkills} />
-        <BaseSkills baseSkills={this.state.baseProfessionSkills} />
+        <BaseSkills baseRaceSkills={this.state.baseRaceSkills} />
+        <BaseSkills baseRaceSkills={this.state.baseProfessionSkills} />
         {this.state.optionalProfessionSkills.map((list) => (
           <Multiselect
             options={list.values} // Options to display in the dropdown
@@ -302,8 +299,8 @@ class NewCharacter extends React.Component {
           />
         ))}
         <p className="user-panel__label">Początkowe zdolności</p>
-        <BaseSkills baseSkills={this.state.baseAbilities} />
-        <BaseSkills baseSkills={this.state.baseProfessionAbilities} />
+        <BaseSkills baseRaceSkills={this.state.baseRaceAbilities} />
+        <BaseSkills baseRaceSkills={this.state.baseProfessionAbilities} />
         <button
           className="new-character__button"
           onClick={this.addNewCharacter}
@@ -316,6 +313,22 @@ class NewCharacter extends React.Component {
 }
 
 export default NewCharacter;
+
+/*
+
+Poprawki dla Grześka
+- ciura obozowa - języki powinny być do wyboru
+
+
+
+
+
+
+
+
+
+
+*/
 
 /*
 
