@@ -51,7 +51,9 @@ class NewCharacter extends React.Component {
       defaultOptions: [],
       basicStatistics: [],
       baseRaceSkills: [],
+      optionalRaceSkills: [],
       baseRaceAbilities: [],
+      optionalRaceAbilities: [],
       baseProfessionSkills: [],
       optionalProfessionSkills: [],
       baseProfessionAbilities: [],
@@ -66,8 +68,18 @@ class NewCharacter extends React.Component {
     this.getBasicStatistics = this.getBasicStatistics.bind(this);
     this.getProfessionData = this.getProfessionData.bind(this);
     this.changeStatistics = this.changeStatistics.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.onSelect = this.onSelect.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    this.selectOptionalRaceSkill = this.selectOptionalRaceSkill.bind(this);
+    this.selectOptionalRaceAbilities = this.selectOptionalRaceAbilities.bind(
+      this
+    );
+    this.selectOptionalProfessionSkill = this.selectOptionalProfessionSkill.bind(
+      this
+    );
+    this.selectOptionalProfessionAbilities = this.selectOptionalProfessionAbilities.bind(
+      this
+    );
+    this.postFinishedCharacter = this.postFinishedCharacter.bind(this);
   }
 
   addDataToCharacter(dataName, dataValue) {
@@ -94,7 +106,7 @@ class NewCharacter extends React.Component {
       this.getBasicStatistics(value);
     }
 
-    if (dataName === "proffesionId") {
+    if (dataName === "professionId") {
       this.getProfessionData(value);
     }
 
@@ -120,14 +132,16 @@ class NewCharacter extends React.Component {
             this.setState({
               basicStatistics: element.statistics,
               baseRaceSkills: element.skillsSet,
+              optionalRaceSkills: element.skillsChoice,
               baseRaceAbilities: element.abilitiesSet,
+              optionalRaceAbilities: element.abilitiesChoice,
               newCharacter: {
                 ...this.state.newCharacter,
                 statistics: element.statistics,
               },
             });
           }
-        });
+        }, console.log(this.state.baseRaceSkills));
       })
       .catch((error) => console.log("Error" + error));
   }
@@ -145,6 +159,7 @@ class NewCharacter extends React.Component {
         }
       )
       .then((response) => {
+        console.log(response);
         this.setState({
           baseProfessionSkills: response.data.skillsSet,
           optionalProfessionSkills: response.data.skillsChoice,
@@ -175,7 +190,64 @@ class NewCharacter extends React.Component {
     }
   }
 
-  addNewCharacter() {}
+  addNewCharacter() {
+    // postFinishedCharacter
+    if (!this.state.newCharacter.raceSkills) {
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          raceSkills: [],
+        },
+      });
+    } else if (!this.state.newCharacter.raceAbilities) {
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          raceAbilities: [],
+        },
+      });
+    } else if (!this.state.newCharacter.professionSkills) {
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          professionSkills: [],
+        },
+      });
+    } else if (!this.state.newCharacter.professionAbilities) {
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          professionAbilities: [],
+        },
+      });
+    }
+
+    if (
+      this.state.newCharacter.raceSkills &&
+      this.state.newCharacter.raceAbilities &&
+      this.state.newCharacter.professionSkills &&
+      this.state.newCharacter.professionAbilities
+    ) {
+      console.log(this.state.newCharacter);
+      this.postFinishedCharacter();
+    }
+  }
+
+  postFinishedCharacter() {
+    axios
+      .post(
+        //`http://192.168.0.52:8020/WarhammerProfessionsApp/api/charactercreator/postFinishedCharacter`,
+        `http://localhost:5000/api/charactercreator/postFinishedCharacter`,
+        this.state.newCharacter,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .catch((error) => console.log("Error" + error));
+  }
 
   filterOptions(inputValue) {
     const reg = new RegExp(inputValue, "i");
@@ -209,11 +281,49 @@ class NewCharacter extends React.Component {
     return new Promise((resolve) => resolve(this.filterOptions(inputValue)));
   };
 
-  handleChange = (event) => {
-    console.log(event.target.value);
-  };
+  selectOptionalRaceSkill(selectedList, selectedItem, e) {
+    console.log(e);
+    if (this.state.newCharacter.raceSkills) {
+      let arrayClone = this.state.newCharacter.raceSkills.slice();
+      arrayClone[arrayClone.length] = selectedItem;
 
-  onSelect(selectedList, selectedItem) {
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          raceSkills: arrayClone,
+        },
+      });
+    } else {
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          raceSkills: selectedList,
+        },
+      });
+    }
+  }
+  selectOptionalRaceAbilities(selectedList, selectedItem) {
+    if (this.state.newCharacter.raceAbilities) {
+      let arrayClone = this.state.newCharacter.raceAbilities.slice();
+      arrayClone[arrayClone.length] = selectedItem;
+
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          raceAbilities: arrayClone,
+        },
+      });
+    } else {
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          raceAbilities: selectedList,
+        },
+      });
+    }
+  }
+
+  selectOptionalProfessionSkill(selectedList, selectedItem) {
     if (this.state.newCharacter.professionSkils) {
       let arrayClone = this.state.newCharacter.professionSkils.slice();
       arrayClone[arrayClone.length] = selectedItem;
@@ -221,14 +331,35 @@ class NewCharacter extends React.Component {
       this.setState({
         newCharacter: {
           ...this.state.newCharacter,
-          professionSkils: arrayClone,
+          professionSkills: arrayClone,
         },
       });
     } else {
       this.setState({
         newCharacter: {
           ...this.state.newCharacter,
-          professionSkils: selectedList,
+          professionSkills: selectedList,
+        },
+      });
+    }
+  }
+
+  selectOptionalProfessionAbilities(selectedList, selectedItem) {
+    if (this.state.newCharacter.professionAbilities) {
+      let arrayClone = this.state.newCharacter.professionAbilities.slice();
+      arrayClone[arrayClone.length] = selectedItem;
+
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          professionAbilities: arrayClone,
+        },
+      });
+    } else {
+      this.setState({
+        newCharacter: {
+          ...this.state.newCharacter,
+          professionAbilities: selectedList,
         },
       });
     }
@@ -240,6 +371,8 @@ class NewCharacter extends React.Component {
     console.log(this.state.newCharacter);
 
     console.log(this.state.optionalProfessionSkills);
+
+    console.log(this.state.baseRaceSkills);
 
     return (
       <div className="new-character">
@@ -272,7 +405,7 @@ class NewCharacter extends React.Component {
           inputValue={inputValue}
           defaultValue={inputValue}
           onChange={(value) =>
-            this.addSelectOptionToCharacter("proffesionId", value)
+            this.addSelectOptionToCharacter("professionId", value)
           }
           styles={selectStyles}
           className="default-select"
@@ -284,23 +417,55 @@ class NewCharacter extends React.Component {
           changeStatistics={this.changeStatistics}
         />
         <p className="user-panel__label">Początkowe umiejętności</p>
-        <BaseSkills baseRaceSkills={this.state.baseRaceSkills} />
-        <BaseSkills baseRaceSkills={this.state.baseProfessionSkills} />
-        {this.state.optionalProfessionSkills.map((list) => (
+        <BaseSkills baseSkills={this.state.baseRaceSkills} />
+        {this.state.optionalRaceSkills.map((list) => (
           <Multiselect
             options={list.values} // Options to display in the dropdown
-            onSelect={this.onSelect} // Function will trigger on select event
+            onSelect={this.selectOptionalRaceSkill} // Function will trigger on select event
             onRemove={this.onRemove} // Function will trigger on remove event
             displayValue="name" // Property name to display in the dropdown options
             selectionLimit={list.quantity}
             value={list.values.name}
-            onChange={this.handleChange}
-            onSelect={this.onSelect}
+            placeholder="Wybierz umiejętność"
+          />
+        ))}
+        <BaseSkills baseSkills={this.state.baseProfessionSkills} />
+        {this.state.optionalProfessionSkills.map((list) => (
+          <Multiselect
+            options={list.values} // Options to display in the dropdown
+            onSelect={this.selectOptionalProfessionSkill} // Function will trigger on select event
+            onRemove={this.onRemove} // Function will trigger on remove event
+            displayValue="name" // Property name to display in the dropdown options
+            selectionLimit={list.quantity}
+            value={list.values.name}
+            placeholder="Wybierz umiejętność"
           />
         ))}
         <p className="user-panel__label">Początkowe zdolności</p>
-        <BaseSkills baseRaceSkills={this.state.baseRaceAbilities} />
-        <BaseSkills baseRaceSkills={this.state.baseProfessionAbilities} />
+        <BaseSkills baseSkills={this.state.baseRaceAbilities} />
+        {this.state.optionalRaceAbilities.map((list) => (
+          <Multiselect
+            options={list.values} // Options to display in the dropdown
+            onSelect={this.selectOptionalRaceAbilities} // Function will trigger on select event
+            onRemove={this.onRemove} // Function will trigger on remove event
+            displayValue="name" // Property name to display in the dropdown options
+            selectionLimit={list.quantity}
+            value={list.values.name}
+            placeholder="Wybierz zdolność"
+          />
+        ))}
+        <BaseSkills baseSkills={this.state.baseProfessionAbilities} />
+        {this.state.optionalProfessionAbilities.map((list) => (
+          <Multiselect
+            options={list.values} // Options to display in the dropdown
+            onSelect={this.selectOptionalProfessionAbilities} // Function will trigger on select event
+            onRemove={this.onRemove} // Function will trigger on remove event
+            displayValue="name" // Property name to display in the dropdown options
+            selectionLimit={list.quantity}
+            value={list.values.name}
+            placeholder="Wybierz zdolność"
+          />
+        ))}
         <button
           className="new-character__button"
           onClick={this.addNewCharacter}

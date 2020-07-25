@@ -64,7 +64,6 @@ class Table extends React.Component {
           "Punkty przeznaczenia",
         ]}
         //type={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
-        statistics={this.state.statistics}
         baseStatistics={this.state.baseStatistics}
         addStatisticValue={this.addStatisticValue}
       />
@@ -72,19 +71,17 @@ class Table extends React.Component {
   }
 }
 
-const InputRow = ({
-  header,
-  type,
-  statistics,
-  baseStatistics,
-  addStatisticValue,
-}) => {
+const InputRow = ({ header, baseStatistics, addStatisticValue }) => {
   return (
     <table className="default-table">
       <thead className="default-table__thead">
         <tr className="default-table__row">
-          {header.map((item) => {
-            return <th className="default-table__header-item">{item}</th>;
+          {header.map((item, id) => {
+            return (
+              <th className="default-table__header-item" key={id}>
+                {item}
+              </th>
+            );
           })}
         </tr>
       </thead>
@@ -93,9 +90,9 @@ const InputRow = ({
           {header.map((item, id) => {
             return (
               <td
-                key={item.name}
                 className="default-table__item"
                 data-label={item}
+                key={"Input " + item}
               >
                 <input
                   type="number"
