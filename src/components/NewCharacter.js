@@ -7,11 +7,11 @@ import BaseSkills from "./newCharacter/BaseSkills.js";
 import selectStyles from "./../libraryStyles/selectStyles";
 import "./../style/css/style.css";
 
-const filterData = (src, arrayName) => {
+const getFilteredRaces = () => {
   return axios
     .get(
-      //`http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/${src}`,
-      `http://localhost:5000/api/characters/${src}`,
+      //`http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/getRaces`,
+      `http://localhost:5000/api/characters/getRaces`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -33,10 +33,10 @@ const filterData = (src, arrayName) => {
     .catch((error) => console.log("Error" + error));
 };
 
-const promiseOptions = (src, arrayName) =>
+const promiseOptions = () =>
   new Promise((resolve) => {
     setTimeout(() => {
-      resolve(filterData(src, arrayName));
+      resolve(getFilteredRaces());
     }, 1000);
   });
 
@@ -61,14 +61,13 @@ class NewCharacter extends React.Component {
     };
 
     this.addDataToCharacter = this.addDataToCharacter.bind(this);
-    this.addSelectOptionToCharacter = this.addSelectOptionToCharacter.bind(
+    this.addSelectedOptionToCharacter = this.addSelectedOptionToCharacter.bind(
       this
     );
     this.addNewCharacter = this.addNewCharacter.bind(this);
     this.getBasicStatistics = this.getBasicStatistics.bind(this);
     this.getProfessionData = this.getProfessionData.bind(this);
     this.changeStatistics = this.changeStatistics.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
     this.selectOptionalRaceSkill = this.selectOptionalRaceSkill.bind(this);
     this.selectOptionalRaceAbilities = this.selectOptionalRaceAbilities.bind(
       this
@@ -91,7 +90,7 @@ class NewCharacter extends React.Component {
     });
   }
 
-  addSelectOptionToCharacter(dataName, optionSelected) {
+  addSelectedOptionToCharacter(dataName, optionSelected) {
     const value = optionSelected.value;
 
     this.setState({
@@ -104,16 +103,12 @@ class NewCharacter extends React.Component {
 
     if (dataName === "race") {
       this.getBasicStatistics(value);
-    }
-
-    if (dataName === "professionId") {
+    } else if (dataName === "professionId") {
       this.getProfessionData(value);
     }
-
-    console.log(this.state.newCharacter);
   }
 
-  getBasicStatistics(classId) {
+  getBasicStatistics(raceId) {
     return axios
       .get(
         //`http://192.168.0.52:8020/WarhammerProfessionsApp/api/charactercreator/GetNewCharacterData`,
@@ -128,7 +123,7 @@ class NewCharacter extends React.Component {
       .then((response) => {
         console.log(response);
         response.data.forEach((element) => {
-          if (element.race === classId) {
+          if (element.race === raceId) {
             this.setState({
               basicStatistics: element.statistics,
               baseRaceSkills: element.skillsSet,
@@ -141,7 +136,7 @@ class NewCharacter extends React.Component {
               },
             });
           }
-        }, console.log(this.state.baseRaceSkills));
+        });
       })
       .catch((error) => console.log("Error" + error));
   }
@@ -170,15 +165,17 @@ class NewCharacter extends React.Component {
       .catch((error) => console.log("Error" + error));
   }
 
-  changeStatistics(statisticName, statisticValue) {
+  changeStatistics(statisticsName, statisticsValue) {
+    var newValue = parseInt(statisticsValue, 10);
+
     {
       this.state.newCharacter.statistics.map((statistic, i) => {
-        if (statistic.type === statisticName) {
+        if (statistic.type === statisticsName) {
           let statisticsCopy = JSON.parse(
             JSON.stringify(this.state.newCharacter.statistics)
           );
 
-          statisticsCopy[i].value = parseInt(statisticValue, 10);
+          statisticsCopy[i].value = newValue;
           this.setState({
             newCharacter: {
               ...this.state.newCharacter,
@@ -191,7 +188,6 @@ class NewCharacter extends React.Component {
   }
 
   addNewCharacter() {
-    // postFinishedCharacter
     if (!this.state.newCharacter.raceSkills) {
       this.setState({
         newCharacter: {
@@ -228,7 +224,6 @@ class NewCharacter extends React.Component {
       this.state.newCharacter.professionSkills &&
       this.state.newCharacter.professionAbilities
     ) {
-      console.log(this.state.newCharacter);
       this.postFinishedCharacter();
     }
   }
@@ -249,8 +244,8 @@ class NewCharacter extends React.Component {
       .catch((error) => console.log("Error" + error));
   }
 
-  filterOptions(inputValue) {
-    const reg = new RegExp(inputValue, "i");
+  getFilteredProfessions(inputValue) {
+    //const reg = new RegExp(inputValue, "i");
 
     return axios
       .get(
@@ -277,8 +272,10 @@ class NewCharacter extends React.Component {
       .catch((error) => console.log("Error" + error));
   }
 
-  loadOptions = (inputValue) => {
-    return new Promise((resolve) => resolve(this.filterOptions(inputValue)));
+  loadProfessions = (inputValue) => {
+    return new Promise((resolve) =>
+      resolve(this.getFilteredProfessions(inputValue))
+    );
   };
 
   selectOptionalRaceSkill(selectedList, selectedItem, e) {
@@ -302,6 +299,7 @@ class NewCharacter extends React.Component {
       });
     }
   }
+
   selectOptionalRaceAbilities(selectedList, selectedItem) {
     if (this.state.newCharacter.raceAbilities) {
       let arrayClone = this.state.newCharacter.raceAbilities.slice();
@@ -324,8 +322,8 @@ class NewCharacter extends React.Component {
   }
 
   selectOptionalProfessionSkill(selectedList, selectedItem) {
-    if (this.state.newCharacter.professionSkils) {
-      let arrayClone = this.state.newCharacter.professionSkils.slice();
+    if (this.state.newCharacter.professionSkills) {
+      let arrayClone = this.state.newCharacter.professionSkills.slice();
       arrayClone[arrayClone.length] = selectedItem;
 
       this.setState({
@@ -370,10 +368,6 @@ class NewCharacter extends React.Component {
 
     console.log(this.state.newCharacter);
 
-    console.log(this.state.optionalProfessionSkills);
-
-    console.log(this.state.baseRaceSkills);
-
     return (
       <div className="new-character">
         <p>Stwórz nową postać</p>
@@ -392,20 +386,20 @@ class NewCharacter extends React.Component {
           defaultOptions={true}
           styles={selectStyles}
           autoLoad={true}
-          loadOptions={() => promiseOptions("getRaces", "filteredRaces")}
-          onChange={(value) => this.addSelectOptionToCharacter("race", value)}
+          loadOptions={() => promiseOptions()}
+          onChange={(value) => this.addSelectedOptionToCharacter("race", value)}
           className="default-select"
         />
         <p className="user-panel__label">Klasa</p>
         <AsyncSelect
           placeholder="Wybierz klasę"
           defaultValue="Wybierz klasę"
-          loadOptions={this.loadOptions}
+          loadOptions={this.loadProfessions}
           defaultOptions={defaultOptions}
           inputValue={inputValue}
           defaultValue={inputValue}
           onChange={(value) =>
-            this.addSelectOptionToCharacter("professionId", value)
+            this.addSelectedOptionToCharacter("professionId", value)
           }
           styles={selectStyles}
           className="default-select"
@@ -420,10 +414,10 @@ class NewCharacter extends React.Component {
         <BaseSkills baseSkills={this.state.baseRaceSkills} />
         {this.state.optionalRaceSkills.map((list) => (
           <Multiselect
-            options={list.values} // Options to display in the dropdown
-            onSelect={this.selectOptionalRaceSkill} // Function will trigger on select event
-            onRemove={this.onRemove} // Function will trigger on remove event
-            displayValue="name" // Property name to display in the dropdown options
+            options={list.values}
+            onSelect={this.selectOptionalRaceSkill}
+            onRemove={this.onRemove}
+            displayValue="name"
             selectionLimit={list.quantity}
             value={list.values.name}
             placeholder="Wybierz umiejętność"
@@ -432,10 +426,10 @@ class NewCharacter extends React.Component {
         <BaseSkills baseSkills={this.state.baseProfessionSkills} />
         {this.state.optionalProfessionSkills.map((list) => (
           <Multiselect
-            options={list.values} // Options to display in the dropdown
-            onSelect={this.selectOptionalProfessionSkill} // Function will trigger on select event
-            onRemove={this.onRemove} // Function will trigger on remove event
-            displayValue="name" // Property name to display in the dropdown options
+            options={list.values}
+            onSelect={this.selectOptionalProfessionSkill}
+            onRemove={this.onRemove}
+            displayValue="name"
             selectionLimit={list.quantity}
             value={list.values.name}
             placeholder="Wybierz umiejętność"
@@ -445,10 +439,10 @@ class NewCharacter extends React.Component {
         <BaseSkills baseSkills={this.state.baseRaceAbilities} />
         {this.state.optionalRaceAbilities.map((list) => (
           <Multiselect
-            options={list.values} // Options to display in the dropdown
-            onSelect={this.selectOptionalRaceAbilities} // Function will trigger on select event
-            onRemove={this.onRemove} // Function will trigger on remove event
-            displayValue="name" // Property name to display in the dropdown options
+            options={list.values}
+            onSelect={this.selectOptionalRaceAbilities}
+            onRemove={this.onRemove}
+            displayValue="name"
             selectionLimit={list.quantity}
             value={list.values.name}
             placeholder="Wybierz zdolność"
@@ -457,10 +451,10 @@ class NewCharacter extends React.Component {
         <BaseSkills baseSkills={this.state.baseProfessionAbilities} />
         {this.state.optionalProfessionAbilities.map((list) => (
           <Multiselect
-            options={list.values} // Options to display in the dropdown
-            onSelect={this.selectOptionalProfessionAbilities} // Function will trigger on select event
-            onRemove={this.onRemove} // Function will trigger on remove event
-            displayValue="name" // Property name to display in the dropdown options
+            options={list.values}
+            onSelect={this.selectOptionalProfessionAbilities}
+            onRemove={this.onRemove}
+            displayValue="name"
             selectionLimit={list.quantity}
             value={list.values.name}
             placeholder="Wybierz zdolność"
@@ -482,7 +476,7 @@ export default NewCharacter;
 /*
 
 Poprawki dla Grześka
-- ciura obozowa - języki powinny być do wyboru
+- języki powinny być do wyboru, wszystkie zrobione podobnie tzn nazwa w nawiasach, dwa razy staroświatowy
 
 
 
@@ -519,13 +513,13 @@ postFinishedCharacter
           styles={selectStyles}
           autoLoad={false}
           options={this.state.options}
-          //loadOptions={() => this.promiseOptions("getRaces", "filteredRaces")}
+          //loadProfessions={() => this.promiseOptions("getRaces", "filteredRaces")}
           //onFocus={() => this.promiseOptions("getRaces", "filteredRaces")}
           className="default-select"
         />
         <AsyncSelect
           //onFocus={this.handleInputChange}
-          //loadOptions={this.fetchData}
+          //loadProfessions={this.fetchData}
           //isSearchable={false}
           //cacheOptions={true}
           placeholder="Admin Name"
@@ -539,7 +533,7 @@ postFinishedCharacter
           className="basic-single"
           classNamePrefix="select"
           name="search"
-          //loadOptions={() => this.getAsyncOptions()}
+          //loadProfessions={() => this.getAsyncOptions()}
         />
 
 <AsyncSelect
@@ -548,8 +542,8 @@ postFinishedCharacter
           defaultOptions={this.state.race != null ? true : false}
           styles={selectStyles}
           autoLoad={false}
-          loadOptions={() => promiseOptions("getRaces", "filteredRaces")}
-          onChange={(value) => this.addSelectOptionToCharacter("race", value)}
+          loadProfessions={() => promiseOptions("getRaces", "filteredRaces")}
+          onChange={(value) => this.addSelectedOptionToCharacter("race", value)}
           className="default-select"
         />
         <p className="user-panel__label">Profesja</p>
@@ -597,7 +591,7 @@ fetchData = (inputValue, callback) => {
     }
   };
 
-  filterData(src, arrayName) {
+  getFilteredRaces(src, arrayName) {
     return axios
       .get(
         `http://192.168.0.52:8020/WarhammerProfessionsApp/api/characters/${src}`,
@@ -706,7 +700,7 @@ handleInputChange() {
   }
 
   loadDefaultOptions = (inputValue) => {
-    this.loadOptions(inputValue).then((defaultOptions) =>
+    this.loadProfessions(inputValue).then((defaultOptions) =>
       this.setState({ defaultOptions })
     );
   };
