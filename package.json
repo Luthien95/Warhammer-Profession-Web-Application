@@ -14,7 +14,7 @@
     "react-dom": "^16.12.0",
     "react-filterable-table": "^0.3.434",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0",
+    "react-scripts": "5.0.1",
     "react-select": "^3.1.0",
     "react-slick": "^0.25.2",
     "react-slick-vertical": "^0.11.1",
